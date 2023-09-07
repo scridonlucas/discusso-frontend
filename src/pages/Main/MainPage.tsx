@@ -1,5 +1,12 @@
+import { Outlet } from 'react-router-dom';
+
 const MainPage = () => {
-  return <>Mainpage</>;
+  return (
+    <>
+      MainPage
+      <Outlet />
+    </>
+  );
 };
 
 export default MainPage;
