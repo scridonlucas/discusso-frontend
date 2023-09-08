@@ -5,6 +5,7 @@ const MainPage = () => {
     <>
       MainPage
       <Outlet />
+      Footer
     </>
   );
 };
