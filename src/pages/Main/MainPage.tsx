@@ -1,11 +1,15 @@
+import { Box } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
-
+import SidebarWithHeader from '../../features/NavigationBar/SidebarwithHeader';
 const MainPage = () => {
   return (
     <>
-      MainPage
-      <Outlet />
-      Footer
+      <Box minH="100vh">
+        <SidebarWithHeader />
+        <Box ml={{ base: 0, md: 60 }} p="4">
+          <Outlet />
+        </Box>
+      </Box>
     </>
   );
 };
