@@ -1,9 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoutes from './ProtectedRoutes';
 import Login from '../pages/Login/LoginPage';
-import MainPage from '../pages/Main/MainPage';
-import Timeline from '../pages/Main/Content/Timeline';
-import Profile from '../pages/Main/Content/Profile';
+import MainPage from '../pages/MainPage';
+import Timeline from '../layouts/Content/Timeline';
+import Profile from '../layouts/Content/Profile';
 
 const AppRoutes = () => {
   return (

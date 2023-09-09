@@ -30,7 +30,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       {...rest}
     >
       <IconButton
-        display={{ base: 'flex', md: 'none' }}
+        display={{ base: '', md: 'none' }}
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"

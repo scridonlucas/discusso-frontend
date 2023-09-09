@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
-import SidebarWithHeader from '../../features/NavigationBar/SidebarwithHeader';
+import SidebarWithHeader from '../layouts/NavigationBar/SidebarwithHeader';
+
 const MainPage = () => {
   return (
     <>
