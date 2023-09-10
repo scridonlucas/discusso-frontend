@@ -2,12 +2,7 @@
 
 import {
   Box,
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
   HStack,
-  InputRightElement,
   Stack,
   Button,
   Text,
@@ -15,8 +10,9 @@ import {
   Link,
 } from '@chakra-ui/react';
 
+import InputField from './common/InputField';
+
 import { useState } from 'react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { User } from '../../types';
 
 const RegistrationForm = () => {
@@ -25,14 +21,14 @@ const RegistrationForm = () => {
     lastName: '',
     email: '',
     password: '',
+    phoneNumber: '',
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    console.log(e.target.name);
     setFormData({ ...formData, [name]: value });
   };
-
-  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <Box
@@ -44,36 +40,58 @@ const RegistrationForm = () => {
       <Stack spacing={4}>
         <HStack>
           <Box>
-            <FormControl id="firstName" isRequired>
-              <FormLabel>First Name</FormLabel>
-              <Input type="text" />
-            </FormControl>
+            <InputField
+              id="firstName"
+              isRequired={true}
+              labelName="First Name"
+              name="firstName"
+              type="text"
+              value={formData.firstName}
+              handleChange={handleChange}
+            />
           </Box>
           <Box>
-            <FormControl id="lastName">
-              <FormLabel>Last Name</FormLabel>
-              <Input type="text" />
-            </FormControl>
+            <InputField
+              id="lastName"
+              isRequired={true}
+              labelName="Last Name"
+              name="lastName"
+              type="text"
+              value={formData.lastName}
+              handleChange={handleChange}
+            />
           </Box>
         </HStack>
-        <FormControl id="email" isRequired>
-          <FormLabel>Email address</FormLabel>
-          <Input type="email" />
-        </FormControl>
-        <FormControl id="password" isRequired>
-          <FormLabel>Password</FormLabel>
-          <InputGroup>
-            <Input type={showPassword ? 'text' : 'password'} />
-            <InputRightElement h={'full'}>
-              <Button
-                variant={'ghost'}
-                onClick={() => setShowPassword((showPassword) => !showPassword)}
-              >
-                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-              </Button>
-            </InputRightElement>
-          </InputGroup>
-        </FormControl>
+        <InputField
+          id="email"
+          isRequired={true}
+          labelName="Email"
+          name="email"
+          type="email"
+          value={formData.email}
+          handleChange={handleChange}
+        />
+
+        <InputField
+          id="phoneNumber"
+          isRequired={true}
+          labelName="Phone Number"
+          name="phoneNumber"
+          type="tel"
+          value={formData.phoneNumber}
+          handleChange={handleChange}
+        />
+
+        <InputField
+          id="password"
+          isRequired={true}
+          labelName="Password"
+          name="password"
+          type="password"
+          value={formData.password}
+          handleChange={handleChange}
+        />
+
         <Stack spacing={10} pt={2}>
           <Button
             loadingText="Submitting"

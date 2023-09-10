@@ -8,7 +8,8 @@ Frontend for an social media application built using React, Redux and Typescript
 
 ## Knowledge
 
-- under construction
+- Learning to structure a complex react project.
+- Learning to use Chakra UI for advanced styling.
 
 ## Tools
 
