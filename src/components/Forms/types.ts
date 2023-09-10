@@ -5,5 +5,6 @@ export interface FormItemProp {
   name: string;
   type: string;
   value: string;
+  errorMessage: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

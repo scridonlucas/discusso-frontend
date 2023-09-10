@@ -8,8 +8,10 @@ const InputField = ({
   name,
   type,
   value,
+  errorMessage,
   handleChange,
 }: FormItemProp) => {
+  console.log(errorMessage);
   return (
     <FormControl id={id} isRequired={isRequired}>
       <FormLabel>{labelName}</FormLabel>
