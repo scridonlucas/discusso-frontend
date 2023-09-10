@@ -8,10 +8,15 @@ import {
   Text,
   Button,
 } from '@chakra-ui/react';
-
+import { useColorModeValue } from '@chakra-ui/react';
 const LoginForm = () => {
   return (
-    <Box rounded={'lg'} boxShadow={'lg'} p={8}>
+    <Box
+      rounded={'lg'}
+      bg={useColorModeValue('white', 'gray.700')}
+      boxShadow={'lg'}
+      p={8}
+    >
       <Stack spacing={4}>
         <FormControl id="email">
           <FormLabel>Email address</FormLabel>

@@ -1,21 +1,22 @@
-import { Flex } from '@chakra-ui/react';
-import LoginForm from '../components/Forms/LoginForm';
-import { Stack, Text, Heading } from '@chakra-ui/react';
+import { Flex, Stack, Heading, Text } from '@chakra-ui/react';
 import RegistrationForm from '../components/Forms/RegisterForm';
-const Login = () => {
+
+const Register = () => {
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Sign in to Discusso</Heading>
+          <Heading fontSize={'4xl'} textAlign={'center'}>
+            Sign up
+          </Heading>
           <Text fontSize={'lg'} color={'gray.600'}>
-            and dive into the world of lively discussions ☕
+            Join the Community and Get Started
           </Text>
         </Stack>
-        <LoginForm />
+        <RegistrationForm />
       </Stack>
     </Flex>
   );
 };
 
-export default Login;
+export default Register;
