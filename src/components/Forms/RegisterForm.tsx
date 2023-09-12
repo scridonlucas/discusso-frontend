@@ -13,69 +13,17 @@ import {
   FormLabel,
 } from '@chakra-ui/react';
 
+import { useForm, SubmitHandler } from 'react-hook-form';
+
 import InputField from './common/InputField';
 
-import { useState } from 'react';
 import { User } from '../../types';
 
 const RegistrationForm = () => {
-  const [formData, setFormData] = useState<User>({
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    password: '',
-    phoneNumber: '',
-    gender: '',
-  });
+  const { register, handleSubmit } = useForm<User>();
 
-  const handleChange = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log('submit');
-  };
-
-  const validateField = (name: string, value: string): string => {
-    if (name === 'firstName' || name === 'lastName') {
-      return validateName(value);
-    }
-
-    if (name === 'username') {
-      return validateUsername(value);
-    }
-    return '';
-  };
-
-  function validateName(value: User['firstName'] | User['lastName']): string {
-    if (value.length < 1 || value.length > 50) {
-      return 'Names must be between 1 and 50 characters.';
-    }
-
-    if (!/^[a-zA-Z]+$/.test(value)) {
-      return 'Names can only contain letters.';
-    }
-    return '';
-  }
-
-  const validateUsername = (value: User['username']): string => {
-    if (value.length <= 3 || value.length >= 16) {
-      return 'Username must be between 3 and 16 characters';
-    }
-
-    const regex = /^[a-zA-Z0-9_]+$/;
-    if (!regex.test(value)) {
-      return `Username can only contain letters, numbers, and underscores`;
-    }
-
-    return '';
+  const onSubmit: SubmitHandler<User> = (data) => {
+    console.log(data);
   };
 
   return (
@@ -85,7 +33,7 @@ const RegistrationForm = () => {
       boxShadow={'lg'}
       p={8}
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
           <HStack>
             <Box>
@@ -96,7 +44,7 @@ const RegistrationForm = () => {
                 name="firstName"
                 type="text"
                 value={formData.firstName}
-                errorMessage={validateField('firstName', formData.firstName)}
+                errorMessage=""
                 handleChange={handleChange}
               />
             </Box>
@@ -108,7 +56,7 @@ const RegistrationForm = () => {
                 name="lastName"
                 type="text"
                 value={formData.lastName}
-                errorMessage={validateField('lastName', formData.lastName)}
+                errorMessage=""
                 handleChange={handleChange}
               />
             </Box>
@@ -120,7 +68,7 @@ const RegistrationForm = () => {
             name="username"
             type="text"
             value={formData.username}
-            errorMessage={validateField('username', formData.username)}
+            errorMessage=""
             handleChange={handleChange}
           />
           <InputField

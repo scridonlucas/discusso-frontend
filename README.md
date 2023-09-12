@@ -10,6 +10,7 @@ Frontend for an social media application built using React, Redux and Typescript
 
 - Learning to structure a complex react project.
 - Learning to use Chakra UI for advanced styling.
+- Using react-hook-form library to validate forms, minimizing number of re-renders.
 
 ## Tools
 
@@ -19,7 +20,8 @@ Frontend for an social media application built using React, Redux and Typescript
 - React Router
 - React Query
 - Redux
-- Material UI
+- React Hook Form
+- Chakra UI
 - Git and Github
 - npm
 
