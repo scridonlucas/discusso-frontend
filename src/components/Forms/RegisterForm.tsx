@@ -22,6 +22,7 @@ const RegistrationForm = () => {
   const [formData, setFormData] = useState<User>({
     firstName: '',
     lastName: '',
+    username: '',
     email: '',
     password: '',
     phoneNumber: '',
@@ -39,7 +40,44 @@ const RegistrationForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('submit');
   };
+
+  const validateField = (name: string, value: string): string => {
+    if (name === 'firstName' || name === 'lastName') {
+      return validateName(value);
+    }
+
+    if (name === 'username') {
+      return validateUsername(value);
+    }
+    return '';
+  };
+
+  function validateName(value: User['firstName'] | User['lastName']): string {
+    if (value.length < 1 || value.length > 50) {
+      return 'Names must be between 1 and 50 characters.';
+    }
+
+    if (!/^[a-zA-Z]+$/.test(value)) {
+      return 'Names can only contain letters.';
+    }
+    return '';
+  }
+
+  const validateUsername = (value: User['username']): string => {
+    if (value.length <= 3 || value.length >= 16) {
+      return 'Username must be between 3 and 16 characters';
+    }
+
+    const regex = /^[a-zA-Z0-9_]+$/;
+    if (!regex.test(value)) {
+      return `Username can only contain letters, numbers, and underscores`;
+    }
+
+    return '';
+  };
+
   return (
     <Box
       rounded={'lg'}
@@ -58,7 +96,7 @@ const RegistrationForm = () => {
                 name="firstName"
                 type="text"
                 value={formData.firstName}
-                errorMessage=""
+                errorMessage={validateField('firstName', formData.firstName)}
                 handleChange={handleChange}
               />
             </Box>
@@ -70,11 +108,21 @@ const RegistrationForm = () => {
                 name="lastName"
                 type="text"
                 value={formData.lastName}
-                errorMessage=""
+                errorMessage={validateField('lastName', formData.lastName)}
                 handleChange={handleChange}
               />
             </Box>
           </HStack>
+          <InputField
+            id="username"
+            isRequired={true}
+            labelName="Username"
+            name="username"
+            type="text"
+            value={formData.username}
+            errorMessage={validateField('username', formData.username)}
+            handleChange={handleChange}
+          />
           <InputField
             id="email"
             isRequired={true}

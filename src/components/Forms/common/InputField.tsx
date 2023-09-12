@@ -1,10 +1,11 @@
 import {
   FormControl,
-  FormErrorMessage,
   FormLabel,
   Input,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { FormItemProp } from '../types';
+import { useState } from 'react';
 
 const InputField = ({
   id,
@@ -16,21 +17,22 @@ const InputField = ({
   errorMessage,
   handleChange,
 }: FormItemProp) => {
-  const validateField = (value: FormItemProp['value']): boolean => {
-    if (value.length === 0) {
-      return false;
-    }
-    return true;
+  const [focused, setFocused] = useState(false);
+
+  const handleFocus = () => {
+    setFocused(true);
   };
+
   return (
     <FormControl
       id={id}
       isRequired={isRequired}
-      isInvalid={validateField(value)}
+      onBlur={handleFocus}
+      isInvalid={focused && errorMessage !== ''}
     >
       <FormLabel>{labelName}</FormLabel>
       <Input name={name} type={type} value={value} onChange={handleChange} />
-      {validateField(value) && <FormErrorMessage>error</FormErrorMessage>}
+      <FormErrorMessage>{errorMessage}</FormErrorMessage>
     </FormControl>
   );
 };
