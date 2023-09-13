@@ -1,5 +1,5 @@
 import { Flex, Stack, Heading, Text } from '@chakra-ui/react';
-import RegistrationForm from '../components/Forms/RegisterForm';
+import RegistrationForm from '../components/Forms/RegisterForm/RegisterForm';
 
 const Register = () => {
   return (
