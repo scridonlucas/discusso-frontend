@@ -26,8 +26,14 @@ const RegistrationForm = () => {
     register,
     formState: { errors },
     handleSubmit,
+    watch,
   } = useForm<User>();
 
+  const validatePasswords = (value: string) => {
+    if (watch('password') != value) {
+      return 'Passwords do no match';
+    }
+  };
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);
   };
@@ -70,10 +76,10 @@ const RegistrationForm = () => {
             </Box>
           </HStack>
           <FormControl isInvalid={!!errors.username}>
-            <FormLabel htmlFor="firstName">Username</FormLabel>
+            <FormLabel htmlFor="username">Username</FormLabel>
             <Input
-              id="firstName"
-              placeholder="First Name"
+              id="username"
+              placeholder="Username"
               {...register('username', validationSchema.userName)}
             />
             <FormErrorMessage>
@@ -107,6 +113,34 @@ const RegistrationForm = () => {
             </Select>
             <FormErrorMessage>
               {errors.gender && errors.gender.message}
+            </FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={!!errors.password}>
+            <FormLabel htmlFor="firstName">Password</FormLabel>
+            <Input
+              id="password"
+              type="password"
+              placeholder="Password"
+              {...register('password', validationSchema.password)}
+            />
+            <FormErrorMessage>
+              {errors.password && errors.password.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.confirmPassword}>
+            <FormLabel htmlFor="firstName">Confirm password</FormLabel>
+            <Input
+              id="confirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              {...register('confirmPassword', {
+                required: 'Confirmation of password in required',
+                validate: validatePasswords,
+              })}
+            />
+            <FormErrorMessage>
+              {errors.confirmPassword && errors.confirmPassword.message}
             </FormErrorMessage>
           </FormControl>
 

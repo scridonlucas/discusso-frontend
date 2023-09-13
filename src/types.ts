@@ -4,6 +4,8 @@ export interface User {
   username: string;
   email: string;
   gender: Gender;
+  password: string;
+  confirmPassword: string;
 }
 
 type Gender = 'male' | 'female' | 'other';

@@ -3,6 +3,7 @@ export interface ValidationSchema {
   lastName: ValidationRule;
   userName: ValidationRule;
   email: ValidationRule;
+  password: ValidationRule;
 }
 
 interface ValidationRule {
