@@ -12,6 +12,7 @@ import {
   FormLabel,
   Input,
   FormErrorMessage,
+  Select,
 } from '@chakra-ui/react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -46,7 +47,7 @@ const RegistrationForm = () => {
                 <FormLabel htmlFor="firstName">First name</FormLabel>
                 <Input
                   id="firstName"
-                  placeholder="FirstName"
+                  placeholder="First Name"
                   {...register('firstName', validationSchema.firstName)}
                 />
                 <FormErrorMessage>
@@ -68,6 +69,46 @@ const RegistrationForm = () => {
               </FormControl>
             </Box>
           </HStack>
+          <FormControl isInvalid={!!errors.username}>
+            <FormLabel htmlFor="firstName">Username</FormLabel>
+            <Input
+              id="firstName"
+              placeholder="First Name"
+              {...register('username', validationSchema.userName)}
+            />
+            <FormErrorMessage>
+              {errors.username && errors.username.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={!!errors.email}>
+            <FormLabel htmlFor="firstName">Email</FormLabel>
+            <Input
+              id="email"
+              placeholder="Email"
+              {...register('email', validationSchema.email)}
+            />
+            <FormErrorMessage>
+              {errors.email && errors.email.message}
+            </FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={!!errors.gender}>
+            <FormLabel htmlFor="gender">Gender</FormLabel>
+            <Select
+              id="gender"
+              placeholder="Select your gender"
+              {...register('gender', {
+                required: 'Gender is required',
+              })}
+            >
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </Select>
+            <FormErrorMessage>
+              {errors.gender && errors.gender.message}
+            </FormErrorMessage>
+          </FormControl>
 
           <Stack spacing={10} pt={2}>
             <Button

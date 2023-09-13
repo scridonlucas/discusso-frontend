@@ -4,7 +4,7 @@ const validationSchema: ValidationSchema = {
   firstName: {
     required: 'First name is required',
     minLength: {
-      value: 6,
+      value: 3,
       message: 'First name must be at least 3 characters long',
     },
     maxLength: {
@@ -19,7 +19,7 @@ const validationSchema: ValidationSchema = {
   lastName: {
     required: 'Last name is required',
     minLength: {
-      value: 6,
+      value: 3,
       message: 'Last name must be at least 3 characters long',
     },
     maxLength: {
@@ -35,7 +35,7 @@ const validationSchema: ValidationSchema = {
   userName: {
     required: 'Username is required',
     minLength: {
-      value: 6,
+      value: 3,
       message: 'Username must be at least 3 characters long',
     },
     maxLength: {

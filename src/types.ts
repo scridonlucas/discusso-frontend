@@ -3,4 +3,7 @@ export interface User {
   lastName: string;
   username: string;
   email: string;
+  gender: Gender;
 }
+
+type Gender = 'male' | 'female' | 'other';
