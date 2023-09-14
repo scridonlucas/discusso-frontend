@@ -13,6 +13,7 @@ import {
   Input,
   FormErrorMessage,
   Select,
+  Flex,
 } from '@chakra-ui/react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -34,8 +35,25 @@ const RegistrationForm = () => {
       return 'Passwords do no match';
     }
   };
+
+  const validateBirthDate = (value: string) => {
+    const currentDate = new Date();
+    const userBirthDate = new Date(value);
+    console.log(value);
+    const age = currentDate.getFullYear() - userBirthDate.getFullYear();
+    if (age < 16) {
+      return 'User must be at least 16 years old.';
+    }
+
+    if (age > 130) {
+      return 'Invalid date';
+    }
+    return true;
+  };
+
   const onSubmit: SubmitHandler<User> = (data) => {
     console.log(data);
+    console.log(typeof data.birthDate);
   };
 
   return (
@@ -47,7 +65,7 @@ const RegistrationForm = () => {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
-          <HStack>
+          <Flex>
             <Box>
               <FormControl isInvalid={!!errors.firstName}>
                 <FormLabel htmlFor="firstName">First name</FormLabel>
@@ -74,7 +92,7 @@ const RegistrationForm = () => {
                 </FormErrorMessage>
               </FormControl>
             </Box>
-          </HStack>
+          </Flex>
           <FormControl isInvalid={!!errors.username}>
             <FormLabel htmlFor="username">Username</FormLabel>
             <Input
@@ -97,25 +115,40 @@ const RegistrationForm = () => {
               {errors.email && errors.email.message}
             </FormErrorMessage>
           </FormControl>
-
-          <FormControl isInvalid={!!errors.gender}>
-            <FormLabel htmlFor="gender">Gender</FormLabel>
-            <Select
-              id="gender"
-              placeholder="Select your gender"
-              {...register('gender', {
-                required: 'Gender is required',
-              })}
-            >
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </Select>
-            <FormErrorMessage>
-              {errors.gender && errors.gender.message}
-            </FormErrorMessage>
-          </FormControl>
-
+          <HStack>
+            <FormControl isInvalid={!!errors.gender}>
+              <FormLabel htmlFor="gender">Gender</FormLabel>
+              <Select
+                id="gender"
+                placeholder="Select your gender"
+                {...register('gender', {
+                  required: 'Gender is required',
+                })}
+              >
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </Select>
+              <FormErrorMessage>
+                {errors.gender && errors.gender.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={!!errors.birthDate}>
+              <FormLabel htmlFor="birthDate">Birth Date</FormLabel>
+              <Input
+                id="birthDate"
+                type="date"
+                placeholder="Birth Date"
+                {...register('birthDate', {
+                  required: 'Birth Date is required.',
+                  validate: validateBirthDate,
+                })}
+              />
+              <FormErrorMessage>
+                {errors.birthDate && errors.birthDate.message}
+              </FormErrorMessage>
+            </FormControl>
+          </HStack>
           <FormControl isInvalid={!!errors.password}>
             <FormLabel htmlFor="firstName">Password</FormLabel>
             <Input
