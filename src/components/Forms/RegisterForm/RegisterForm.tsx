@@ -65,7 +65,7 @@ const RegistrationForm = () => {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
-          <Flex>
+          <Flex gap={2}>
             <Box>
               <FormControl isInvalid={!!errors.firstName}>
                 <FormLabel htmlFor="firstName">First name</FormLabel>
@@ -79,6 +79,7 @@ const RegistrationForm = () => {
                 </FormErrorMessage>
               </FormControl>
             </Box>
+
             <Box>
               <FormControl isInvalid={!!errors.lastName}>
                 <FormLabel htmlFor="lastName">Last Name</FormLabel>
@@ -115,7 +116,7 @@ const RegistrationForm = () => {
               {errors.email && errors.email.message}
             </FormErrorMessage>
           </FormControl>
-          <HStack>
+          <Flex gap={2}>
             <FormControl isInvalid={!!errors.gender}>
               <FormLabel htmlFor="gender">Gender</FormLabel>
               <Select
@@ -148,7 +149,7 @@ const RegistrationForm = () => {
                 {errors.birthDate && errors.birthDate.message}
               </FormErrorMessage>
             </FormControl>
-          </HStack>
+          </Flex>
           <FormControl isInvalid={!!errors.password}>
             <FormLabel htmlFor="firstName">Password</FormLabel>
             <Input
