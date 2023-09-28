@@ -1,4 +1,5 @@
 import { ValidationSchema } from './types';
+import { validateBirthDate } from './customValidations';
 
 const validationSchema: ValidationSchema = {
   firstName: {
@@ -67,6 +68,11 @@ const validationSchema: ValidationSchema = {
       message:
         'Password must contain at least one uppercase letter, one lowercase letter, and one number',
     },
+  },
+
+  birthDate: {
+    required: 'Birth date is required',
+    validate: validateBirthDate,
   },
 };
 

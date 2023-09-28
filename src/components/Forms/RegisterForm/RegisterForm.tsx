@@ -2,7 +2,6 @@
 
 import {
   Box,
-  HStack,
   Stack,
   Button,
   Text,
@@ -34,21 +33,6 @@ const RegistrationForm = () => {
     if (watch('password') != value) {
       return 'Passwords do no match';
     }
-  };
-
-  const validateBirthDate = (value: string) => {
-    const currentDate = new Date();
-    const userBirthDate = new Date(value);
-    console.log(value);
-    const age = currentDate.getFullYear() - userBirthDate.getFullYear();
-    if (age < 16) {
-      return 'User must be at least 16 years old.';
-    }
-
-    if (age > 130) {
-      return 'Invalid date';
-    }
-    return true;
   };
 
   const onSubmit: SubmitHandler<User> = (data) => {
@@ -140,10 +124,7 @@ const RegistrationForm = () => {
                 id="birthDate"
                 type="date"
                 placeholder="Birth Date"
-                {...register('birthDate', {
-                  required: 'Birth Date is required.',
-                  validate: validateBirthDate,
-                })}
+                {...register('birthDate', validationSchema.birthDate)}
               />
               <FormErrorMessage>
                 {errors.birthDate && errors.birthDate.message}

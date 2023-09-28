@@ -4,6 +4,7 @@ export interface ValidationSchema {
   userName: ValidationRule;
   email: ValidationRule;
   password: ValidationRule;
+  birthDate: ValidationRule;
 }
 
 interface ValidationRule {
@@ -11,6 +12,7 @@ interface ValidationRule {
   minLength?: lengthRule;
   maxLength?: lengthRule;
   pattern?: patternRule;
+  validate?: (value: string) => true | string;
 }
 
 interface lengthRule {
