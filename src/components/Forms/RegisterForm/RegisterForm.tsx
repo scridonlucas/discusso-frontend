@@ -21,6 +21,8 @@ import { User } from '../../../types';
 
 import validationSchema from './validationSchema';
 
+import userSerivces from '../../../services/register';
+
 const RegistrationForm = () => {
   const {
     register,
@@ -35,9 +37,8 @@ const RegistrationForm = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<User> = (data) => {
-    console.log(data);
-    console.log(typeof data.birthDate);
+  const onSubmit: SubmitHandler<User> = async (data) => {
+    await userSerivces.postUser(data);
   };
 
   return (

@@ -12,16 +12,20 @@ Frontend for an social media application built using React, Redux and Typescript
 - Learning to use Chakra UI for advanced styling.
 - Using react-hook-form library to validate forms, minimizing number of re-renders.
 
-## Tools
+## Technologies
 
-- Visual Studio Code
-- vite
+- Typescript
 - React
 - React Router
 - React Query
 - Redux
 - React Hook Form
 - Chakra UI
+
+## Tools
+
+- Visual Studio Code
+- vite
 - Git and Github
 - npm
 

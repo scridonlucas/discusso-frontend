@@ -1,9 +1,16 @@
 import axios from 'axios';
-const baseUrl = 'http://localhost:3001/api/blogs';
+import { User } from '../types';
 
-const register = async (credentials) => {
-  const response = await axios.post(baseUrl, credentials);
+const baseUrl = 'http://localhost:3001/api/users';
+
+const getUsers = async () => {
+  const response = await axios.get<User[]>(baseUrl);
   return response.data;
 };
 
-export default { register };
+const postUser = async (credentials: User) => {
+  const response = await axios.post<User>(baseUrl, credentials);
+  return response.data;
+};
+
+export default { getUsers, postUser };
