@@ -29,6 +29,7 @@ const RegistrationForm = () => {
     formState: { errors },
     handleSubmit,
     watch,
+    setError,
   } = useForm<User>();
 
   const validatePasswords = (value: string) => {
@@ -43,6 +44,7 @@ const RegistrationForm = () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
+        setError('username', { type: 'custom', message: 'custom message' });
       }
     }
   };
