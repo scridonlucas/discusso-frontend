@@ -22,6 +22,10 @@ import { User } from '../../../types';
 import validationSchema from './validationSchema';
 
 import userSerivces from '../../../services/register';
+import {
+  validateEmailExists,
+  validateUsernameExists,
+} from './customValidations';
 
 const RegistrationForm = () => {
   const {
@@ -40,11 +44,29 @@ const RegistrationForm = () => {
 
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
-      await userSerivces.postUser(data);
+      const username = await validateUsernameExists(data.username);
+      const email = await validateEmailExists(data.email);
+      if (!username && !email) {
+        await userSerivces.postUser(data);
+      } else {
+        if (username) {
+          setError('username', {
+            type: 'custom',
+            message: 'This username is already taken!',
+          });
+        }
+
+        if (email) {
+          setError('email', {
+            type: 'custom',
+            message:
+              'This email is already in use! Please chose another email.',
+          });
+        }
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error(error.message);
-        setError('username', { type: 'custom', message: 'custom message' });
+        alert(error.message);
       }
     }
   };
