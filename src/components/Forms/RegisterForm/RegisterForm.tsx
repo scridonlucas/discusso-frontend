@@ -17,6 +17,7 @@ import {
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { User } from '../../../types';
 
@@ -37,6 +38,8 @@ const RegistrationForm = () => {
     setError,
   } = useForm<User>();
 
+  const navigate = useNavigate();
+
   const validatePasswords = (value: string) => {
     if (watch('password') != value) {
       return 'Passwords do not match';
@@ -49,6 +52,7 @@ const RegistrationForm = () => {
       const email = await validateEmailExists(data.email);
       if (!username && !email) {
         await userSerivces.postUser(data);
+        navigate('/login');
       } else {
         if (username) {
           setError('username', {
