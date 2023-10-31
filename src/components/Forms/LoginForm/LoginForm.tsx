@@ -6,8 +6,11 @@ import {
   Input,
   Checkbox,
   Text,
+  Link,
   Button,
 } from '@chakra-ui/react';
+import { Link as ReactRouterLink } from 'react-router-dom';
+
 import { useColorModeValue } from '@chakra-ui/react';
 const LoginForm = () => {
   return (
@@ -36,9 +39,9 @@ const LoginForm = () => {
             <Checkbox>Remember me</Checkbox>
             <Text>
               New here?{' '}
-              <Text as="button" display="inline" color={'blue.400'}>
+              <Link as={ReactRouterLink} to="/signup" color={'blue.400'}>
                 Sign up!
-              </Text>
+              </Link>
             </Text>
           </Stack>
           <Button

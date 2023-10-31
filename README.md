@@ -4,13 +4,15 @@ Frontend for an social media application built using React, Redux and Typescript
 
 ## Features
 
-- under construction
+- **Elegant design**: The user interface is thoughtfully designed for a modern and visually pleasing look using Chakra UI.
+- **Responsiveness**: Seamless experience on any device with Chakra UI's responsive design
+- **Register**: Users can create accounts using email address. They receive feedback at every step, keeping them informed and engaged.
 
 ## Knowledge
 
-- Learning to structure a complex react project.
-- Learning to use Chakra UI for advanced styling.
-- Using react-hook-form library to validate forms, minimizing number of re-renders.
+- Exploring effective ways to structure a complex React project. This includes optimizing code organization, implementing component architecture, and ensuring maintainability as the project scales.
+- Using Chakra UI for creating stunning and responsive UI.
+- Handling form validation using react-hook-form library, optimizing re-renders and providing better user experience.
 - Giving error feedback to user after async validation (username and email must be unique) by using setError method.
 
 ## Technologies

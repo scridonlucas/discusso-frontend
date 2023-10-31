@@ -1,7 +1,6 @@
 import { Flex } from '@chakra-ui/react';
-import LoginForm from '../components/Forms/LoginForm';
+import LoginForm from '../components/Forms/LoginForm/LoginForm';
 import { Stack, Text, Heading } from '@chakra-ui/react';
-import RegistrationForm from '../components/Forms/RegisterForm/RegisterForm';
 const Login = () => {
   return (
     <Flex minH={'100vh'} align={'center'} justify={'center'}>
