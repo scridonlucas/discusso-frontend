@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useState } from 'react';
 
 import { User } from '../../../types';
 
@@ -30,6 +31,9 @@ const RegistrationForm = () => {
     handleSubmit,
     watch,
   } = useForm<User>();
+
+  const [usernameExists, setUsernameExists] = useState(false);
+  const [emailExists, setEmailExists] = useState(false);
 
   const validatePasswords = (value: string) => {
     if (watch('password') != value) {
@@ -85,7 +89,7 @@ const RegistrationForm = () => {
               </FormControl>
             </Box>
           </Flex>
-          <FormControl isInvalid={!!errors.username}>
+          <FormControl isInvalid={!!errors.username || !!usernameExists}>
             <FormLabel htmlFor="username">Username</FormLabel>
             <Input
               id="username"
@@ -94,9 +98,11 @@ const RegistrationForm = () => {
             />
             <FormErrorMessage>
               {errors.username && errors.username.message}
+              {usernameExists &&
+                'This username is already taken! Please chose another username'}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={!!errors.email}>
+          <FormControl isInvalid={!!errors.email && !!emailExists}>
             <FormLabel htmlFor="firstName">Email</FormLabel>
             <Input
               id="email"
@@ -105,6 +111,8 @@ const RegistrationForm = () => {
             />
             <FormErrorMessage>
               {errors.email && errors.email.message}
+              {emailExists &&
+                'This email is already taken! Please use another email address'}
             </FormErrorMessage>
           </FormControl>
           <Flex gap={2}>
