@@ -22,6 +22,11 @@ import { User } from '../../../types';
 
 import validationSchema from './validationSchema';
 
+import {
+  validateUsernameExists,
+  validateEmailExists,
+} from './customValidations';
+
 import userSerivces from '../../../services/register';
 
 const RegistrationForm = () => {
@@ -43,7 +48,16 @@ const RegistrationForm = () => {
 
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
-      await userSerivces.postUser(data);
+      const username = await validateUsernameExists(data.username);
+      const email = await validateEmailExists(data.email);
+      console.log(email);
+      if (!username && !email) {
+        const response = await userSerivces.postUser(data);
+        console.log(response);
+      } else {
+        setUsernameExists(username);
+        setEmailExists(email);
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -102,8 +116,8 @@ const RegistrationForm = () => {
                 'This username is already taken! Please chose another username'}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={!!errors.email && !!emailExists}>
-            <FormLabel htmlFor="firstName">Email</FormLabel>
+          <FormControl isInvalid={!!errors.email || !!emailExists}>
+            <FormLabel htmlFor="email">Email</FormLabel>
             <Input
               id="email"
               placeholder="Email"
