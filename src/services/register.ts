@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User } from '../types';
+import { User, Exists } from '../types';
 
 const baseUrl = 'http://localhost:3001/api/users';
 
@@ -13,4 +13,16 @@ const postUser = async (credentials: User) => {
   return response.data;
 };
 
-export default { getUsers, postUser };
+const checkUsername = async (username: string) => {
+  const response = await axios.get<Exists>(
+    `${baseUrl}/check-username/${username}`
+  );
+  return response.data.exists;
+};
+
+const checkEmail = async (email: string) => {
+  const response = await axios.get<Exists>(`${baseUrl}/check-email/${email}`);
+  return response.data.exists;
+};
+
+export default { getUsers, postUser, checkUsername, checkEmail };

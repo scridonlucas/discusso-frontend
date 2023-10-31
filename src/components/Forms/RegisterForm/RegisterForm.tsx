@@ -22,7 +22,6 @@ import { User } from '../../../types';
 import validationSchema from './validationSchema';
 
 import userSerivces from '../../../services/register';
-import { AxiosError } from 'axios';
 
 const RegistrationForm = () => {
   const {
@@ -34,7 +33,7 @@ const RegistrationForm = () => {
 
   const validatePasswords = (value: string) => {
     if (watch('password') != value) {
-      return 'Passwords do no match';
+      return 'Passwords do not match';
     }
   };
 
@@ -42,12 +41,8 @@ const RegistrationForm = () => {
     try {
       await userSerivces.postUser(data);
     } catch (error: unknown) {
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          console.log(error.response.data);
-        }
-      } else {
-        console.error('Network error:');
+      if (error instanceof Error) {
+        console.error(error.message);
       }
     }
   };

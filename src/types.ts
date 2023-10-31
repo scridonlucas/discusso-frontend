@@ -10,3 +10,7 @@ export interface User {
 }
 
 type Gender = 'male' | 'female' | 'other';
+
+export interface Exists {
+  exists: boolean;
+}
