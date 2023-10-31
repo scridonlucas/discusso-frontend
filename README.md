@@ -11,6 +11,7 @@ Frontend for an social media application built using React, Redux and Typescript
 - Learning to structure a complex react project.
 - Learning to use Chakra UI for advanced styling.
 - Using react-hook-form library to validate forms, minimizing number of re-renders.
+- Giving error feedback to user after async validation (username and email must be unique) by using setError method.
 
 ## Technologies
 

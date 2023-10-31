@@ -14,6 +14,7 @@ import {
   Select,
   Flex,
 } from '@chakra-ui/react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 
@@ -55,7 +56,6 @@ const RegistrationForm = () => {
             message: 'This username is already taken!',
           });
         }
-
         if (email) {
           setError('email', {
             type: 'custom',
@@ -206,7 +206,10 @@ const RegistrationForm = () => {
           </Stack>
           <Stack pt={6}>
             <Text align={'center'}>
-              Already a user? <Link color={'blue.400'}>Login</Link>
+              Already a user?{' '}
+              <Link as={ReactRouterLink} to="/login" color={'blue.400'}>
+                Login
+              </Link>
             </Text>
           </Stack>
         </Stack>
