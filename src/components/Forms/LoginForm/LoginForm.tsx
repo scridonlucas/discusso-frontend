@@ -33,8 +33,8 @@ const LoginForm = () => {
 
   const onSubmit: SubmitHandler<LoginUser> = async (data) => {
     try {
-      const response = await loginService.postLogin(data);
-      console.log(response);
+      const user = await loginService.postLogin(data);
+      loginService.storeLogin(user);
     } catch (error: unknown) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.status === 401) {
@@ -47,7 +47,7 @@ const LoginForm = () => {
           });
         }
       } else {
-        alert('Network Error!');
+        alert('Network Error!'); // will implement a better notification system!
       }
     }
   };

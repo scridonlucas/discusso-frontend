@@ -7,6 +7,7 @@ Frontend for an social media application built using React, Redux and Typescript
 - **Elegant design**: The user interface is thoughtfully designed for a modern and visually pleasing look using Chakra UI.
 - **Responsiveness**: Providing a smooth and consistent user experience across a variety of devices, thanks to Chakra UI's responsive design, whether it's a desktop, laptop, tablet, or mobile phone.
 - **Registration system**: Users can create accounts using email address. They receive feedback at every step, keeping them informed and engaged.
+- **Login system**: Users can log into account using email address and password. We've designed the login process to be intuitive and user-friendly, with clear feedback at every step.
 
 ## Knowledge
 
