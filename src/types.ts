@@ -19,3 +19,9 @@ type Gender = 'male' | 'female' | 'other';
 export interface Exists {
   exists: boolean;
 }
+
+export interface LoginResponse {
+  token: string;
+  username: string;
+  email: string;
+}
