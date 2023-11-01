@@ -8,6 +8,7 @@ import {
   Text,
   Link,
   Button,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -18,22 +19,37 @@ import { useColorModeValue } from '@chakra-ui/react';
 
 import { LoginUser } from '../../../types';
 
-import { useNavigate } from 'react-router-dom';
+import loginService from '../../../services/loginService';
+import { AxiosError } from 'axios';
 
+import validationSchema from '../RegisterForm/validationSchema';
 const LoginForm = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-    watch,
     setError,
   } = useForm<LoginUser>();
 
-  const navigate = useNavigate();
-
   const onSubmit: SubmitHandler<LoginUser> = async (data) => {
     try {
-    } catch (error: unknown) {}
+      const response = await loginService.postLogin(data);
+      console.log(response);
+    } catch (error: unknown) {
+      if (error instanceof AxiosError && error.response) {
+        if (error.response.status === 401) {
+          setError('email', {
+            type: 'custom',
+          });
+          setError('password', {
+            type: 'custom',
+            message: 'Incorrent email address or password!',
+          });
+        }
+      } else {
+        alert('Network Error!');
+      }
+    }
   };
 
   return (
@@ -45,18 +61,28 @@ const LoginForm = () => {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={4}>
-          <FormControl id="email">
+          <FormControl id="email" isInvalid={!!errors.email}>
             <FormLabel>Email address</FormLabel>
             <Input
-              type="email"
               id="email"
               placeholder="Email"
-              {...register('email')}
+              {...register('email', validationSchema.email)}
             />
+            <FormErrorMessage>
+              {errors.email && errors.email.message}
+            </FormErrorMessage>
           </FormControl>
-          <FormControl id="password">
+          <FormControl id="password" isInvalid={!!errors.password}>
             <FormLabel>Password</FormLabel>
-            <Input type="password" id="password" {...register('password')} />
+            <Input
+              type="password"
+              id="password"
+              placeholder="Password"
+              {...register('password', { required: 'Password is required' })}
+            />
+            <FormErrorMessage>
+              {errors.password && errors.password.message}
+            </FormErrorMessage>
           </FormControl>
 
           <Stack spacing={10}>
@@ -74,6 +100,8 @@ const LoginForm = () => {
               </Text>
             </Stack>
             <Button
+              type="submit"
+              loadingText="Submitting"
               bg={'blue.400'}
               color={'white'}
               _hover={{

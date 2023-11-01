@@ -23,7 +23,7 @@ import { User } from '../../../types';
 
 import validationSchema from './validationSchema';
 
-import userSerivces from '../../../services/register';
+import userSerivces from '../../../services/registerService';
 import {
   validateEmailExists,
   validateUsernameExists,

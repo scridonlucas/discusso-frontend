@@ -1,4 +1,4 @@
-import userSerivces from '../../../services/register';
+import userSerivces from '../../../services/registerService';
 
 export const validateBirthDate = (value: string) => {
   const currentDate = new Date();
