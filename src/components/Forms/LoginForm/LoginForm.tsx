@@ -9,10 +9,24 @@ import {
   Link,
   Button,
 } from '@chakra-ui/react';
+
+import { useForm, SubmitHandler } from 'react-hook-form';
+
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useColorModeValue } from '@chakra-ui/react';
+
+import { LoginUser } from '../../../types';
+
 const LoginForm = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    watch,
+    setError,
+  } = useForm<LoginUser>();
+
   return (
     <Box
       rounded={'lg'}

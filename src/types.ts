@@ -9,6 +9,11 @@ export interface User {
   confirmPassword: string;
 }
 
+export interface LoginUser {
+  email: string;
+  password: string;
+}
+
 type Gender = 'male' | 'female' | 'other';
 
 export interface Exists {
