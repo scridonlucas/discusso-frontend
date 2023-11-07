@@ -20,6 +20,7 @@ import { useColorModeValue } from '@chakra-ui/react';
 import { LoginUser } from '../../../types';
 
 import loginService from '../../../services/loginService';
+import auth from '../../../features/auth/auth';
 import { AxiosError } from 'axios';
 
 import validationSchema from '../RegisterForm/validationSchema';
@@ -34,7 +35,7 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<LoginUser> = async (data) => {
     try {
       const user = await loginService.postLogin(data);
-      loginService.storeLogin(user);
+      auth.storeLogin(user);
     } catch (error: unknown) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.status === 401) {

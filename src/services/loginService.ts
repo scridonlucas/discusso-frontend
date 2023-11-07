@@ -7,11 +7,6 @@ const postLogin = async (credentials: LoginUser) => {
   return response.data;
 };
 
-const storeLogin = (user: LoginResponse) => {
-  window.localStorage.setItem('loggedUser', JSON.stringify(user));
-};
-
 export default {
   postLogin,
-  storeLogin,
 };
