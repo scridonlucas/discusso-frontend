@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoutes from './ProtectedRoutes';
+import AuthRoutes from './AuthRoutes';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import MainPage from '../pages/Main';
@@ -9,8 +10,10 @@ import Profile from '../layouts/Content/Profile';
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Register />} />
+      <Route element={<AuthRoutes />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Register />} />
+      </Route>
       <Route element={<ProtectedRoutes />}>
         <Route element={<MainPage />}>
           <Route path="/" element={<Navigate to="/home" />} />
