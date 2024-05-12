@@ -1,6 +1,9 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import authService from '../services/authService';
 import ProtectedRoutes from './ProtectedRoutes';
 import AuthRoutes from './AuthRoutes';
+import LoadingPage from '../pages/Loading';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import MainPage from '../pages/Main';
@@ -8,6 +11,14 @@ import Timeline from '../layouts/Content/Timeline';
 import Profile from '../layouts/Content/Profile';
 
 const AppRoutes = () => {
+  const verifyAuth = useQuery({
+    queryKey: ['auth'],
+    queryFn: authService.getAuth,
+  });
+
+  if (verifyAuth.isLoading) {
+    return <LoadingPage />;
+  }
   return (
     <Routes>
       <Route element={<AuthRoutes />}>
