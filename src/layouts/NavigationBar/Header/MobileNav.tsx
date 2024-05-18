@@ -16,7 +16,12 @@ import {
 import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
 import { MobileProps } from '../types';
 
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
+
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const user = useSelector((state: RootState) => state.auth.user);
+  console.log(user);
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -73,9 +78,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="sm">{user.username}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                    {user.role}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>

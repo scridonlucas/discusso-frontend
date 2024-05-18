@@ -26,6 +26,12 @@ export interface LoginResponse {
   role: string;
 }
 
+interface AuthResponseUser {
+  username: string;
+  role: 'User' | 'Admin' | '';
+}
+
 export interface AuthResponse {
   success: boolean;
+  user: AuthResponseUser;
 }

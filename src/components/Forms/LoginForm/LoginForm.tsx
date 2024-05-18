@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { Link as ReactRouterLink } from 'react-router-dom';
 
@@ -31,10 +32,12 @@ const LoginForm = () => {
     setError,
   } = useForm<LoginUser>();
 
+  const navigate = useNavigate();
+
   const onSubmit: SubmitHandler<LoginUser> = async (data) => {
     try {
-      const loginResponse = await loginService.postLogin(data);
-      console.log(loginResponse);
+      await loginService.postLogin(data);
+      navigate('/home');
     } catch (error: unknown) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.status === 401) {

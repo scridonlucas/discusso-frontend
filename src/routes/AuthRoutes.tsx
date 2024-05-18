@@ -6,6 +6,7 @@ const AuthRoutes = () => {
   const isAuthentificated: boolean = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
+
   return isAuthentificated ? <Navigate to="/" /> : <Outlet />;
 };
 

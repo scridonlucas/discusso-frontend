@@ -16,22 +16,38 @@ import Profile from '../layouts/Content/Profile';
 const AppRoutes = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const verifyAuth = useQuery({
+  const { data, isError, isLoading } = useQuery({
     queryKey: ['auth'],
     queryFn: authService.getAuth,
     refetchOnWindowFocus: false,
   });
 
-  if (verifyAuth.isLoading) {
+  if (isLoading) {
     return <LoadingPage />;
   }
 
-  if (verifyAuth.isError) {
-    dispatch(setAuthenticated(false));
+  if (isError) {
+    dispatch(
+      setAuthenticated({
+        isAuthenticated: false,
+        user: {
+          username: '',
+          role: '',
+        },
+      })
+    );
   }
 
-  if (verifyAuth.data) {
-    dispatch(setAuthenticated(verifyAuth.data['success']));
+  if (data) {
+    dispatch(
+      setAuthenticated({
+        isAuthenticated: data.success,
+        user: {
+          username: data.user.username,
+          role: data.user.role,
+        },
+      })
+    );
   }
 
   return (
