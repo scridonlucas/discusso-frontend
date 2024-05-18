@@ -1,4 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../app/store';
+import { setAuthenticated } from '../reducers/authReducer';
 import { useQuery } from '@tanstack/react-query';
 import authService from '../services/authService';
 import ProtectedRoutes from './ProtectedRoutes';
@@ -11,14 +14,26 @@ import Timeline from '../layouts/Content/Timeline';
 import Profile from '../layouts/Content/Profile';
 
 const AppRoutes = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const verifyAuth = useQuery({
     queryKey: ['auth'],
     queryFn: authService.getAuth,
+    refetchOnWindowFocus: false,
   });
 
   if (verifyAuth.isLoading) {
     return <LoadingPage />;
   }
+
+  if (verifyAuth.isError) {
+    dispatch(setAuthenticated(false));
+  }
+
+  if (verifyAuth.data) {
+    dispatch(setAuthenticated(verifyAuth.data['success']));
+  }
+
   return (
     <Routes>
       <Route element={<AuthRoutes />}>
