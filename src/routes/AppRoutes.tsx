@@ -6,7 +6,7 @@ import Register from '../pages/Register';
 import MainPage from '../pages/Main';
 import Timeline from '../layouts/Content/Timeline';
 import Profile from '../layouts/Content/Profile';
-
+import Create from '../layouts/Content/Create';
 const AppRoutes = () => {
   return (
     <Routes>
@@ -19,6 +19,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Timeline />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/create" element={<Create />} />
         </Route>
       </Route>
     </Routes>

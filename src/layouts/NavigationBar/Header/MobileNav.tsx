@@ -59,7 +59,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         fontFamily="monospace"
         fontWeight="bold"
       >
-        Logo
+        ☕ Discusso
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
