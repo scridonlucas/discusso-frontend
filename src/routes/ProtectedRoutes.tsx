@@ -1,12 +1,24 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
+import { useQuery } from '@tanstack/react-query';
+import authService from '../services/authService';
+import LoadingPage from '../pages/Loading';
 
 const ProtectedRoutes = () => {
-  const isAuthentificated: boolean = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-  return isAuthentificated ? <Outlet /> : <Navigate to="/login" />;
+  const { data, isSuccess, isLoading, isError } = useQuery({
+    queryKey: ['auth'],
+    queryFn: authService.getAuth,
+    refetchOnWindowFocus: false,
+  });
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isError || !data.success) {
+    return <Navigate to="/login" />;
+  }
+
+  if (isSuccess && data.success) return <Outlet />;
 };
 
 export default ProtectedRoutes;

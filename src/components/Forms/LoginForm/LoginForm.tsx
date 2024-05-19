@@ -12,60 +12,27 @@ import {
 } from '@chakra-ui/react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react';
+
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useColorModeValue } from '@chakra-ui/react';
 
 import { LoginUser } from '../../../types';
 
-import authService from '../../../services/authService';
-import { AxiosError } from 'axios';
-
 import validationSchema from '../RegisterForm/validationSchema';
+import { useSignIn } from '../../../hooks/useSignIn';
+
 const LoginForm = () => {
   const {
     register,
     formState: { errors },
     handleSubmit,
-    setError,
   } = useForm<LoginUser>();
-  const toast = useToast();
-  const navigate = useNavigate();
+
+  const signInMutation = useSignIn();
 
   const onSubmit: SubmitHandler<LoginUser> = async (data) => {
-    try {
-      await authService.postLogin(data);
-      toast({
-        title: 'Succes!',
-        description: 'Successfully logged in!',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      });
-      navigate('/');
-    } catch (error: unknown) {
-      if (error instanceof AxiosError && error.response) {
-        if (error.response.status === 401) {
-          setError('email', {
-            type: 'custom',
-          });
-          setError('password', {
-            type: 'custom',
-            message: 'Incorrent email address or password!',
-          });
-        }
-      } else {
-        toast({
-          title: 'Network Error.',
-          description: 'Unable to sign in! Please try again later!',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-    }
+    signInMutation.mutate(data);
   };
 
   return (

@@ -18,8 +18,16 @@ import { MobileProps } from '../types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 
+import { useSignOut } from '../../../hooks/useSignOut';
+
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const user = useSelector((state: RootState) => state.auth.user);
+
+  const signOutMutation = useSignOut();
+
+  const handleSignOut = () => {
+    signOutMutation.mutate();
+  };
 
   return (
     <Flex
@@ -95,7 +103,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
