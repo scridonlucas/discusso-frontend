@@ -15,13 +15,17 @@ import {
 } from '@chakra-ui/react';
 import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
 import { MobileProps } from '../types';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/store';
 
 import { useSignOut } from '../../../hooks/useSignOut';
+import { useQueryClient } from '@tanstack/react-query';
+import { AuthResponse } from '../../../types';
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const queryClient = useQueryClient();
+  const queryData = queryClient.getQueryData<AuthResponse>(['auth']);
+
+  const username = queryData ? queryData.user.username : '';
+  const role = queryData ? queryData.user.role : '';
 
   const signOutMutation = useSignOut();
 
@@ -85,9 +89,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">{user.username}</Text>
+                  <Text fontSize="sm">{username}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    {user.role}
+                    {role}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>

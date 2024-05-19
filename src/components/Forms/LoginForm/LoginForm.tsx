@@ -22,6 +22,7 @@ import { LoginUser } from '../../../types';
 import validationSchema from '../RegisterForm/validationSchema';
 import { useSignIn } from '../../../hooks/useSignIn';
 
+import { testCredentials } from '../../../features/auth/testCredentials';
 const LoginForm = () => {
   const {
     register,
@@ -31,8 +32,12 @@ const LoginForm = () => {
 
   const signInMutation = useSignIn();
 
-  const onSubmit: SubmitHandler<LoginUser> = async (data) => {
+  const onSubmit: SubmitHandler<LoginUser> = (data) => {
     signInMutation.mutate(data);
+  };
+
+  const handleTestSignIn = () => {
+    signInMutation.mutate(testCredentials);
   };
 
   return (
@@ -82,17 +87,30 @@ const LoginForm = () => {
                 </Link>
               </Text>
             </Stack>
-            <Button
-              type="submit"
-              loadingText="Submitting"
-              bg={'blue.400'}
-              color={'white'}
-              _hover={{
-                bg: 'blue.500',
-              }}
-            >
-              Sign in
-            </Button>
+            <Stack spacing={5}>
+              <Button
+                type="submit"
+                loadingText="Submitting"
+                bg={'blue.400'}
+                color={'white'}
+                _hover={{
+                  bg: 'blue.500',
+                }}
+              >
+                Sign in
+              </Button>
+              <Button
+                onClick={handleTestSignIn}
+                loadingText="Submitting"
+                bg={'blue.400'}
+                color={'white'}
+                _hover={{
+                  bg: 'blue.500',
+                }}
+              >
+                Vistor Sign In
+              </Button>
+            </Stack>
           </Stack>
         </Stack>
       </form>

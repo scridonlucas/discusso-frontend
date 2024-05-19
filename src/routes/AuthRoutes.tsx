@@ -8,6 +8,7 @@ const AuthRoutes = () => {
     queryKey: ['auth'],
     queryFn: authService.getAuth,
     refetchOnWindowFocus: false,
+    retry: false,
   });
 
   if (isLoading) {
