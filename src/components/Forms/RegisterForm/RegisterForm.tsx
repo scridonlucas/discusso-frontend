@@ -17,18 +17,16 @@ import {
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useToast } from '@chakra-ui/react';
 
 import { User } from '../../../types';
 
 import validationSchema from './validationSchema';
 
-import userSerivces from '../../../services/registerService';
 import {
   validateEmailExists,
   validateUsernameExists,
 } from './customValidations';
+import { useSignUp } from '../../../hooks/useSignUp';
 
 const RegistrationForm = () => {
   const {
@@ -38,9 +36,8 @@ const RegistrationForm = () => {
     watch,
     setError,
   } = useForm<User>();
-  const toast = useToast();
 
-  const navigate = useNavigate();
+  const signUpMutation = useSignUp();
 
   const validatePasswords = (value: string) => {
     if (watch('password') != value) {
@@ -49,42 +46,21 @@ const RegistrationForm = () => {
   };
 
   const onSubmit: SubmitHandler<User> = async (data) => {
-    try {
-      const username = await validateUsernameExists(data.username);
-      const email = await validateEmailExists(data.email);
-      if (!username && !email) {
-        await userSerivces.postUser(data);
-        toast({
-          title: 'Signed up!',
-          description: 'Account succesfully created',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
+    const username = await validateUsernameExists(data.username);
+    const email = await validateEmailExists(data.email);
+    if (!username && !email) {
+      signUpMutation.mutate(data);
+    } else {
+      if (username) {
+        setError('username', {
+          type: 'custom',
+          message: 'This username is already taken!',
         });
-        navigate('/login');
-      } else {
-        if (username) {
-          setError('username', {
-            type: 'custom',
-            message: 'This username is already taken!',
-          });
-        }
-        if (email) {
-          setError('email', {
-            type: 'custom',
-            message:
-              'This email is already in use! Please chose another email.',
-          });
-        }
       }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast({
-          title: 'Network error!',
-          description: 'Failed to create a new account! Please try again later',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
+      if (email) {
+        setError('email', {
+          type: 'custom',
+          message: 'This email is already in use! Please chose another email.',
         });
       }
     }
