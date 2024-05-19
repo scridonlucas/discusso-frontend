@@ -1,7 +1,4 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../app/store';
-import { setAuthenticated } from '../reducers/authReducer';
 import { useQuery } from '@tanstack/react-query';
 import authService from '../services/authService';
 import ProtectedRoutes from './ProtectedRoutes';
@@ -12,42 +9,40 @@ import Register from '../pages/Register';
 import MainPage from '../pages/Main';
 import Timeline from '../layouts/Content/Timeline';
 import Profile from '../layouts/Content/Profile';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setAuthenticated } from '../reducers/authReducer';
 
 const AppRoutes = () => {
-  const dispatch = useDispatch<AppDispatch>();
-
-  const { data, isError, isLoading } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ['auth'],
     queryFn: authService.getAuth,
     refetchOnWindowFocus: false,
   });
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (data) {
+      dispatch(
+        setAuthenticated({
+          isAuthenticated: data.success,
+          user: data.user,
+        })
+      );
+    }
+
+    if (error) {
+      dispatch(
+        setAuthenticated({
+          isAuthenticated: false,
+          user: null,
+        })
+      );
+    }
+  }, [data, error, dispatch]);
 
   if (isLoading) {
     return <LoadingPage />;
-  }
-
-  if (isError) {
-    dispatch(
-      setAuthenticated({
-        isAuthenticated: false,
-        user: {
-          username: '',
-          role: '',
-        },
-      })
-    );
-  }
-
-  if (data) {
-    dispatch(
-      setAuthenticated({
-        isAuthenticated: data.success,
-        user: {
-          username: data.user.username,
-          role: data.user.role,
-        },
-      })
-    );
   }
 
   return (

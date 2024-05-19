@@ -18,6 +18,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react';
 
 import { User } from '../../../types';
 
@@ -37,6 +38,7 @@ const RegistrationForm = () => {
     watch,
     setError,
   } = useForm<User>();
+  const toast = useToast();
 
   const navigate = useNavigate();
 
@@ -52,6 +54,13 @@ const RegistrationForm = () => {
       const email = await validateEmailExists(data.email);
       if (!username && !email) {
         await userSerivces.postUser(data);
+        toast({
+          title: 'Signed up!',
+          description: 'Account succesfully created',
+          status: 'success',
+          duration: 9000,
+          isClosable: true,
+        });
         navigate('/login');
       } else {
         if (username) {
@@ -70,7 +79,13 @@ const RegistrationForm = () => {
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
-        alert(error.message);
+        toast({
+          title: 'Network error!',
+          description: 'Failed to create a new account! Please try again later',
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
       }
     }
   };

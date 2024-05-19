@@ -15,13 +15,12 @@ import {
 } from '@chakra-ui/react';
 import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
 import { MobileProps } from '../types';
-
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const user = useSelector((state: RootState) => state.auth.user);
-  console.log(user);
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -89,7 +88,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               </HStack>
             </MenuButton>
             <MenuList
-              bg={useColorModeValue('white', 'gray.900')}
+              bg={useColorModeValue('white', 'gray.700')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}
             >
               <MenuItem>Profile</MenuItem>
