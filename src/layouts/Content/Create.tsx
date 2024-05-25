@@ -1,5 +1,10 @@
+import { Heading } from '@chakra-ui/react';
 const Create = () => {
-  return <>Create</>;
+  return (
+    <>
+      <Heading>Sas</Heading>
+    </>
+  );
 };
 
 export default Create;

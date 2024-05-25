@@ -12,17 +12,19 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Button,
 } from '@chakra-ui/react';
-import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
+import { FiMenu, FiBell, FiChevronDown, FiPlus } from 'react-icons/fi';
 import { MobileProps } from '../types';
-
 import { useSignOut } from '../../../hooks/useSignOut';
 import { useQueryClient } from '@tanstack/react-query';
 import { AuthResponse } from '../../../types';
+import { useNavigate } from 'react-router-dom';
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const queryClient = useQueryClient();
   const queryData = queryClient.getQueryData<AuthResponse>(['auth']);
+  const navigate = useNavigate();
 
   const username = queryData ? queryData.user.username : '';
   const role = queryData ? queryData.user.role : '';
@@ -31,6 +33,10 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
 
   const handleSignOut = () => {
     signOutMutation.mutate();
+  };
+
+  const handleCreateDiscussion = () => {
+    navigate('/create');
   };
 
   return (
@@ -63,6 +69,19 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
+        <Box
+          as={Button}
+          size={'lg'}
+          variant={'ghost'}
+          onClick={handleCreateDiscussion}
+          display={'flex'}
+          alignItems="center"
+          gap={'4'}
+        >
+          <FiPlus />
+          Start a new discussion
+        </Box>
+
         <IconButton
           size="lg"
           variant="ghost"

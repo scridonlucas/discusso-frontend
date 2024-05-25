@@ -7,6 +7,7 @@ import MainPage from '../pages/Main';
 import Timeline from '../layouts/Content/Timeline';
 import Profile from '../layouts/Content/Profile';
 import Create from '../layouts/Content/Create';
+
 const AppRoutes = () => {
   return (
     <Routes>
