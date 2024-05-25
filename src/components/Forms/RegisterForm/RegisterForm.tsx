@@ -18,7 +18,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { User } from '../../../types';
+import { User } from '../../../types/userTypes';
 
 import validationSchema from './validationSchema';
 

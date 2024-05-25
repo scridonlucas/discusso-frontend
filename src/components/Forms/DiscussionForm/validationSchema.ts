@@ -27,7 +27,7 @@ const validationSchema: ValidationSchema = {
       message: 'Content cannot exceed 1000 characters',
     },
     pattern: {
-      value: /^[A-Za-z0-9\s.,?!'"\-()]+$/,
+      value: /^[A-Za-z0-9\s.,?!'"@#$%^&*()[\]{}\-_=+\\|;:<>/~`]+$/,
       message:
         'Content can only contain letters, numbers, and common punctuation',
     },

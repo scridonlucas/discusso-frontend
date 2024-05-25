@@ -17,7 +17,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useColorModeValue } from '@chakra-ui/react';
 
-import { LoginUser } from '../../../types';
+import { LoginUser } from '../../../types/userTypes';
 
 import validationSchema from '../RegisterForm/validationSchema';
 import { useSignIn } from '../../../hooks/useSignIn';

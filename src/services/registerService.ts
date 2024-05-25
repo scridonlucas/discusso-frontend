@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { User, Exists } from '../types';
+import { User } from '../types/userTypes';
+import { Exists } from '../types/authTypes';
 
 const baseUrl = 'http://localhost:3001/api/users';
 

@@ -18,7 +18,7 @@ import { FiMenu, FiBell, FiChevronDown, FiPlus } from 'react-icons/fi';
 import { MobileProps } from '../types';
 import { useSignOut } from '../../../hooks/useSignOut';
 import { useQueryClient } from '@tanstack/react-query';
-import { AuthResponse } from '../../../types';
+import { AuthResponse } from '../../../types/authTypes';
 import { useNavigate } from 'react-router-dom';
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {

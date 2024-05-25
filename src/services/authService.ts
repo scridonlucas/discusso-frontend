@@ -1,6 +1,10 @@
 import axios from 'axios';
-import { LoginResponse, LoginUser, LogoutResponse } from '../types';
-import { AuthResponse } from '../types';
+import { LoginUser } from '../types/userTypes';
+import {
+  LoginResponse,
+  LogoutResponse,
+  AuthResponse,
+} from '../types/authTypes';
 
 const baseUrl = 'http://localhost:3001/api/auth';
 const loginPath = '/login';
