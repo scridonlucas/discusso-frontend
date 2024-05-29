@@ -1,11 +1,11 @@
-import { Box, Heading, Stack } from '@chakra-ui/react';
+import { Flex, Box, Heading, Stack } from '@chakra-ui/react';
 const Timeline = () => {
   return (
-    <Box display={'flex'}>
+    <Flex align={'center'} justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Heading>test</Heading>
       </Stack>
-    </Box>
+    </Flex>
   );
 };
 
