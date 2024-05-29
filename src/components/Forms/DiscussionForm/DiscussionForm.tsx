@@ -17,7 +17,6 @@ const DiscussionForm = () => {
   const postDiscussionMutation = usePostDiscussion();
 
   const onSubmit: SubmitHandler<NewDiscussion> = (data) => {
-    console.log(data);
     postDiscussionMutation.mutate(data);
   };
 
