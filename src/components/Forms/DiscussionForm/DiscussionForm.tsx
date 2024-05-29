@@ -6,6 +6,7 @@ import { FormControl, FormErrorMessage } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import validationSchema from './validationSchema';
 import { NewDiscussion } from '../../../types/discussionTypes';
+import { usePostDiscussion } from '../../../hooks/usePostDiscussion';
 
 const DiscussionForm = () => {
   const {
@@ -13,9 +14,11 @@ const DiscussionForm = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<NewDiscussion>();
+  const postDiscussionMutation = usePostDiscussion();
 
   const onSubmit: SubmitHandler<NewDiscussion> = (data) => {
     console.log(data);
+    postDiscussionMutation.mutate(data);
   };
 
   return (
