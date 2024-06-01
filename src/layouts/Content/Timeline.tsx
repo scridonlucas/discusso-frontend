@@ -1,4 +1,4 @@
-import { Flex, Box, Heading, Stack } from '@chakra-ui/react';
+import { Flex, Heading, Stack } from '@chakra-ui/react';
 const Timeline = () => {
   return (
     <Flex align={'center'} justify={'center'}>

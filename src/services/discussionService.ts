@@ -10,4 +10,14 @@ const postDiscussion = async (credentials: NewDiscussion) => {
   return response.data;
 };
 
-export default { postDiscussion };
+const gatherDiscussions = async (limit: number, offset: number) => {
+  const response = await axios.post(
+    `${baseUrl}?limit=${limit}&offset=${offset}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+export default { postDiscussion, gatherDiscussions };
