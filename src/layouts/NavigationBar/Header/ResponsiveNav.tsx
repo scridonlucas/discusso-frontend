@@ -21,7 +21,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AuthResponse } from '../../../types/authTypes';
 import { useNavigate } from 'react-router-dom';
 
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
   const queryClient = useQueryClient();
   const queryData = queryClient.getQueryData<AuthResponse>(['auth']);
   const navigate = useNavigate();
@@ -51,23 +51,24 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       justifyContent={{ base: 'space-between', md: 'flex-end' }}
       {...rest}
     >
-      <IconButton
-        display={{ base: 'flex', md: 'none' }}
-        onClick={onOpen}
-        variant="outline"
-        aria-label="open menu"
-        icon={<FiMenu />}
-        alignContent={'center'}
-      />
-
-      <Text
-        display={{ base: 'flex', md: 'none' }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        ☕ Discusso
-      </Text>
+      <Flex alignItems="center" gap={4}>
+        <IconButton
+          display={{ base: 'flex', md: 'none' }}
+          onClick={onOpen}
+          variant="outline"
+          aria-label="open menu"
+          icon={<FiMenu />}
+          alignContent={'center'}
+        />
+        <Text
+          display={{ base: 'flex', md: 'none' }}
+          fontSize="2xl"
+          fontFamily="monospace"
+          fontWeight="bold"
+        >
+          ☕
+        </Text>
+      </Flex>
 
       <HStack spacing={{ base: '0', md: '6' }}>
         {/* Responsive create post button example */}
@@ -145,4 +146,4 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   );
 };
 
-export default MobileNav;
+export default ResponsiveNav;

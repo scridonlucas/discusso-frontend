@@ -1,7 +1,7 @@
 'use client';
 import { SidebarContent } from './SideBar/SidebarContent';
 import { Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
-import MobileNav from './Header/MobileNav';
+import ResponsiveNav from './Header/ResponsiveNav';
 
 const SidebarWithHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -25,7 +25,7 @@ const SidebarWithHeader = () => {
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
+      <ResponsiveNav onOpen={onOpen} />
     </>
   );
 };
