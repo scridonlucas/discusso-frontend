@@ -52,11 +52,12 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       {...rest}
     >
       <IconButton
-        display={{ base: '', md: 'none' }}
+        display={{ base: 'flex', md: 'none' }}
         onClick={onOpen}
         variant="outline"
         aria-label="open menu"
         icon={<FiMenu />}
+        alignContent={'center'}
       />
 
       <Text
@@ -69,19 +70,27 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
-        <Box
-          as={Button}
+        {/* Responsive create post button example */}
+        {/* Button with a text for medium to big screens */}
+        <Button
+          display={{ base: 'none', md: 'flex' }}
+          leftIcon={<FiPlus />}
           size={'lg'}
           variant={'ghost'}
           onClick={handleCreateDiscussion}
-          display={'flex'}
-          alignItems="center"
-          gap={'4'}
+          gap={'1'}
         >
-          <FiPlus />
-          Start a new discussion
-        </Box>
-
+          <Text>Start a new discussion</Text>
+        </Button>
+        {/* Icon only for small screens */}
+        <IconButton
+          display={{ base: 'flex', md: 'none' }}
+          size="lg"
+          onClick={handleCreateDiscussion}
+          variant="ghost"
+          aria-label="open menu"
+          icon={<FiPlus />}
+        />
         <IconButton
           size="lg"
           variant="ghost"
@@ -97,6 +106,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             >
               <HStack>
                 <Avatar
+                  ml="2"
                   size={'sm'}
                   src={
                     'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
