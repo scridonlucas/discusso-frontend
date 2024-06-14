@@ -11,7 +11,7 @@ const postDiscussion = async (credentials: NewDiscussion) => {
 };
 
 const gatherDiscussions = async (limit: number, offset: number) => {
-  const response = await axios.post(
+  const response = await axios.get(
     `${baseUrl}?limit=${limit}&offset=${offset}`,
     {
       withCredentials: true,
