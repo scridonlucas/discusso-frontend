@@ -14,4 +14,4 @@ export interface LoginUser {
   password: string;
 }
 
-type Gender = 'male' | 'female' | 'other';
+type Gender = 'MALE' | 'FEMALE' | 'OTHER';

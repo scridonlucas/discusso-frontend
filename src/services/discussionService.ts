@@ -10,14 +10,15 @@ const postDiscussion = async (credentials: NewDiscussion) => {
   return response.data;
 };
 
-const gatherDiscussions = async (limit: number, offset: number) => {
-  const response = await axios.get(
-    `${baseUrl}?limit=${limit}&offset=${offset}`,
-    {
-      withCredentials: true,
-    }
-  );
-  return response.data;
+const gatherDiscussions = async ({ pageParam = 0 }) => {
+  const response = await axios.get(`${baseUrl}?limit=10&offset=${pageParam}`, {
+    withCredentials: true,
+  });
+  return {
+    discussions: response.data.discussions,
+    total: response.data.total,
+    nextPage: pageParam + 10,
+  };
 };
 
 export default { postDiscussion, gatherDiscussions };
