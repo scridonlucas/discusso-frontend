@@ -1,16 +1,24 @@
 import { Flex, Heading, Stack } from '@chakra-ui/react';
 import discussionService from '../../services/discussionService';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
 const Timeline = () => {
-  const { data } = useQuery({
+  /*const { data } = useQuery({
     queryKey: ['discussions'],
     queryFn: discussionService.gatherDiscussions,
     refetchOnWindowFocus: false,
     retry: false,
-  });
+  });*/
 
-  console.log(data?.discussions);
+  const { data } = useInfiniteQuery(
+    ['discussions'],
+    discussionService.gatherDiscussions,
+    {
+      getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+    }
+  );
+
+  console.log(data);
 
   return (
     <Flex align={'center'} justify={'center'}>
