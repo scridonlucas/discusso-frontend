@@ -1,6 +1,8 @@
 import { Flex, Heading, Stack } from '@chakra-ui/react';
 import discussionService from '../../services/discussionService';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { Button } from '@chakra-ui/react';
+import { useEffect } from 'react';
 
 const Timeline = () => {
   /*const { data } = useQuery({
@@ -10,13 +12,10 @@ const Timeline = () => {
     retry: false,
   });*/
 
-  const { data, fetchNextPage } = useInfiniteQuery(
-    ['discussions'],
-    discussionService.gatherDiscussions,
-    {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery(['discussions'], discussionService.gatherDiscussions, {
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
-    }
-  );
+    });
 
   return (
     <Flex align={'center'} justify={'center'}>
