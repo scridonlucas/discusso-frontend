@@ -1,21 +1,23 @@
 import { Flex, Heading, Stack } from '@chakra-ui/react';
 import discussionService from '../../services/discussionService';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { Button } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { Spinner } from '@chakra-ui/react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Timeline = () => {
-  /*const { data } = useQuery({
-    queryKey: ['discussions'],
-    queryFn: discussionService.gatherDiscussions,
-    refetchOnWindowFocus: false,
-    retry: false,
-  });*/
-
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery(['discussions'], discussionService.gatherDiscussions, {
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
     });
+
+  if (status === 'loading') {
+    return (
+      <Flex align={'center'} justify={'center'} py={12}>
+        <Spinner size="xl" />
+      </Flex>
+    );
+  }
 
   return (
     <Flex align={'center'} justify={'center'}>
