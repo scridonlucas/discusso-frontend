@@ -17,20 +17,11 @@ const Timeline = () => {
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
     }
   );
-  console.log(data?.pages);
 
   return (
     <Flex align={'center'} justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Heading>test</Heading>
-        <button
-          onClick={async () => {
-            const x = await fetchNextPage();
-            console.log(x.data?.pages);
-          }}
-        >
-          click
-        </button>
       </Stack>
     </Flex>
   );

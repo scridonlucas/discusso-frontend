@@ -17,10 +17,14 @@ const gatherDiscussions = async ({ pageParam = 0, limit = 10 }) => {
       withCredentials: true,
     }
   );
+
+  const nextPage =
+    pageParam + limit < response.data.total ? pageParam + limit : undefined;
+
   return {
     discussions: response.data.discussions,
     total: response.data.total,
-    nextPage: pageParam + 10,
+    nextPage: nextPage,
   };
 };
 
