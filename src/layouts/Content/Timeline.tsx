@@ -5,7 +5,10 @@ import { Spinner } from '@chakra-ui/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Text } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/react';
-
+import { Alert } from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/react';
+import { FiAlertTriangle } from 'react-icons/fi';
+import { Button } from '@chakra-ui/react';
 const Timeline = () => {
   const {
     data,
@@ -20,18 +23,49 @@ const Timeline = () => {
 
   if (isLoading) {
     return (
-      <Flex align={'center'} justify={'center'} py={12}>
+      <Flex
+        align={'center'}
+        flexDirection={'column'}
+        gap={'3vh'}
+        justify={'center'}
+        alignItems={'center'}
+        minH={'100vh'}
+      >
         <Spinner size="xl" />
+        <Text fontSize="xl" color="white">
+          Just a moment! We're gathering all the latest discussions for you...
+        </Text>
       </Flex>
     );
   }
 
   if (isError) {
     return (
-      <Flex align="center" justify="center" height="100vh" direction="column">
-        <Text fontSize="xl" color="red.500" mb={4}>
-          Something went wrong.
+      <Flex
+        align="center"
+        justify="center"
+        height="100vh"
+        direction="column"
+        p={6}
+      >
+        <Icon as={FiAlertTriangle} w={12} h={12} color="red.500" mb={4} />
+        <Text fontSize="2xl" color="red.500" fontWeight="bold" mb={2}>
+          Oops! Something went wrong.
         </Text>
+        <Text
+          fontSize="md"
+          color="gray.600"
+          mb={6}
+          textAlign="center"
+          maxW="sm"
+        >
+          We encountered an unexpected error while trying to gather data from
+          our servers. Please try refreshing the page, or contact support if the
+          problem persists.
+        </Text>
+        <Button onClick={() => window.location.reload()} size="lg">
+          Refresh Page
+        </Button>
       </Flex>
     );
   }
