@@ -11,3 +11,8 @@ export interface NewDiscussion {
   title: string;
   content: string;
 }
+
+export interface DiscussionsResponse {
+  discussions: Discussion[];
+  total: number;
+}

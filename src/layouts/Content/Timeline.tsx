@@ -5,21 +5,15 @@ import { Spinner } from '@chakra-ui/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Text } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/react';
-import { Alert } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { Button } from '@chakra-ui/react';
+
 const Timeline = () => {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-  } = useInfiniteQuery(['discussions'], discussionService.gatherDiscussions, {
-    getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
-  });
+  const { data, fetchNextPage, hasNextPage, isLoading, isError } =
+    useInfiniteQuery(['discussions'], discussionService.gatherDiscussions, {
+      getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+    });
 
   if (isLoading) {
     return (
@@ -73,15 +67,14 @@ const Timeline = () => {
   return (
     <Flex align={'center'} justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Heading>test</Heading>
+        <Heading>Discussions</Heading>
         <InfiniteScroll
           dataLength={data?.pages?.length || 0}
           next={fetchNextPage}
-          hasMore={hasNextPage}
+          hasMore={hasNextPage ?? false}
           loader={<Spinner size="md" />}
-          endMessage={<Text>No more discussions to load</Text>}
         >
-          {data?.pages?.map((page, i) => (
+          {data?.pages.map((page, i) => (
             <Stack key={i} spacing={4}>
               {page.discussions.map((discussion) => (
                 <Box key={discussion.id} p={5} shadow="md" borderWidth="1px">

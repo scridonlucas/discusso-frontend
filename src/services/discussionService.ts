@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { Discussion, NewDiscussion } from '../types/discussionTypes';
+import {
+  Discussion,
+  NewDiscussion,
+  DiscussionsResponse,
+} from '../types/discussionTypes';
 
 const baseUrl = 'http://localhost:3001/api/discussions';
 
@@ -11,7 +15,7 @@ const postDiscussion = async (credentials: NewDiscussion) => {
 };
 
 const gatherDiscussions = async ({ pageParam = 0, limit = 10 }) => {
-  const response = await axios.get(
+  const response = await axios.get<DiscussionsResponse>(
     `${baseUrl}?limit=${limit}&offset=${pageParam}`,
     {
       withCredentials: true,
