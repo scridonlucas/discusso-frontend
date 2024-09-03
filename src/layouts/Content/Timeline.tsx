@@ -77,7 +77,7 @@ const Timeline = () => {
           {data.pages.map((page, i) => (
             <Stack key={i} spacing={4}>
               {page.discussions.map((discussion) => (
-                <Discussion />
+                <Discussion key={discussion.id} discussion={discussion} />
               ))}
             </Stack>
           ))}
