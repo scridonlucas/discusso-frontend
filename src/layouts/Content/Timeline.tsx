@@ -4,10 +4,10 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { Spinner } from '@chakra-ui/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Text } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { Button } from '@chakra-ui/react';
+import Discussion from '../../components/Discussion/Discussion';
 
 const Timeline = () => {
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
@@ -74,12 +74,10 @@ const Timeline = () => {
           hasMore={hasNextPage ?? false}
           loader={<Spinner size="md" />}
         >
-          {data?.pages.map((page, i) => (
+          {data.pages.map((page, i) => (
             <Stack key={i} spacing={4}>
               {page.discussions.map((discussion) => (
-                <Box key={discussion.id} p={5} shadow="md" borderWidth="1px">
-                  <Text fontSize="xl">{discussion.title}</Text>
-                </Box>
+                <Discussion />
               ))}
             </Stack>
           ))}
