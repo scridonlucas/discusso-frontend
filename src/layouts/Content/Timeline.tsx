@@ -66,24 +66,27 @@ const Timeline = () => {
   }
 
   return (
-    <Flex align={'center'} justify={'center'}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <InfiniteScroll
-          dataLength={data?.pages?.length || 0}
-          next={fetchNextPage}
-          hasMore={hasNextPage ?? false}
-          loader={<Spinner size="md" />}
-        >
-          <Stack spacing={4}>
-            {data.pages.map((page, i) =>
-              page.discussions.map((discussion) => (
-                <Discussion key={discussion.id} discussion={discussion} />
-              ))
-            )}
-          </Stack>
-        </InfiniteScroll>
-      </Stack>
-    </Flex>
+    <>
+      <SortingBar />
+      <Flex align={'center'} justify={'center'}>
+        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+          <InfiniteScroll
+            dataLength={data?.pages?.length || 0}
+            next={fetchNextPage}
+            hasMore={hasNextPage ?? false}
+            loader={<Spinner size="md" />}
+          >
+            <Stack spacing={4}>
+              {data.pages.map((page, i) =>
+                page.discussions.map((discussion) => (
+                  <Discussion key={discussion.id} discussion={discussion} />
+                ))
+              )}
+            </Stack>
+          </InfiniteScroll>
+        </Stack>
+      </Flex>
+    </>
   );
 };
 

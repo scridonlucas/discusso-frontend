@@ -9,7 +9,9 @@ const SortingBar = () => {
       bg={'gray.900'}
       borderBottomColor={'gray.700'}
       borderBottomWidth="1px"
-    ></Flex>
+    >
+      Sorting Logic
+    </Flex>
   );
 };
 
