@@ -1,4 +1,5 @@
-import { Flex, Heading, Stack } from '@chakra-ui/react';
+import { Flex, Stack } from '@chakra-ui/react';
+import SortingBar from '../../components/SortingBar/SortingBar';
 import discussionService from '../../services/discussionService';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { Spinner } from '@chakra-ui/react';
@@ -67,7 +68,8 @@ const Timeline = () => {
   return (
     <Flex align={'center'} justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Heading>Discussions</Heading>
+        <SortingBar />
+
         <InfiniteScroll
           dataLength={data?.pages?.length || 0}
           next={fetchNextPage}
