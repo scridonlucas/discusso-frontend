@@ -1,13 +1,15 @@
-import { HStack } from '@chakra-ui/react';
-import ViewToggle from './ViewToggle';
-import SortOptions from './SortOptions';
+import { Flex } from '@chakra-ui/react';
 
 const SortingBar = () => {
   return (
-    <HStack spacing={4} mb={4} justify="space-between">
-      <ViewToggle />
-      <SortOptions />
-    </HStack>
+    <Flex
+      p={2}
+      boxShadow="md"
+      width="100%"
+      bg={'gray.900'}
+      borderBottomColor={'gray.700'}
+      borderBottomWidth="1px"
+    ></Flex>
   );
 };
 

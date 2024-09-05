@@ -68,8 +68,6 @@ const Timeline = () => {
   return (
     <Flex align={'center'} justify={'center'}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <SortingBar />
-
         <InfiniteScroll
           dataLength={data?.pages?.length || 0}
           next={fetchNextPage}
