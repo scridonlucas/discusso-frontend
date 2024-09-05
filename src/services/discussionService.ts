@@ -14,7 +14,7 @@ const postDiscussion = async (credentials: NewDiscussion) => {
   return response.data;
 };
 
-const gatherDiscussions = async ({ pageParam = 0, limit = 10 }) => {
+const gatherDiscussions = async ({ pageParam = 0, limit = 20 }) => {
   const response = await axios.get<DiscussionsResponse>(
     `${baseUrl}?limit=${limit}&offset=${pageParam}`,
     {

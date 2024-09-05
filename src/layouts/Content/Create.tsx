@@ -2,6 +2,7 @@ import { Heading } from '@chakra-ui/react';
 import { Box } from '@chakra-ui/react';
 import { Stack } from '@chakra-ui/react';
 import DiscussionForm from '../../components/Forms/DiscussionForm/DiscussionForm';
+
 const Create = () => {
   return (
     <Box

@@ -74,13 +74,13 @@ const Timeline = () => {
           hasMore={hasNextPage ?? false}
           loader={<Spinner size="md" />}
         >
-          {data.pages.map((page, i) => (
-            <Stack key={i} spacing={4}>
-              {page.discussions.map((discussion) => (
+          <Stack spacing={4}>
+            {data.pages.map((page, i) =>
+              page.discussions.map((discussion) => (
                 <Discussion key={discussion.id} discussion={discussion} />
-              ))}
-            </Stack>
-          ))}
+              ))
+            )}
+          </Stack>
         </InfiniteScroll>
       </Stack>
     </Flex>
