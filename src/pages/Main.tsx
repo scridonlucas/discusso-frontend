@@ -6,7 +6,7 @@ const MainPage = () => {
     <>
       <Box minH="100vh">
         <SidebarWithHeader />
-        <Box ml={{ base: 0, md: 60 }} p="4">
+        <Box ml={{ base: 0, md: 60 }} p="0">
           <Outlet />
         </Box>
       </Box>
