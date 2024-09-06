@@ -4,7 +4,13 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 const SortOptions = () => {
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+      <MenuButton
+        as={Button}
+        size="sm"
+        borderRadius="md"
+        rightIcon={<ChevronDownIcon />}
+        variant={'ghost'}
+      >
         Sort by
       </MenuButton>
       <MenuList>
