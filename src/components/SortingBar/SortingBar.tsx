@@ -1,6 +1,5 @@
 import { Flex } from '@chakra-ui/react';
 import SortOptions from './SortOptions';
-import ViewToggle from './ViewToggle';
 
 const SortingBar = () => {
   return (
@@ -15,7 +14,6 @@ const SortingBar = () => {
       justifyContent="space-between" // Distribute space evenly between SortOptions and ViewToggle
     >
       <SortOptions />
-      <ViewToggle />
     </Flex>
   );
 };

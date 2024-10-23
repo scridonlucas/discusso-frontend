@@ -44,8 +44,8 @@ const validationSchema: ValidationSchema = {
       message: 'Username cannot exceed 16 characters',
     },
     pattern: {
-      value: /^[a-zA-Z0-9]+$/,
-      message: 'Username can only contain letters and numbers',
+      value: /^[a-zA-Z0-9_]+$/,
+      message: 'Username can only contain letters, numbers, and underscores',
     },
   },
 
