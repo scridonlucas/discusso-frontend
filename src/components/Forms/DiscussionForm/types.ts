@@ -1,4 +1,5 @@
 export interface ValidationSchema {
+  communityId: ValidationRule;
   title: ValidationRule;
   content: ValidationRule;
 }

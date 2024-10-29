@@ -7,6 +7,7 @@ import {
   FormControl,
   FormErrorMessage,
   Icon,
+  Select,
 } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -17,9 +18,13 @@ import { useQuery } from '@tanstack/react-query';
 import communityService from '../../../services/communityService';
 import { Text, Spinner, Flex } from '@chakra-ui/react';
 const DiscussionForm = () => {
-  const { data, isLoading, isSuccess, isError } = useQuery({
+  const {
+    data: communities,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['communities'],
-    queryFn: communityService.gatherDiscussions,
+    queryFn: communityService.gatherCommunities,
   });
 
   const {
@@ -31,7 +36,11 @@ const DiscussionForm = () => {
   const postDiscussionMutation = usePostDiscussion();
 
   const onSubmit: SubmitHandler<NewDiscussion> = (data) => {
-    postDiscussionMutation.mutate(data);
+    const parsedData = {
+      ...data,
+      communityId: Number(data.communityId),
+    };
+    postDiscussionMutation.mutate(parsedData);
   };
 
   if (isLoading) {
@@ -90,6 +99,23 @@ const DiscussionForm = () => {
       </Heading>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={6}>
+          <FormControl id="communityId" isInvalid={!!errors.communityId}>
+            <Select
+              placeholder="Select a community"
+              {...register('communityId', {
+                required: 'Community is required',
+              })}
+            >
+              {communities.map((community) => (
+                <option key={community.id} value={community.id}>
+                  {community.name}
+                </option>
+              ))}
+            </Select>
+            <FormErrorMessage>
+              {errors.communityId && errors.communityId.message}
+            </FormErrorMessage>
+          </FormControl>
           <FormControl id="title" isInvalid={!!errors.title}>
             <Input
               placeholder="Title"

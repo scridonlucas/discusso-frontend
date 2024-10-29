@@ -1,5 +1,6 @@
 export interface Discussion {
   id: number;
+  communityId: number;
   title: string;
   content: string;
   userId: number;
@@ -8,6 +9,7 @@ export interface Discussion {
 }
 
 export interface NewDiscussion {
+  communityId: number;
   title: string;
   content: string;
 }

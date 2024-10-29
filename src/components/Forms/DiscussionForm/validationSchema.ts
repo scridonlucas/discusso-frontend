@@ -1,6 +1,9 @@
 import { ValidationSchema } from './types';
 
 const validationSchema: ValidationSchema = {
+  communityId: {
+    required: 'Community is required',
+  },
   title: {
     required: 'Title is required',
     minLength: {
