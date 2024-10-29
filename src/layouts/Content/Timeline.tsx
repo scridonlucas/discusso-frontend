@@ -77,7 +77,7 @@ const Timeline = () => {
             loader={<Spinner size="md" />}
           >
             <Stack spacing={4}>
-              {data.pages.map((page, i) =>
+              {data.pages.map((page) =>
                 page.discussions.map((discussion) => (
                   <Discussion key={discussion.id} discussion={discussion} />
                 ))
