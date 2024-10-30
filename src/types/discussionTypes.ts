@@ -1,11 +1,21 @@
+import { Like, Comment, Bookmark } from './commonTypes';
+import { User } from './userTypes';
+import { Community } from './communityTypes';
+
 export interface Discussion {
   id: number;
-  communityId: number;
   title: string;
   content: string;
   userId: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  communityId: number;
+  likes: Like[];
+  comments: Comment[];
+  bookmarks: Bookmark[];
+  createdAt: Date;
+  updatedAt: Date;
+  reports: Report[];
+  user: User;
+  community: Community;
 }
 
 export interface NewDiscussion {
