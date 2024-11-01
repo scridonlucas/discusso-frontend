@@ -1,37 +1,65 @@
-import { Box, Flex, Text, Icon, Stack } from '@chakra-ui/react';
-import { FiThumbsUp, FiMessageSquare } from 'react-icons/fi';
+import { Box, Flex, Text, Icon } from '@chakra-ui/react';
+import { FiHeart, FiMessageCircle, FiMessageSquare } from 'react-icons/fi';
 import { Discussion as DiscussionType } from '../../types/discussionTypes';
+import { formatDistanceToNow } from 'date-fns';
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { isLikedByUser } from './utils';
+import { AuthResponse } from '../../types/authTypes';
 
 const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
+  const queryClient = useQueryClient();
+  const queryData = queryClient.getQueryData<AuthResponse>(['auth']);
+
+  const username = queryData ? queryData.user.username : '';
+
+  const likedByUser = isLikedByUser(discussion, username);
+
+  const createdDate = new Date(discussion.createdAt);
+
+  const formattedDate = formatDistanceToNow(createdDate, { addSuffix: true });
+
   return (
     <Box
       borderWidth="1px"
-      borderRadius="lg"
-      p={4}
+      borderRadius="md"
+      p={6}
       boxShadow="md"
+      maxW="2xl"
+      width="100%"
       _hover={{ boxShadow: 'lg', cursor: 'pointer' }}
       onClick={() => (window.location.href = `/discussions/${discussion.id}`)}
     >
-      <Stack spacing={2}>
-        <Text fontWeight="bold" fontSize="lg">
-          {discussion.title}
-        </Text>
-        <Text fontSize="md" color="gray.500">
-          Posted by {discussion.user.username}
-        </Text>
-        <Text noOfLines={2} color="gray.700">
-          {discussion.content}
-        </Text>
-      </Stack>
+      <Flex align="center" color="gray.500" fontSize="sm" mb={2}>
+        <Text mr={2}>{discussion.community.name}</Text>
+        <Text>|</Text>
+        <Text ml={2}>{formattedDate}</Text>{' '}
+      </Flex>
 
-      <Flex mt={4} align="center" justify="space-between">
+      <Text fontWeight="bold" fontSize="2xl" mb={4}>
+        {discussion.title}
+      </Text>
+
+      <Text noOfLines={3} fontSize="md" color="gray.700" mb={4}>
+        {discussion.content}
+      </Text>
+
+      <Flex
+        justify="space-between"
+        align="center"
+        color="gray.500"
+        fontSize="sm"
+      >
+        <Text>Posted by {discussion.user.username}</Text>
         <Flex align="center">
-          <Icon as={FiThumbsUp} mr={2} />
-          <Text>{discussion._count.likes} Likes</Text>
-        </Flex>
-        <Flex align="center">
-          <Icon as={FiMessageSquare} mr={2} />
-          <Text>{discussion._count.comments} Comments</Text>
+          <Flex align="center" mr={4}>
+            <Icon as={FiHeart} mr={2} boxSize={5} />
+            <Text fontSize="lg">{discussion._count.likes}</Text>
+          </Flex>
+          <Flex align="center">
+            <Icon as={FiMessageCircle} mr={2} boxSize={5} />
+            <Text fontSize="lg">{discussion._count.comments}</Text>
+          </Flex>
         </Flex>
       </Flex>
     </Box>

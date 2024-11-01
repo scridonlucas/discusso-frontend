@@ -10,10 +10,19 @@ export interface Discussion {
     id: number;
     username: string;
   };
+  community: {
+    name: string;
+  };
   _count: {
     likes: number;
     comments: number;
   };
+  likes: {
+    user: {
+      id: number;
+      username: string;
+    };
+  }[];
 }
 export interface NewDiscussion {
   communityId: number;
