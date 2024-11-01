@@ -1,8 +1,8 @@
 import { Box, Flex, Text, Icon } from '@chakra-ui/react';
-import { FiHeart, FiMessageCircle, FiMessageSquare } from 'react-icons/fi';
+import { FiHeart, FiMessageCircle } from 'react-icons/fi';
+import { FaHeart } from 'react-icons/fa';
 import { Discussion as DiscussionType } from '../../types/discussionTypes';
 import { formatDistanceToNow } from 'date-fns';
-import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { isLikedByUser } from './utils';
 import { AuthResponse } from '../../types/authTypes';
@@ -10,10 +10,9 @@ import { AuthResponse } from '../../types/authTypes';
 const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const queryClient = useQueryClient();
   const queryData = queryClient.getQueryData<AuthResponse>(['auth']);
+  const userId = queryData ? queryData.user.userId : 0;
 
-  const username = queryData ? queryData.user.username : '';
-
-  const likedByUser = isLikedByUser(discussion, username);
+  const likedByUser = isLikedByUser(discussion, userId);
 
   const createdDate = new Date(discussion.createdAt);
 
@@ -53,7 +52,12 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
         <Text>Posted by {discussion.user.username}</Text>
         <Flex align="center">
           <Flex align="center" mr={4}>
-            <Icon as={FiHeart} mr={2} boxSize={5} />
+            <Icon
+              as={likedByUser ? FaHeart : FiHeart}
+              mr={2}
+              boxSize={5}
+              color={likedByUser ? 'red.500' : 'gray.500'}
+            />
             <Text fontSize="lg">{discussion._count.likes}</Text>
           </Flex>
           <Flex align="center">
