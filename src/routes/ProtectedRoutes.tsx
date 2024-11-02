@@ -1,14 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import authService from '../services/authService';
 import LoadingPage from '../pages/Loading';
+import { useAuth } from '../hooks/useAuth';
 
 const ProtectedRoutes = () => {
-  const { data, isSuccess, isLoading, isError } = useQuery({
-    queryKey: ['auth'],
-    queryFn: authService.getAuth,
-    refetchOnWindowFocus: false,
-  });
+  const { data, isSuccess, isLoading, isError } = useAuth();
 
   if (isLoading) {
     return <LoadingPage />;

@@ -1,16 +1,24 @@
 import { Box, Flex, Text, Icon } from '@chakra-ui/react';
+import LoadingDiscussion from './LoadingDiscussion';
 import { FiHeart, FiMessageCircle } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { Discussion as DiscussionType } from '../../types/discussionTypes';
 import { formatDistanceToNow } from 'date-fns';
-import { useQueryClient } from '@tanstack/react-query';
 import { isLikedByUser } from './utils';
-import { AuthResponse } from '../../types/authTypes';
-
+import { useAuth } from '../../hooks/useAuth';
+import { Navigate } from 'react-router-dom';
 const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
-  const queryClient = useQueryClient();
-  const queryData = queryClient.getQueryData<AuthResponse>(['auth']);
-  const userId = queryData ? queryData.user.userId : 0;
+  const { data, isLoading, isError } = useAuth();
+
+  if (isLoading) {
+    return <LoadingDiscussion />;
+  }
+
+  if (isError || !data.success) {
+    return <Navigate to="/login" />;
+  }
+
+  const userId = data.user.userId;
 
   const likedByUser = isLikedByUser(discussion, userId);
 
