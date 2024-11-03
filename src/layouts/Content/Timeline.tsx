@@ -83,7 +83,7 @@ const Timeline = () => {
             hasMore={hasNextPage ?? false}
             loader={<Spinner size="md" />}
           >
-            <Stack spacing={4}>
+            <Stack spacing={4} align={'center'} justify={'center'}>
               {data.pages.map((page) =>
                 page.discussions.map((discussion) => (
                   <Discussion key={discussion.id} discussion={discussion} />
