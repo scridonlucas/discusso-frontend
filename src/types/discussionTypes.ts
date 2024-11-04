@@ -34,3 +34,4 @@ export interface DiscussionsResponse {
   discussions: Discussion[];
   total: number;
 }
+

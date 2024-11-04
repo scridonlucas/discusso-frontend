@@ -1,6 +1,13 @@
 import { Box, Flex, Text, Icon } from '@chakra-ui/react';
 import LoadingDiscussion from './LoadingDiscussion';
-import { FiHeart, FiMessageCircle } from 'react-icons/fi';
+import {
+  FiHeart,
+  FiMessageCircle,
+  FiSend,
+  FiUser,
+  FiFlag,
+  FiBookmark,
+} from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { Discussion as DiscussionType } from '../../types/discussionTypes';
 import { formatDistanceToNow } from 'date-fns';
@@ -8,10 +15,12 @@ import { isLikedByUser } from './utils';
 import { useAuth } from '../../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import { useToggleLike } from '../../hooks/useLikeDiscussion';
+import { useNavigate } from 'react-router-dom';
 
 const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const { data, isLoading, isError } = useAuth();
   const { likeDiscussion, unlikeDiscussion } = useToggleLike();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <LoadingDiscussion />;
@@ -43,12 +52,44 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
       maxW="2xl"
       width="100%"
       _hover={{ boxShadow: 'lg', cursor: 'pointer' }}
-      onClick={() => (window.location.href = `/discussions/${discussion.id}`)}
+      onClick={() => navigate(`/discussions/${discussion.id}`)}
     >
-      <Flex align="center" color="gray.500" fontSize="sm" mb={2}>
-        <Text mr={2}>{discussion.community.name}</Text>
-        <Text>|</Text>
-        <Text ml={2}>{formattedDate}</Text>{' '}
+      <Flex
+        justify="space-between"
+        align="center"
+        color="gray.500"
+        fontSize="sm"
+        mb={2}
+      >
+        <Flex align="center">
+          <Text mr={2}>{discussion.community.name}</Text>
+          <Text>|</Text>
+          <Text ml={2}>{formattedDate}</Text>
+        </Flex>
+        <Flex align="center" gap={4}>
+          <Icon
+            as={FiFlag}
+            boxSize={6}
+            color="gray.500"
+            _hover={{ color: 'red.400', transform: 'scale(1.1)' }}
+            transition="transform 0.2s ease, color 0.2s ease"
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle report logic here
+            }}
+          />
+          <Icon
+            as={FiBookmark}
+            boxSize={6}
+            color="gray.500"
+            _hover={{ color: 'blue.400', transform: 'scale(1.1)' }}
+            transition="transform 0.2s ease, color 0.2s ease"
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle save for later logic here
+            }}
+          />
+        </Flex>
       </Flex>
 
       <Text fontWeight="bold" fontSize="2xl" mb={4}>
@@ -65,21 +106,50 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
         color="gray.500"
         fontSize="sm"
       >
-        <Text>Posted by {discussion.user.username}</Text>
-        <Flex align="center">
-          <Flex align="center" mr={4}>
+        <Flex align="center" gap={2} color="gray.800" fontSize="md">
+          <Icon as={FiUser} boxSize={5} color="gray.700" />
+          <Text fontWeight="semibold" color="gray.300">
+            {discussion.user.username}
+          </Text>
+        </Flex>
+        <Flex align="center" gap={4}>
+          <Flex align="center" gap={2} onClick={handleLikeClick}>
             <Icon
               as={likedByUser ? FaHeart : FiHeart}
-              mr={2}
-              boxSize={7}
+              boxSize={6}
               color={likedByUser ? 'red.500' : 'gray.500'}
-              onClick={handleLikeClick}
+              transition="transform 0.2s ease, color 0.2s ease"
+              _hover={{
+                transform: 'scale(1.2)',
+                color: likedByUser ? 'red.400' : 'gray.400',
+              }}
             />
-
             <Text fontSize="xl">{discussion._count.likes}</Text>
           </Flex>
-          <Flex align="center">
-            <Icon as={FiMessageCircle} mr={2} boxSize={7} />
+
+          <Flex align="center" gap={2}>
+            <Icon
+              as={FiMessageCircle}
+              boxSize={6}
+              transition="transform 0.2s ease, color 0.2s ease"
+              _hover={{
+                transform: 'scale(1.2)',
+                color: 'gray.400',
+              }}
+            />
+            <Text fontSize="xl">{discussion._count.comments}</Text>
+          </Flex>
+
+          <Flex align="center" gap={2}>
+            <Icon
+              as={FiSend}
+              boxSize={6}
+              transition="transform 0.2s ease, color 0.2s ease"
+              _hover={{
+                transform: 'scale(1.2)',
+                color: 'blue.400',
+              }}
+            />
             <Text fontSize="xl">{discussion._count.comments}</Text>
           </Flex>
         </Flex>
