@@ -49,3 +49,9 @@ export interface ModerationLog {
   action: string;
   timestamp: Date;
 }
+
+export interface NewLikeResponse {
+  id: number;
+  discussionId: number;
+  userId: number;
+}

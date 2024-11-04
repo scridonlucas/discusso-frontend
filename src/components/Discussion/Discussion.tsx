@@ -7,8 +7,11 @@ import { formatDistanceToNow } from 'date-fns';
 import { isLikedByUser } from './utils';
 import { useAuth } from '../../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
+import { useToggleLike } from '../../hooks/useLikeDiscussion';
+
 const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const { data, isLoading, isError } = useAuth();
+  const { likeDiscussion, unlikeDiscussion } = useToggleLike();
 
   if (isLoading) {
     return <LoadingDiscussion />;
@@ -25,6 +28,11 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const createdDate = new Date(discussion.createdAt);
 
   const formattedDate = formatDistanceToNow(createdDate, { addSuffix: true });
+
+  const handleLikeClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    (likedByUser ? unlikeDiscussion : likeDiscussion).mutate(discussion.id);
+  };
 
   return (
     <Box
@@ -63,14 +71,16 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
             <Icon
               as={likedByUser ? FaHeart : FiHeart}
               mr={2}
-              boxSize={5}
+              boxSize={7}
               color={likedByUser ? 'red.500' : 'gray.500'}
+              onClick={handleLikeClick}
             />
-            <Text fontSize="lg">{discussion._count.likes}</Text>
+
+            <Text fontSize="xl">{discussion._count.likes}</Text>
           </Flex>
           <Flex align="center">
-            <Icon as={FiMessageCircle} mr={2} boxSize={5} />
-            <Text fontSize="lg">{discussion._count.comments}</Text>
+            <Icon as={FiMessageCircle} mr={2} boxSize={7} />
+            <Text fontSize="xl">{discussion._count.comments}</Text>
           </Flex>
         </Flex>
       </Flex>
