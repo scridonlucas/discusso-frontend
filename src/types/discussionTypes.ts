@@ -23,6 +23,9 @@ export interface Discussion {
       username: string;
     };
   }[];
+  bookmarks: {
+    user: { id: number; username: string };
+  }[];
 }
 export interface NewDiscussion {
   communityId: number;
@@ -34,4 +37,3 @@ export interface DiscussionsResponse {
   discussions: Discussion[];
   total: number;
 }
-

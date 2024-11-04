@@ -55,3 +55,10 @@ export interface NewLikeResponse {
   discussionId: number;
   userId: number;
 }
+
+export interface NewBookmarkResponse {
+  id: number;
+  userId: number;
+  discussionId: number;
+  createdAt: Date;
+}

@@ -1,5 +1,6 @@
 import { Box, Flex, Text, Icon } from '@chakra-ui/react';
 import LoadingDiscussion from './LoadingDiscussion';
+import utils from './utils';
 import {
   FiHeart,
   FiMessageCircle,
@@ -8,18 +9,20 @@ import {
   FiFlag,
   FiBookmark,
 } from 'react-icons/fi';
-import { FaHeart } from 'react-icons/fa';
+import { FaHeart, FaBookmark } from 'react-icons/fa';
 import { Discussion as DiscussionType } from '../../types/discussionTypes';
 import { formatDistanceToNow } from 'date-fns';
-import { isLikedByUser } from './utils';
 import { useAuth } from '../../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import { useToggleLike } from '../../hooks/useLikeDiscussion';
 import { useNavigate } from 'react-router-dom';
+import { useSaveDiscussion } from '../../hooks/useSaveDiscussion';
 
 const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const { data, isLoading, isError } = useAuth();
   const { likeDiscussion, unlikeDiscussion } = useToggleLike();
+  const { addBookmark, removeBookmark } = useSaveDiscussion();
+
   const navigate = useNavigate();
 
   if (isLoading) {
@@ -32,7 +35,8 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
 
   const userId = data.user.userId;
 
-  const likedByUser = isLikedByUser(discussion, userId);
+  const likedByUser = utils.isLikedByUser(discussion, userId);
+  const savedByUser = utils.isSavedByUser(discussion, userId);
 
   const createdDate = new Date(discussion.createdAt);
 
@@ -41,6 +45,11 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const handleLikeClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     (likedByUser ? unlikeDiscussion : likeDiscussion).mutate(discussion.id);
+  };
+
+  const handleSavekDiscussionClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    (savedByUser ? removeBookmark : addBookmark).mutate(discussion.id);
   };
 
   return (
@@ -79,15 +88,15 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
             }}
           />
           <Icon
-            as={FiBookmark}
+            as={savedByUser ? FaBookmark : FiBookmark}
             boxSize={6}
-            color="gray.500"
-            _hover={{ color: 'blue.400', transform: 'scale(1.1)' }}
+            color={savedByUser ? 'blue.500' : 'gray.500'}
             transition="transform 0.2s ease, color 0.2s ease"
-            onClick={(e) => {
-              e.stopPropagation();
-              // Handle save for later logic here
+            _hover={{
+              color: savedByUser ? 'blue.300' : 'blue.500',
+              transform: 'scale(1.1)',
             }}
+            onClick={handleSavekDiscussionClick}
           />
         </Flex>
       </Flex>

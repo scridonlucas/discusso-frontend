@@ -4,7 +4,7 @@ import {
   InfiniteData,
 } from '@tanstack/react-query';
 import { useToast } from '@chakra-ui/react';
-import likeService from '../services/likeDiscussionService';
+import bookmarkDiscussionService from '../services/bookmarkDiscussionService';
 import { AxiosError } from 'axios';
 import { Discussion as DiscussionType } from '../types/discussionTypes';
 
@@ -13,7 +13,7 @@ type PaginatedDiscussions = InfiniteData<{
   nextPage?: number | null;
 }>;
 
-export const useToggleLike = () => {
+export const useSaveDiscussion = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -21,7 +21,7 @@ export const useToggleLike = () => {
     const errorMessage =
       error instanceof AxiosError && error.response?.data?.error
         ? error.response.data.error
-        : 'An error occurred while liking the discussion.';
+        : 'An error occurred while saving the discussion.';
     toast({
       title: 'Error',
       description: errorMessage,
@@ -31,9 +31,19 @@ export const useToggleLike = () => {
     });
   };
 
-  const likeDiscussion = useMutation({
-    mutationFn: likeService.addLike,
-    onSuccess: (likeData) => {
+  const succesToast = (message: string) => {
+    toast({
+      title: 'Success',
+      description: message,
+      status: 'success',
+      duration: 2000,
+      isClosable: true,
+    });
+  };
+
+  const addBookmark = useMutation({
+    mutationFn: bookmarkDiscussionService.addBookmark,
+    onSuccess: (bookmarkData) => {
       queryClient.setQueryData<PaginatedDiscussions>(
         ['discussions'],
         (oldData) => {
@@ -43,55 +53,49 @@ export const useToggleLike = () => {
             pages: oldData.pages.map((page) => ({
               ...page,
               discussions: page.discussions.map((discussion) => {
-                if (discussion.id === likeData.discussionId) {
+                if (discussion.id === bookmarkData.discussionId) {
                   return {
                     ...discussion,
-                    likes: [
-                      ...discussion.likes,
+                    bookmarks: [
+                      ...discussion.bookmarks,
                       {
-                        user: { id: likeData.userId, username: 'currentUser' },
+                        user: {
+                          id: bookmarkData.userId,
+                          username: 'currentUser',
+                        },
                       },
                     ],
-                    _count: {
-                      ...discussion._count,
-                      likes: discussion._count.likes + 1,
-                    },
                   };
                 }
-                console.log(discussion);
                 return discussion;
               }),
             })),
           };
         }
       );
+      succesToast('Discussion saved!');
     },
     onError: handleError,
   });
 
-  const unlikeDiscussion = useMutation({
-    mutationFn: likeService.deleteLike,
-    onSuccess: (likeData) => {
+  const removeBookmark = useMutation({
+    mutationFn: bookmarkDiscussionService.removeBookmark,
+    onSuccess: (bookmarkData) => {
       queryClient.setQueryData<PaginatedDiscussions>(
         ['discussions'],
         (oldData) => {
           if (!oldData) return oldData;
-
           return {
             ...oldData,
             pages: oldData.pages.map((page) => ({
               ...page,
               discussions: page.discussions.map((discussion) => {
-                if (discussion.id === likeData.discussionId) {
+                if (discussion.id === bookmarkData.discussionId) {
                   return {
                     ...discussion,
-                    likes: discussion.likes.filter(
-                      (like) => like.user.id !== likeData.userId
+                    bookmarks: discussion.bookmarks.filter(
+                      (bookmark) => bookmark.user.id !== bookmarkData.userId
                     ),
-                    _count: {
-                      ...discussion._count,
-                      likes: discussion._count.likes - 1,
-                    },
                   };
                 }
                 return discussion;
@@ -100,9 +104,10 @@ export const useToggleLike = () => {
           };
         }
       );
+      succesToast('Discussion no longer in your saved list!');
     },
     onError: handleError,
   });
 
-  return { likeDiscussion, unlikeDiscussion };
+  return { addBookmark, removeBookmark };
 };
