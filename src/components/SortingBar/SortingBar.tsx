@@ -1,7 +1,18 @@
 import { Flex } from '@chakra-ui/react';
-import SortOptions from './SortOptions';
+import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 
-const SortingBar = () => {
+const SortingBar = ({
+  sortCriteria,
+  setSortCriteria,
+}: {
+  sortCriteria: string;
+  setSortCriteria: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortCriteria(event.target.value);
+  };
+
   return (
     <Flex
       p={3}
@@ -11,9 +22,23 @@ const SortingBar = () => {
       borderBottomColor={'gray.700'}
       borderBottomWidth="1px"
       alignItems="center"
-      justifyContent="space-between" // Distribute space evenly between SortOptions and ViewToggle
+      justifyContent="space-between"
     >
-      <SortOptions />
+      <Menu>
+        <MenuButton
+          as={Button}
+          size="sm"
+          borderRadius="md"
+          rightIcon={<ChevronDownIcon />}
+          variant={'ghost'}
+        >
+          Sort by
+        </MenuButton>
+        <MenuList>
+          <MenuItem>Best</MenuItem>
+          <MenuItem>Recent</MenuItem>
+        </MenuList>
+      </Menu>
     </Flex>
   );
 };

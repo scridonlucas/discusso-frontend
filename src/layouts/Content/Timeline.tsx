@@ -1,20 +1,23 @@
-import { Flex, Stack } from '@chakra-ui/react';
+import { Flex, Stack, Text, Icon, Button, Spinner } from '@chakra-ui/react';
+import { useState } from 'react';
 import SortingBar from '../../components/SortingBar/SortingBar';
 import discussionService from '../../services/discussionService';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { Spinner } from '@chakra-ui/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Text } from '@chakra-ui/react';
-import { Icon } from '@chakra-ui/react';
 import { FiAlertTriangle } from 'react-icons/fi';
-import { Button } from '@chakra-ui/react';
 import Discussion from '../../components/Discussion/Discussion';
 
 const Timeline = () => {
+  const [sortCriteria, setSortCriteria] = useState('recent');
+
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
-    useInfiniteQuery(['discussions'], discussionService.gatherDiscussions, {
-      getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
-    });
+    useInfiniteQuery(
+      ['discussions', sortCriteria],
+      discussionService.gatherDiscussions,
+      {
+        getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+      }
+    );
 
   if (isLoading) {
     return (
@@ -67,7 +70,10 @@ const Timeline = () => {
 
   return (
     <>
-      <SortingBar />
+      <SortingBar
+        sortCriteria={sortCriteria}
+        setSortCriteria={setSortCriteria}
+      />
       <Flex align={'center'} justify={'center'}>
         <Stack
           spacing={8}

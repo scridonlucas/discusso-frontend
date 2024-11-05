@@ -5,6 +5,12 @@ import {
   DiscussionsResponse,
 } from '../types/discussionTypes';
 
+type GatherDiscussionsParams = {
+  pageParam?: number;
+  limit?: number;
+  queryKey: [string, string];
+};
+
 const baseUrl = 'http://localhost:3001/api/discussions';
 
 const postDiscussion = async (credentials: NewDiscussion) => {
@@ -14,9 +20,15 @@ const postDiscussion = async (credentials: NewDiscussion) => {
   return response.data;
 };
 
-const gatherDiscussions = async ({ pageParam = 0, limit = 20 }) => {
+const gatherDiscussions = async ({
+  pageParam = 0,
+  limit = 20,
+  queryKey,
+}: GatherDiscussionsParams) => {
+  const sortParam = queryKey[1] ? queryKey[1] : 'recent';
+
   const response = await axios.get<DiscussionsResponse>(
-    `${baseUrl}?limit=${limit}&cursor=${pageParam}`,
+    `${baseUrl}?limit=${limit}&cursor=${pageParam}&sort=${sortParam}`,
     {
       withCredentials: true,
     }
