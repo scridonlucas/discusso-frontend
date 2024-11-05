@@ -16,19 +16,21 @@ const postDiscussion = async (credentials: NewDiscussion) => {
 
 const gatherDiscussions = async ({ pageParam = 0, limit = 20 }) => {
   const response = await axios.get<DiscussionsResponse>(
-    `${baseUrl}?limit=${limit}&offset=${pageParam}`,
+    `${baseUrl}?limit=${limit}&cursor=${pageParam}`,
     {
       withCredentials: true,
     }
   );
 
   const nextPage =
-    pageParam + limit < response.data.total ? pageParam + limit : undefined;
+    response.data.discussions.length > 0
+      ? response.data.discussions[response.data.discussions.length - 1].id
+      : undefined;
 
   return {
     discussions: response.data.discussions,
     total: response.data.total,
-    nextPage: nextPage,
+    nextPage,
   };
 };
 

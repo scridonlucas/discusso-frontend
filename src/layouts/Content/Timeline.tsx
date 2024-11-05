@@ -81,7 +81,11 @@ const Timeline = () => {
             dataLength={data?.pages?.length || 0}
             next={fetchNextPage}
             hasMore={hasNextPage ?? false}
-            loader={<Spinner size="md" />}
+            loader={
+              <Stack align="center" justify="center" width="100%" py={4}>
+                <Spinner size="md" />
+              </Stack>
+            }
           >
             <Stack spacing={4} align={'center'} justify={'center'}>
               {data.pages.map((page) =>
