@@ -1,5 +1,5 @@
 import { Flex, Stack, Text, Icon, Button, Spinner } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useSortingOptions } from '../../context/SortingOptionsContext ';
 import SortingBar from '../../components/SortingBar/SortingBar';
 import discussionService from '../../services/discussionService';
 import { useInfiniteQuery } from '@tanstack/react-query';
@@ -8,7 +8,7 @@ import { FiAlertTriangle } from 'react-icons/fi';
 import Discussion from '../../components/Discussion/Discussion';
 
 const Timeline = () => {
-  const [sortCriteria, setSortCriteria] = useState('recent');
+  const { sortCriteria, setSortCriteria } = useSortingOptions();
 
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(
@@ -96,7 +96,11 @@ const Timeline = () => {
             <Stack spacing={4} align={'center'} justify={'center'}>
               {data.pages.map((page) =>
                 page.discussions.map((discussion) => (
-                  <Discussion key={discussion.id} discussion={discussion} />
+                  <Discussion
+                    key={discussion.id}
+                    discussion={discussion}
+                    sortCriteria={sortCriteria}
+                  />
                 ))
               )}
             </Stack>

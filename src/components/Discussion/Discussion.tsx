@@ -18,9 +18,15 @@ import { useToggleLike } from '../../hooks/useLikeDiscussion';
 import { useNavigate } from 'react-router-dom';
 import { useSaveDiscussion } from '../../hooks/useSaveDiscussion';
 
-const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
+const Discussion = ({
+  discussion,
+  sortCriteria,
+}: {
+  discussion: DiscussionType;
+  sortCriteria: string;
+}) => {
   const { data, isLoading, isError } = useAuth();
-  const { likeDiscussion, unlikeDiscussion } = useToggleLike();
+  const { likeDiscussion, unlikeDiscussion } = useToggleLike(sortCriteria);
   const { addBookmark, removeBookmark } = useSaveDiscussion();
 
   const navigate = useNavigate();
@@ -47,7 +53,7 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
     (likedByUser ? unlikeDiscussion : likeDiscussion).mutate(discussion.id);
   };
 
-  const handleSavekDiscussionClick = (event: React.MouseEvent) => {
+  const handleSaveDiscussionClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     (savedByUser ? removeBookmark : addBookmark).mutate(discussion.id);
   };
@@ -96,7 +102,7 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
               color: savedByUser ? 'blue.300' : 'blue.500',
               transform: 'scale(1.1)',
             }}
-            onClick={handleSavekDiscussionClick}
+            onClick={handleSaveDiscussionClick}
           />
         </Flex>
       </Flex>

@@ -3,9 +3,9 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem,
   Button,
   MenuOptionGroup,
+  MenuItemOption,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 
@@ -16,8 +16,10 @@ const SortingBar = ({
   sortCriteria: string;
   setSortCriteria: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const handleSortChange = (criteria: string) => {
-    setSortCriteria(criteria);
+  const handleSortChange = (sortCriteria: string | string[]) => {
+    if (typeof sortCriteria === 'string') {
+      setSortCriteria(sortCriteria);
+    }
   };
 
   const sortOptions = [
@@ -32,11 +34,11 @@ const SortingBar = ({
       p={3}
       boxShadow="md"
       width="100%"
-      bg={'gray.900'}
-      borderBottomColor={'gray.700'}
+      bg="gray.900"
+      borderBottomColor="gray.700"
       borderBottomWidth="1px"
       alignItems="center"
-      justifyContent="space-between" // Distribute space evenly between SortOptions and ViewToggle
+      justifyContent="space-between"
     >
       <Menu>
         <MenuButton
@@ -44,20 +46,23 @@ const SortingBar = ({
           size="sm"
           borderRadius="md"
           rightIcon={<ChevronDownIcon />}
-          variant={'ghost'}
+          variant="ghost"
         >
+          {' '}
           {sortOptions.find((option) => option.value === sortCriteria)?.label ||
             'Sort by'}
         </MenuButton>
         <MenuList w="fit-content" minW="100px" maxW="150px" p={0}>
-          <MenuOptionGroup title="Sort by">
+          <MenuOptionGroup
+            defaultValue={sortCriteria}
+            type="radio"
+            onChange={handleSortChange}
+            title="Sort by"
+          >
             {sortOptions.map((option) => (
-              <MenuItem
-                key={option.value}
-                onClick={() => handleSortChange(option.value)}
-              >
+              <MenuItemOption key={option.value} value={option.value}>
                 {option.label}
-              </MenuItem>
+              </MenuItemOption>
             ))}
           </MenuOptionGroup>
         </MenuList>
