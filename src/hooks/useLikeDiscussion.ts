@@ -7,15 +7,17 @@ import { useToast } from '@chakra-ui/react';
 import likeService from '../services/likeDiscussionService';
 import { AxiosError } from 'axios';
 import { Discussion as DiscussionType } from '../types/discussionTypes';
+import { useSortingOptions } from '../context/SortingOptionsContext ';
 
 type PaginatedDiscussions = InfiniteData<{
   discussions: DiscussionType[];
   nextPage?: number | null;
 }>;
 
-export const useToggleLike = (sortCriteria: string) => {
+export const useToggleLike = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
+  const { sortCriteria } = useSortingOptions();
 
   const handleError = (error: unknown) => {
     const errorMessage =

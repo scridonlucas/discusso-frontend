@@ -8,14 +8,11 @@ import {
   MenuItemOption,
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import { useSortingOptions } from '../../context/SortingOptionsContext ';
 
-const SortingBar = ({
-  sortCriteria,
-  setSortCriteria,
-}: {
-  sortCriteria: string;
-  setSortCriteria: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const SortingBar = () => {
+  const { sortCriteria, setSortCriteria } = useSortingOptions();
+
   const handleSortChange = (sortCriteria: string | string[]) => {
     if (typeof sortCriteria === 'string') {
       setSortCriteria(sortCriteria);

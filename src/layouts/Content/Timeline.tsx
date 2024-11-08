@@ -8,7 +8,7 @@ import { FiAlertTriangle } from 'react-icons/fi';
 import Discussion from '../../components/Discussion/Discussion';
 
 const Timeline = () => {
-  const { sortCriteria, setSortCriteria } = useSortingOptions();
+  const { sortCriteria } = useSortingOptions();
 
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(
@@ -70,10 +70,7 @@ const Timeline = () => {
 
   return (
     <>
-      <SortingBar
-        sortCriteria={sortCriteria}
-        setSortCriteria={setSortCriteria}
-      />
+      <SortingBar />
       <Flex align={'center'} justify={'center'}>
         <Stack
           spacing={8}
@@ -96,11 +93,7 @@ const Timeline = () => {
             <Stack spacing={4} align={'center'} justify={'center'}>
               {data.pages.map((page) =>
                 page.discussions.map((discussion) => (
-                  <Discussion
-                    key={discussion.id}
-                    discussion={discussion}
-                    sortCriteria={sortCriteria}
-                  />
+                  <Discussion key={discussion.id} discussion={discussion} />
                 ))
               )}
             </Stack>

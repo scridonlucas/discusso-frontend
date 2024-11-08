@@ -18,15 +18,9 @@ import { useToggleLike } from '../../hooks/useLikeDiscussion';
 import { useNavigate } from 'react-router-dom';
 import { useSaveDiscussion } from '../../hooks/useSaveDiscussion';
 
-const Discussion = ({
-  discussion,
-  sortCriteria,
-}: {
-  discussion: DiscussionType;
-  sortCriteria: string;
-}) => {
+const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const { data, isLoading, isError } = useAuth();
-  const { likeDiscussion, unlikeDiscussion } = useToggleLike(sortCriteria);
+  const { likeDiscussion, unlikeDiscussion } = useToggleLike();
   const { addBookmark, removeBookmark } = useSaveDiscussion();
 
   const navigate = useNavigate();
