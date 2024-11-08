@@ -1,16 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-interface SortingOptionsContextType {
-  sortCriteria: string;
-  setSortCriteria: React.Dispatch<React.SetStateAction<string>>;
-  orderByDate: string;
-  setOrderByDate: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const SortingOptionsContext = createContext<
-  SortingOptionsContextType | undefined
->(undefined);
-
+import React, { useState, ReactNode } from 'react';
+import { SortingOptionsContext } from '../hooks/useSortingOptions';
 interface SortingOptionsProviderProps {
   children: ReactNode;
 }
@@ -19,7 +8,7 @@ export const SortingOptionsProvider: React.FC<SortingOptionsProviderProps> = ({
   children,
 }) => {
   const [sortCriteria, setSortCriteria] = useState<string>('recent');
-  const [orderByDate, setOrderByDate] = useState<string>('desc');
+  const [orderByDate, setOrderByDate] = useState<string>('all');
 
   return (
     <SortingOptionsContext.Provider
@@ -28,14 +17,4 @@ export const SortingOptionsProvider: React.FC<SortingOptionsProviderProps> = ({
       {children}
     </SortingOptionsContext.Provider>
   );
-};
-
-export const useSortingOptions = (): SortingOptionsContextType => {
-  const context = useContext(SortingOptionsContext);
-  if (!context) {
-    throw new Error(
-      'useSortingOptions must be used within a SortingOptionsProvider'
-    );
-  }
-  return context;
 };

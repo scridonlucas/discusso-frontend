@@ -1,12 +1,11 @@
 import { Flex, Stack, Text, Icon, Button, Spinner } from '@chakra-ui/react';
-import { useSortingOptions } from '../../context/SortingOptionsContext ';
 import SortingBar from '../../components/SortingBar/SortingBar';
 import discussionService from '../../services/discussionService';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { FiAlertTriangle } from 'react-icons/fi';
 import Discussion from '../../components/Discussion/Discussion';
-
+import { useSortingOptions } from '../../hooks/useSortingOptions';
 const Timeline = () => {
   const { sortCriteria } = useSortingOptions();
 

@@ -7,8 +7,7 @@ import { useToast } from '@chakra-ui/react';
 import likeService from '../services/likeDiscussionService';
 import { AxiosError } from 'axios';
 import { Discussion as DiscussionType } from '../types/discussionTypes';
-import { useSortingOptions } from '../context/SortingOptionsContext ';
-
+import { useSortingOptions } from './useSortingOptions';
 type PaginatedDiscussions = InfiniteData<{
   discussions: DiscussionType[];
   nextPage?: number | null;

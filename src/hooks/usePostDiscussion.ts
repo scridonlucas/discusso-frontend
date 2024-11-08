@@ -21,6 +21,11 @@ export const usePostDiscussion = () => {
         duration: 9000,
         isClosable: true,
       });
+
+      queryClient.invalidateQueries({
+        queryKey: ['discussions'],
+      });
+
       navigate('/'); // Navigate to discussions list or a specific discussion page
     },
     onError: (error: unknown) => {
