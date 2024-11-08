@@ -16,7 +16,7 @@ type PaginatedDiscussions = InfiniteData<{
 export const useToggleLike = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
-  const { sortCriteria } = useSortingOptions();
+  const { sortCriteria, timeFrame, feedType } = useSortingOptions();
 
   const handleError = (error: unknown) => {
     const errorMessage =
@@ -36,7 +36,7 @@ export const useToggleLike = () => {
     mutationFn: likeService.addLike,
     onSuccess: (likeData) => {
       queryClient.setQueryData<PaginatedDiscussions>(
-        ['discussions', sortCriteria],
+        ['discussions', sortCriteria, timeFrame, feedType],
         (oldData) => {
           if (!oldData) return oldData;
           return {
@@ -74,7 +74,7 @@ export const useToggleLike = () => {
     mutationFn: likeService.deleteLike,
     onSuccess: (likeData) => {
       queryClient.setQueryData<PaginatedDiscussions>(
-        ['discussions', sortCriteria],
+        ['discussions', sortCriteria, timeFrame, feedType],
         (oldData) => {
           if (!oldData) return oldData;
           console.log('success');

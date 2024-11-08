@@ -8,11 +8,19 @@ export const SortingOptionsProvider: React.FC<SortingOptionsProviderProps> = ({
   children,
 }) => {
   const [sortCriteria, setSortCriteria] = useState<string>('recent');
-  const [orderByDate, setOrderByDate] = useState<string>('all');
+  const [timeFrame, setTimeFrame] = useState<string>('all');
+  const [feedType, setFeedType] = useState<string>('explore');
 
   return (
     <SortingOptionsContext.Provider
-      value={{ sortCriteria, setSortCriteria, orderByDate, setOrderByDate }}
+      value={{
+        sortCriteria,
+        setSortCriteria,
+        timeFrame,
+        setTimeFrame,
+        feedType,
+        setFeedType,
+      }}
     >
       {children}
     </SortingOptionsContext.Provider>

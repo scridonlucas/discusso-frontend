@@ -3,8 +3,10 @@ import React, { createContext, useContext } from 'react';
 interface SortingOptionsContextType {
   sortCriteria: string;
   setSortCriteria: React.Dispatch<React.SetStateAction<string>>;
-  orderByDate: string;
-  setOrderByDate: React.Dispatch<React.SetStateAction<string>>;
+  timeFrame: string;
+  setTimeFrame: React.Dispatch<React.SetStateAction<string>>;
+  feedType: string;
+  setFeedType: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const SortingOptionsContext = createContext<

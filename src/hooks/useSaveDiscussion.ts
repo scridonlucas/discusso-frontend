@@ -17,7 +17,7 @@ type PaginatedDiscussions = InfiniteData<{
 export const useSaveDiscussion = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
-  const { sortCriteria } = useSortingOptions();
+  const { sortCriteria, timeFrame, feedType } = useSortingOptions();
 
   const handleError = (error: unknown) => {
     const errorMessage =
@@ -47,7 +47,7 @@ export const useSaveDiscussion = () => {
     mutationFn: bookmarkDiscussionService.addBookmark,
     onSuccess: (bookmarkData) => {
       queryClient.setQueryData<PaginatedDiscussions>(
-        ['discussions', sortCriteria],
+        ['discussions', sortCriteria, timeFrame, feedType],
         (oldData) => {
           if (!oldData) return oldData;
           return {
@@ -84,7 +84,7 @@ export const useSaveDiscussion = () => {
     mutationFn: bookmarkDiscussionService.removeBookmark,
     onSuccess: (bookmarkData) => {
       queryClient.setQueryData<PaginatedDiscussions>(
-        ['discussions', sortCriteria],
+        ['discussions', sortCriteria, timeFrame, feedType],
         (oldData) => {
           if (!oldData) return oldData;
           return {

@@ -1,17 +1,16 @@
-import {
-  Flex,
-  Menu,
-  MenuButton,
-  MenuList,
-  Button,
-  MenuOptionGroup,
-  MenuItemOption,
-} from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import { Flex } from '@chakra-ui/react';
 import { useSortingOptions } from '../../hooks/useSortingOptions';
 import DropdownMenu from './DropdownMenu';
+import ViewToggle from './ViewToggle';
 const SortingBar = () => {
-  const { sortCriteria, setSortCriteria, setOrderByDate } = useSortingOptions();
+  const {
+    sortCriteria,
+    setSortCriteria,
+    timeFrame,
+    setTimeFrame,
+    feedType,
+    setFeedType,
+  } = useSortingOptions();
 
   const handleSortChange = (sortCriteria: string | string[]) => {
     if (typeof sortCriteria === 'string') {
@@ -19,11 +18,17 @@ const SortingBar = () => {
     }
   };
 
-  /*const handleOrberByDateChange = (timeFrame: string | string[]) => {
+  const handleTimeFrameChange = (timeFrame: string | string[]) => {
     if (typeof timeFrame === 'string') {
-      setOrderByDate(timeFrame);
+      setTimeFrame(timeFrame);
     }
-  };*/
+  };
+
+  const handleFeedTypeChange = (feedType: string | string[]) => {
+    if (typeof feedType === 'string') {
+      setFeedType(feedType);
+    }
+  };
 
   const sortOptions = [
     { value: 'recent', label: 'Recent' },
@@ -33,11 +38,16 @@ const SortingBar = () => {
   ];
 
   const timeFrameOptions = [
-    { value: 'all', label: 'All' },
+    { value: 'all', label: 'Any Time' },
     { value: 'last_hour', label: 'Last Hour' },
     { value: 'last_day', label: 'Last Day' },
     { value: 'last_week', label: 'Last 7 Days' },
     { value: 'last_month', label: 'Last Month' },
+  ];
+
+  const feedOptions = [
+    { value: 'explore', label: 'Explore' },
+    { value: 'following', label: 'Following' },
   ];
 
   return (
@@ -59,8 +69,19 @@ const SortingBar = () => {
           title="Sort by"
           defaultLabel="Sort by"
         />
+        <DropdownMenu
+          options={timeFrameOptions}
+          selectedValue={timeFrame}
+          onChange={handleTimeFrameChange}
+          title="Order by"
+          defaultLabel="Order by"
+        />
       </Flex>
-      ForYou
+      <ViewToggle
+        options={feedOptions}
+        selectedValue={feedType}
+        onChange={handleFeedTypeChange}
+      />
     </Flex>
   );
 };

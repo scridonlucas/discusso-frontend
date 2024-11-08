@@ -8,7 +8,7 @@ import {
 type GatherDiscussionsParams = {
   pageParam?: number;
   limit?: number;
-  queryKey: [string, string];
+  queryKey: [string, string, string, string];
 };
 
 const baseUrl = 'http://localhost:3001/api/discussions';
@@ -26,9 +26,10 @@ const gatherDiscussions = async ({
   queryKey,
 }: GatherDiscussionsParams) => {
   const sortParam = queryKey[1] ? queryKey[1] : 'recent';
-
+  const timeFrame = queryKey[2] ? queryKey[2] : 'all';
+  const feedType = queryKey[3] ? queryKey[3] : 'explore';
   const response = await axios.get<DiscussionsResponse>(
-    `${baseUrl}?limit=${limit}&cursor=${pageParam}&sort=${sortParam}`,
+    `${baseUrl}?limit=${limit}&cursor=${pageParam}&sort=${sortParam}&date_range=${timeFrame}&feed_type=${feedType}`,
     {
       withCredentials: true,
     }

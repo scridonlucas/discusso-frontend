@@ -7,11 +7,10 @@ import { FiAlertTriangle } from 'react-icons/fi';
 import Discussion from '../../components/Discussion/Discussion';
 import { useSortingOptions } from '../../hooks/useSortingOptions';
 const Timeline = () => {
-  const { sortCriteria } = useSortingOptions();
-
+  const { sortCriteria, timeFrame, feedType } = useSortingOptions();
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(
-      ['discussions', sortCriteria],
+      ['discussions', sortCriteria, timeFrame, feedType],
       discussionService.gatherDiscussions,
       {
         getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,

@@ -1,10 +1,34 @@
-import { Button, ButtonGroup } from '@chakra-ui/react';
+import { ButtonGroup, Button } from '@chakra-ui/react';
 
-const ViewToggle = () => {
+interface ViewToggleProps {
+  options: { value: string; label: string }[];
+  selectedValue: string;
+  onChange: (value: string) => void;
+}
+
+const ViewToggle: React.FC<ViewToggleProps> = ({
+  options,
+  selectedValue,
+  onChange,
+}) => {
+  const handleChangeToggle = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    onChange(e.currentTarget.value);
+  };
+
   return (
-    <ButtonGroup isAttached>
-      <Button variant={'ghost'}>For You</Button>
-      <Button variant={'ghost'}>Following</Button>
+    <ButtonGroup isAttached variant="ghost">
+      {options.map((option) => (
+        <Button
+          key={option.value}
+          value={option.value}
+          onClick={handleChangeToggle}
+          isActive={selectedValue === option.value}
+        >
+          {option.label}
+        </Button>
+      ))}
     </ButtonGroup>
   );
 };
