@@ -7,6 +7,7 @@ import MainPage from '../pages/Main';
 import Timeline from '../layouts/Content/Timeline';
 import Profile from '../layouts/Content/Profile';
 import Create from '../layouts/Content/Create';
+import DetailedDiscussion from '../layouts/Content/DetailedDiscussion';
 
 const AppRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
           <Route path="/home" element={<Timeline />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/create" element={<Create />} />
+          <Route path="/discussions/:id" element={<DetailedDiscussion />} />
         </Route>
       </Route>
     </Routes>

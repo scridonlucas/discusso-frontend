@@ -1,5 +1,5 @@
 import { Box, Flex, Text, Icon } from '@chakra-ui/react';
-import LoadingDiscussion from './LoadingDiscussion';
+import LoadingDiscussion from './LoadingDiscussionPreview';
 import utils from './utils';
 import {
   FiHeart,
@@ -15,15 +15,13 @@ import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from '../../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import { useToggleLike } from '../../hooks/useLikeDiscussion';
-import { useNavigate } from 'react-router-dom';
 import { useSaveDiscussion } from '../../hooks/useSaveDiscussion';
+import { Link } from 'react-router-dom';
 
 const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const { data, isLoading, isError } = useAuth();
   const { likeDiscussion, unlikeDiscussion } = useToggleLike();
   const { addBookmark, removeBookmark } = useSaveDiscussion();
-
-  const navigate = useNavigate();
 
   if (isLoading) {
     return <LoadingDiscussion />;
@@ -54,6 +52,8 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
 
   return (
     <Box
+      as={Link}
+      to={`/discussion/${discussion.id}`}
       borderWidth="1px"
       borderRadius="md"
       p={6}
@@ -61,7 +61,6 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
       maxW="2xl"
       width="100%"
       _hover={{ boxShadow: 'lg', cursor: 'pointer' }}
-      onClick={() => navigate(`/discussions/${discussion.id}`)}
     >
       <Flex
         justify="space-between"

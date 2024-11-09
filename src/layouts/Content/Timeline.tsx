@@ -4,7 +4,7 @@ import discussionService from '../../services/discussionService';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { FiAlertTriangle } from 'react-icons/fi';
-import Discussion from '../../components/Discussion/Discussion';
+import Discussion from '../../components/DiscussionPreview/DiscussionPreview';
 import { useSortingOptions } from '../../hooks/useSortingOptions';
 const Timeline = () => {
   const { sortCriteria, timeFrame, feedType } = useSortingOptions();
