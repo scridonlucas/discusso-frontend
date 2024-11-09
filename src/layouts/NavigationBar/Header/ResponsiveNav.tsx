@@ -28,6 +28,7 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
 
   const username = queryData ? queryData.user.username : '';
   const role = queryData ? queryData.user.role : '';
+  const roleDisplay = role.charAt(0) + role.slice(1).toLowerCase();
 
   const signOutMutation = useSignOut();
 
@@ -121,7 +122,7 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
                 >
                   <Text fontSize="sm">{username}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    {role}
+                    {roleDisplay}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>

@@ -53,7 +53,7 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   return (
     <Box
       as={Link}
-      to={`/discussion/${discussion.id}`}
+      to={`/discussions/${discussion.id}`}
       borderWidth="1px"
       borderRadius="md"
       p={6}
