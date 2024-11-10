@@ -11,6 +11,10 @@ type GatherDiscussionsParams = {
   queryKey: [string, string, string, string];
 };
 
+type GatherDiscussionParams = {
+  queryKey: [string, string];
+};
+
 const baseUrl = 'http://localhost:3001/api/discussions';
 
 const postDiscussion = async (credentials: NewDiscussion) => {
@@ -47,4 +51,17 @@ const gatherDiscussions = async ({
   };
 };
 
-export default { postDiscussion, gatherDiscussions };
+const getDiscussionById = async ({ queryKey }: GatherDiscussionParams) => {
+  const discussionId = queryKey[1];
+
+  const response = await axios.get<{ discussion: Discussion }>(
+    `${baseUrl}/${discussionId}`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
+export default { postDiscussion, gatherDiscussions, getDiscussionById };
