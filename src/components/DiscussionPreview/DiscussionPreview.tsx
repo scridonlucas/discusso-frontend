@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Icon } from '@chakra-ui/react';
 import LoadingDiscussion from './LoadingDiscussionPreview';
-import utils from './utils';
+import utils from '../MainPage/discussionUtils';
 import {
   FiHeart,
   FiMessageCircle,
@@ -14,13 +14,13 @@ import { Discussion as DiscussionType } from '../../types/discussionTypes';
 import { formatDistanceToNow } from 'date-fns';
 import { useAuth } from '../../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
-import { useToggleLike } from '../../hooks/useLikeDiscussion';
+import { useLikeDiscussion } from '../../hooks/useLikeDiscussion';
 import { useSaveDiscussion } from '../../hooks/useSaveDiscussion';
 import { Link } from 'react-router-dom';
 
 const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const { data, isLoading, isError } = useAuth();
-  const { likeDiscussion, unlikeDiscussion } = useToggleLike();
+  const { likeDiscussion, unlikeDiscussion } = useLikeDiscussion();
   const { addBookmark, removeBookmark } = useSaveDiscussion();
 
   if (isLoading) {

@@ -54,13 +54,9 @@ const gatherDiscussions = async ({
 const getDiscussionById = async ({ queryKey }: GatherDiscussionParams) => {
   const discussionId = queryKey[1];
 
-  const response = await axios.get<{ discussion: Discussion }>(
-    `${baseUrl}/${discussionId}`,
-    {
-      withCredentials: true,
-    }
-  );
-
+  const response = await axios.get<Discussion>(`${baseUrl}/${discussionId}`, {
+    withCredentials: true,
+  });
   return response.data;
 };
 

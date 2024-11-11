@@ -13,7 +13,7 @@ type PaginatedDiscussions = InfiniteData<{
   nextPage?: number | null;
 }>;
 
-export const useToggleLike = () => {
+export const useLikeDiscussion = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
   const { sortCriteria, timeFrame, feedType } = useSortingOptions();
