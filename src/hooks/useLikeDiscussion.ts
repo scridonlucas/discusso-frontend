@@ -39,6 +39,7 @@ export const useLikeDiscussion = () => {
         ['discussions', sortCriteria, timeFrame, feedType],
         (oldData) => {
           if (!oldData) return oldData;
+          console.log(oldData);
           return {
             ...oldData,
             pages: oldData.pages.map((page) => ({
@@ -72,7 +73,7 @@ export const useLikeDiscussion = () => {
         ['discussion', likeData.discussionId],
         (oldDiscussion) => {
           if (!oldDiscussion) return oldDiscussion;
-
+          console.log(oldDiscussion);
           return {
             ...oldDiscussion,
             likes: [
@@ -102,7 +103,6 @@ export const useLikeDiscussion = () => {
         ['discussions', sortCriteria, timeFrame, feedType],
         (oldData) => {
           if (!oldData) return oldData;
-          console.log('success');
           return {
             ...oldData,
             pages: oldData.pages.map((page) => ({
@@ -123,6 +123,23 @@ export const useLikeDiscussion = () => {
                 return discussion;
               }),
             })),
+          };
+        }
+      );
+      queryClient.setQueryData<DiscussionType>(
+        ['discussion', likeData.discussionId],
+        (oldDiscussion) => {
+          if (!oldDiscussion) return oldDiscussion;
+          console.log(oldDiscussion);
+          return {
+            ...oldDiscussion,
+            likes: oldDiscussion.likes.filter(
+              (like) => like.user.id !== likeData.userId
+            ),
+            _count: {
+              ...oldDiscussion._count,
+              likes: oldDiscussion._count.likes - 1,
+            },
           };
         }
       );

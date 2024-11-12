@@ -63,7 +63,7 @@ export const useSaveDiscussion = () => {
                       {
                         user: {
                           id: bookmarkData.userId,
-                          username: 'currentUser',
+                          username: bookmarkData.user.username,
                         },
                       },
                     ],
@@ -75,6 +75,26 @@ export const useSaveDiscussion = () => {
           };
         }
       );
+
+      queryClient.setQueryData<DiscussionType>(
+        ['discussion', bookmarkData.discussionId],
+        (oldDiscussion) => {
+          if (!oldDiscussion) return oldDiscussion;
+          return {
+            ...oldDiscussion,
+            bookmarks: [
+              ...oldDiscussion.bookmarks,
+              {
+                user: {
+                  id: bookmarkData.userId,
+                  username: bookmarkData.user.username,
+                },
+              },
+            ],
+          };
+        }
+      );
+
       succesToast('Discussion saved!');
     },
     onError: handleError,
@@ -103,6 +123,19 @@ export const useSaveDiscussion = () => {
                 return discussion;
               }),
             })),
+          };
+        }
+      );
+
+      queryClient.setQueryData<DiscussionType>(
+        ['discussion', bookmarkData.discussionId],
+        (oldDiscussion) => {
+          if (!oldDiscussion) return oldDiscussion;
+          return {
+            ...oldDiscussion,
+            bookmarks: oldDiscussion.bookmarks.filter(
+              (bookmark) => bookmark.user.id !== bookmarkData.userId
+            ),
           };
         }
       );

@@ -65,4 +65,8 @@ export interface NewBookmarkResponse {
   userId: number;
   discussionId: number;
   createdAt: Date;
+  user: {
+    id: number;
+    username: string;
+  };
 }

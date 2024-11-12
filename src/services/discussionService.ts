@@ -12,7 +12,7 @@ type GatherDiscussionsParams = {
 };
 
 type GatherDiscussionParams = {
-  queryKey: [string, string];
+  queryKey: [string, number];
 };
 
 const baseUrl = 'http://localhost:3001/api/discussions';

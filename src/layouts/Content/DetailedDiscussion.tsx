@@ -25,9 +25,13 @@ const DetailedDiscussion = () => {
     data: discussion,
     isLoading,
     isError,
-  } = useQuery(['discussion', id!], discussionService.getDiscussionById, {
-    enabled: !!id,
-  });
+  } = useQuery(
+    ['discussion', Number(id)!],
+    discussionService.getDiscussionById,
+    {
+      enabled: !!id,
+    }
+  );
 
   const {
     data: authData,
@@ -108,7 +112,6 @@ const DetailedDiscussion = () => {
               cursor="pointer"
               onClick={handleSaveDiscussionClick}
             />
-            <Text>{discussion.bookmarks.length}</Text>
 
             <Icon as={FiFlag} boxSize={6} color="gray.500" cursor="pointer" />
           </Flex>
