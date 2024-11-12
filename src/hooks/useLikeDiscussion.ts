@@ -50,7 +50,10 @@ export const useLikeDiscussion = () => {
                     likes: [
                       ...discussion.likes,
                       {
-                        user: { id: likeData.userId, username: 'currentUser' },
+                        user: {
+                          id: likeData.userId,
+                          username: likeData.user.username,
+                        },
                       },
                     ],
                     _count: {
@@ -59,10 +62,32 @@ export const useLikeDiscussion = () => {
                     },
                   };
                 }
-                console.log(discussion);
                 return discussion;
               }),
             })),
+          };
+        }
+      );
+      queryClient.setQueryData<DiscussionType>(
+        ['discussion', likeData.discussionId],
+        (oldDiscussion) => {
+          if (!oldDiscussion) return oldDiscussion;
+
+          return {
+            ...oldDiscussion,
+            likes: [
+              ...oldDiscussion.likes,
+              {
+                user: {
+                  id: likeData.userId,
+                  username: likeData.user.username,
+                },
+              },
+            ],
+            _count: {
+              ...oldDiscussion._count,
+              likes: oldDiscussion._count.likes + 1,
+            },
           };
         }
       );

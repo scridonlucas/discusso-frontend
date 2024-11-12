@@ -54,6 +54,10 @@ export interface NewLikeResponse {
   id: number;
   discussionId: number;
   userId: number;
+  user: {
+    id: number;
+    username: string;
+  };
 }
 
 export interface NewBookmarkResponse {

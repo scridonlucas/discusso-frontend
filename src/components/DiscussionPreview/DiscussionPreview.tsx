@@ -41,11 +41,13 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const formattedDate = formatDistanceToNow(createdDate, { addSuffix: true });
 
   const handleLikeClick = (event: React.MouseEvent) => {
+    event.preventDefault();
     event.stopPropagation();
     (likedByUser ? unlikeDiscussion : likeDiscussion).mutate(discussion.id);
   };
 
   const handleSaveDiscussionClick = (event: React.MouseEvent) => {
+    event.preventDefault();
     event.stopPropagation();
     (savedByUser ? removeBookmark : addBookmark).mutate(discussion.id);
   };
