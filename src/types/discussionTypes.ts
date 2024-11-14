@@ -23,6 +23,16 @@ export interface Discussion {
       username: string;
     };
   }[];
+  comments: {
+    id: number;
+    content: string;
+    createdAt: Date;
+    updatedAt: Date;
+    user: {
+      id: number;
+      username: string;
+    };
+  }[];
   bookmarks: {
     user: { id: number; username: string };
   }[];

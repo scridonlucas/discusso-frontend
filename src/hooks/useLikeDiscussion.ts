@@ -8,6 +8,8 @@ import likeService from '../services/likeDiscussionService';
 import { AxiosError } from 'axios';
 import { Discussion as DiscussionType } from '../types/discussionTypes';
 import { useSortingOptions } from './useSortingOptions';
+import { NewLikeResponse } from '../types/commonTypes';
+
 type PaginatedDiscussions = InfiniteData<{
   discussions: DiscussionType[];
   nextPage?: number | null;
