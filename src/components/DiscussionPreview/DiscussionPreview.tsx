@@ -109,7 +109,7 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
       <Text noOfLines={3} fontSize="md" color="gray.700" mb={4}>
         {discussion.content}
       </Text>
-
+      
       <Flex
         justify="space-between"
         align="center"

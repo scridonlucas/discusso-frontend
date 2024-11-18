@@ -17,7 +17,15 @@ import discussionUtils from '../../components/MainPage/discussionUtils';
 import { useSaveDiscussion } from '../../hooks/useSaveDiscussion';
 import { useLikeDiscussion } from '../../hooks/useLikeDiscussion';
 import { FaBookmark, FaHeart } from 'react-icons/fa';
-import { FiBookmark, FiFlag, FiHeart } from 'react-icons/fi';
+import CommentSection from '../../components/CommentSection/CommentsSection';
+
+import {
+  FiBookmark,
+  FiFlag,
+  FiHeart,
+  FiMessageCircle,
+  FiSend,
+} from 'react-icons/fi';
 const DetailedDiscussion = () => {
   const { id } = useParams();
 
@@ -82,12 +90,31 @@ const DetailedDiscussion = () => {
         <Box borderWidth="1px" borderRadius="lg" p={6} boxShadow="lg">
           {/* Header */}
           <Flex justify="space-between" align="center" mb={4}>
-            <Text fontWeight="bold" fontSize="lg" color="white.300">
-              {discussion.community.name}
-            </Text>
-            <Text fontSize="sm" color="gray.400">
-              {new Date(discussion.createdAt).toLocaleDateString()}
-            </Text>
+            <Flex align="center" gap={2}>
+              <Text fontWeight="bold" fontSize="lg" color="white.300">
+                {discussion.community.name}
+              </Text>
+              <Text fontSize="sm" color="gray.400">
+                {new Date(discussion.createdAt).toLocaleDateString()}
+              </Text>
+            </Flex>
+            <Flex align="center" gap={4}>
+              <Icon
+                as={savedByUser ? FaBookmark : FiBookmark}
+                color={savedByUser ? 'blue.500' : 'gray.500'}
+                boxSize={6}
+                cursor="pointer"
+                onClick={handleSaveDiscussionClick}
+                _hover={{ color: savedByUser ? 'blue.300' : 'blue.500' }}
+              />
+              <Icon
+                as={FiFlag}
+                boxSize={6}
+                color="gray.500"
+                cursor="pointer"
+                _hover={{ color: 'red.400' }}
+              />
+            </Flex>
           </Flex>
 
           {/* Title & Content */}
@@ -99,29 +126,46 @@ const DetailedDiscussion = () => {
           </Text>
 
           {/* Actions (Like, Save, Report) */}
+
           <Flex align="center" gap={4} mb={6}>
-            <Icon
-              as={likedByUser ? FaHeart : FiHeart}
-              color={likedByUser ? 'red.500' : 'gray.500'}
-              boxSize={5}
-              cursor="pointer"
-              onClick={handleLikeClick}
-            />
-            <Text>{discussion.likes.length}</Text>
-            <Icon
-              as={savedByUser ? FaBookmark : FiBookmark}
-              color={savedByUser ? 'blue.500' : 'gray.500'}
-              boxSize={5}
-              cursor="pointer"
-              onClick={handleSaveDiscussionClick}
-            />
-            <Icon as={FiFlag} boxSize={5} color="gray.500" cursor="pointer" />
+            <Flex align="center" gap={2} onClick={handleLikeClick}>
+              <Icon
+                as={likedByUser ? FaHeart : FiHeart}
+                color={likedByUser ? 'red.500' : 'gray.500'}
+                boxSize={6}
+                cursor="pointer"
+                _hover={{
+                  transform: 'scale(1.2)',
+                  color: likedByUser ? 'red.400' : 'gray.400',
+                }}
+              />
+              <Text>{discussion.likes.length}</Text>
+            </Flex>
+
+            <Flex align="center" gap={2}>
+              <Icon
+                as={FiMessageCircle}
+                boxSize={6}
+                cursor="pointer"
+                _hover={{ color: 'gray.400' }}
+              />
+              <Text>{discussion.comments.length}</Text>
+            </Flex>
+
+            <Flex align="center" gap={2}>
+              <Icon
+                as={FiSend}
+                boxSize={6}
+                cursor="pointer"
+                _hover={{ color: 'blue.400' }}
+              />
+            </Flex>
           </Flex>
 
           {/* Comment Input */}
           <Flex as="form" onSubmit={(e) => e.preventDefault()} mb={4}>
             <Input placeholder="Add a comment..." mr={3} variant="filled" />
-            <Button type="submit" colorScheme="teal">
+            <Button type="submit" colorScheme="blue">
               Post
             </Button>
           </Flex>
@@ -131,21 +175,7 @@ const DetailedDiscussion = () => {
             <Text fontSize="lg" fontWeight="bold" color="gray.300">
               Comments
             </Text>
-            {discussion.comments.map((comment) => (
-              <Box key={comment.id} p={4} borderRadius="md" boxShadow="xl">
-                <Flex justify="space-between">
-                  <Text fontWeight="medium" color="gray.200">
-                    {comment.user.username}
-                  </Text>
-                  <Text fontSize="xs" color="gray.400">
-                    {new Date(comment.createdAt).toLocaleDateString()}
-                  </Text>
-                </Flex>
-                <Text mt={2} color="gray.300">
-                  {comment.content}
-                </Text>
-              </Box>
-            ))}
+            <CommentSection discussionId={Number(id)} />
           </Stack>
         </Box>
       </Stack>
