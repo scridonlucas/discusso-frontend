@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:3001/api/discussions';
 type GatherCommentsParam = {
   pageParam?: number;
   limit?: number;
-  queryKey: [string, string];
+  queryKey: [string, number, string];
 };
 
 const gatherComments = async ({
@@ -12,10 +12,11 @@ const gatherComments = async ({
   limit = 20,
   queryKey,
 }: GatherCommentsParam) => {
-  const sortParam = queryKey[1] ? queryKey[1] : 'recent';
+  const discussionId = queryKey[1];
+  const sortParam = queryKey[2] ? queryKey[2] : 'recent';
 
   const response = await axios.get(
-    `${baseUrl}?limit=${limit}&cursor=${pageParam}&sort=${sortParam}`,
+    `${baseUrl}/${discussionId}/comments?limit=${limit}&cursor=${pageParam}&sort=${sortParam}`,
     {
       withCredentials: true,
     }
