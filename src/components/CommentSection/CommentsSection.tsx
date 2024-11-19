@@ -41,7 +41,7 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
 
   return (
     <Flex align={'center'} justify={'center'}>
-      <Stack spacing={8} mx={'auto'} width={'100%'} maxW={'5xl'} px={6}>
+      <Stack spacing={8} mx={'auto'} width={'100%'} maxW={'5xl'}>
         <InfiniteScroll
           dataLength={data?.pages.length || 0}
           next={fetchNextPage}

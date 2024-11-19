@@ -6,8 +6,8 @@ import {
   Spinner,
   Text,
   Icon,
-  Input,
   Button,
+  Textarea,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../../hooks/useAuth';
@@ -20,7 +20,7 @@ import { FaBookmark, FaHeart } from 'react-icons/fa';
 import CommentSection from '../../components/CommentSection/CommentsSection';
 import { formatDistanceToNow } from 'date-fns';
 import { FiUser } from 'react-icons/fi';
-
+import CommentForm from '../../components/Forms/CommentForm/CommentForm';
 import {
   FiBookmark,
   FiFlag,
@@ -144,9 +144,7 @@ const DetailedDiscussion = () => {
           <Text fontSize="md" color="gray.400" mb={6}>
             {discussion.content}
           </Text>
-
           {/* Actions (Like, Save, Report) */}
-
           <Flex align="center" gap={4} mb={6}>
             <Flex align="center" gap={2} onClick={handleLikeClick}>
               <Icon
@@ -181,14 +179,9 @@ const DetailedDiscussion = () => {
               />
             </Flex>
           </Flex>
-
           {/* Comment Input */}
-          <Flex as="form" onSubmit={(e) => e.preventDefault()} mb={4}>
-            <Input placeholder="Add a comment..." mr={3} variant="filled" />
-            <Button type="submit" colorScheme="blue">
-              Post
-            </Button>
-          </Flex>
+
+          <CommentForm />
 
           {/* Comments List */}
           <Stack spacing={4}>

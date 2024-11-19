@@ -12,6 +12,26 @@ type GatherCommentsParam = {
   queryKey: [string, number, string];
 };
 
+type NewComment = {
+  content: string;
+};
+
+const postComment = async ({
+  discussionId,
+  content,
+}: {
+  discussionId: number;
+  content: NewComment;
+}) => {
+  const response = await axios.post<Comment>(
+    `${baseUrl}/comment/${discussionId}`,
+    content,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
 const gatherComments = async ({
   pageParam = 0,
   limit = 20,
@@ -36,4 +56,4 @@ const gatherComments = async ({
   };
 };
 
-export default { gatherComments };
+export default { gatherComments, postComment };
