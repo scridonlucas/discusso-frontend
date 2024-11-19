@@ -14,7 +14,9 @@ const Timeline = () => {
       ['discussions', sortCriteria, timeFrame, feedType],
       discussionService.gatherDiscussions,
       {
-        getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+        getNextPageParam: (lastPage) => {
+          return lastPage.nextCursor ?? undefined;
+        },
       }
     );
 

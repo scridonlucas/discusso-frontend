@@ -4,6 +4,7 @@ const baseUrl = 'http://localhost:3001/api/discussions';
 type CommentResponse = {
   comments: Comment[];
   total: number;
+  nextCursor: number | null;
 };
 type GatherCommentsParam = {
   pageParam?: number;
@@ -26,10 +27,7 @@ const gatherComments = async ({
     }
   );
 
-  const nextCursor =
-    response.data.comments.length > 0
-      ? response.data.comments[response.data.comments.length - 1].id
-      : null;
+  const nextCursor = response.data.nextCursor ?? null;
 
   return {
     comments: response.data.comments,

@@ -2,16 +2,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useState } from 'react';
 import commentDiscussionService from '../../services/commentDiscussionService';
-import {
-  Flex,
-  Spinner,
-  Text,
-  Icon,
-  Button,
-  Stack,
-  Box,
-} from '@chakra-ui/react';
-import { FiAlertTriangle } from 'react-icons/fi';
+import { Flex, Spinner, Text, Stack, Box } from '@chakra-ui/react';
+import CommentsSectionError from './CommentsSectionError';
+import { formatDistanceToNow } from 'date-fns';
 const CommentsSection = ({ discussionId }: { discussionId: number }) => {
   const [sortCriteria, useSortCriteria] = useState<string>('recent');
 
@@ -20,7 +13,11 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
       ['comments', discussionId, sortCriteria],
       commentDiscussionService.gatherComments,
       {
-        getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+        getNextPageParam: (lastPage) => {
+          console.log('Next Cursor:', lastPage.nextCursor);
+
+          return lastPage.nextCursor ?? undefined;
+        },
       }
     );
 
@@ -39,39 +36,12 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
   }
 
   if (isError) {
-    return (
-      <Flex
-        align="center"
-        justify="center"
-        py={4}
-        flexDirection={'column'}
-        alignItems={'center'}
-      >
-        <Icon as={FiAlertTriangle} w={10} h={10} color="red.500" mb={4} />
-        <Text fontSize="xl" color="red.500" fontWeight="bold" mb={2}>
-          Oops! Something went wrong.
-        </Text>
-        <Text
-          fontSize="sm"
-          color="gray.500"
-          mb={6}
-          textAlign="center"
-          maxW="sm"
-        >
-          We encountered an unexpected error while trying to gather comments
-          from our servers. Please try refreshing the page, or contact support
-          if the problem persists.
-        </Text>
-        <Button onClick={() => window.location.reload()} size="md">
-          Refresh Page
-        </Button>
-      </Flex>
-    );
+    return <CommentsSectionError />;
   }
 
   return (
     <Flex align={'center'} justify={'center'}>
-      <Stack spacing={8} mx={'auto'} width={'100%'} maxW={'5xl'} py={12} px={6}>
+      <Stack spacing={8} mx={'auto'} width={'100%'} maxW={'5xl'} px={6}>
         <InfiniteScroll
           dataLength={data?.pages.length || 0}
           next={fetchNextPage}
@@ -97,7 +67,9 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
                       {comment.user.username}
                     </Text>
                     <Text fontSize="xs" color="gray.400">
-                      {new Date(comment.createdAt).toLocaleDateString()}
+                      {formatDistanceToNow(new Date(comment.createdAt), {
+                        addSuffix: true,
+                      })}
                     </Text>
                   </Flex>
                   <Text mt={2} color="gray.300">

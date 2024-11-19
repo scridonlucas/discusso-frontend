@@ -46,4 +46,5 @@ export interface NewDiscussion {
 export interface DiscussionsResponse {
   discussions: Discussion[];
   total: number;
+  nextCursor: number | null;
 }

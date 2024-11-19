@@ -18,6 +18,8 @@ import { useSaveDiscussion } from '../../hooks/useSaveDiscussion';
 import { useLikeDiscussion } from '../../hooks/useLikeDiscussion';
 import { FaBookmark, FaHeart } from 'react-icons/fa';
 import CommentSection from '../../components/CommentSection/CommentsSection';
+import { formatDistanceToNow } from 'date-fns';
+import { FiUser } from 'react-icons/fi';
 
 import {
   FiBookmark,
@@ -74,6 +76,15 @@ const DetailedDiscussion = () => {
   const likedByUser = discussionUtils.isLikedByUser(discussion, userId);
   const savedByUser = discussionUtils.isSavedByUser(discussion, userId);
 
+  const createdDiscussionDate = new Date(discussion.createdAt);
+
+  const formattedcreatedDiscussionDate = formatDistanceToNow(
+    createdDiscussionDate,
+    {
+      addSuffix: true,
+    }
+  );
+
   const handleLikeClick = (event: React.MouseEvent) => {
     event.stopPropagation();
     (likedByUser ? unlikeDiscussion : likeDiscussion).mutate(discussion.id);
@@ -94,8 +105,18 @@ const DetailedDiscussion = () => {
               <Text fontWeight="bold" fontSize="lg" color="white.300">
                 {discussion.community.name}
               </Text>
-              <Text fontSize="sm" color="gray.400">
-                {new Date(discussion.createdAt).toLocaleDateString()}
+              <Text fontSize="lg" color="gray.400">
+                •
+              </Text>
+              <Icon as={FiUser} boxSize={5} color="gray.700" />
+              <Text fontWeight="bold" fontSize="sm" color="gray.400">
+                {discussion.user.username}
+              </Text>
+              <Text fontSize="lg" color="gray.400">
+                •
+              </Text>
+              <Text fontSize="sm" color="gray.500">
+                {formattedcreatedDiscussionDate}
               </Text>
             </Flex>
             <Flex align="center" gap={4}>
@@ -116,7 +137,6 @@ const DetailedDiscussion = () => {
               />
             </Flex>
           </Flex>
-
           {/* Title & Content */}
           <Text fontWeight="bold" fontSize="2xl" mb={2} color="white.300">
             {discussion.title}

@@ -36,9 +36,9 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const likedByUser = utils.isLikedByUser(discussion, userId);
   const savedByUser = utils.isSavedByUser(discussion, userId);
 
-  const createdDate = new Date(discussion.createdAt);
-
-  const formattedDate = formatDistanceToNow(createdDate, { addSuffix: true });
+  const formattedDate = formatDistanceToNow(new Date(discussion.createdAt), {
+    addSuffix: true,
+  });
 
   const handleLikeClick = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -109,7 +109,7 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
       <Text noOfLines={3} fontSize="md" color="gray.700" mb={4}>
         {discussion.content}
       </Text>
-      
+
       <Flex
         justify="space-between"
         align="center"

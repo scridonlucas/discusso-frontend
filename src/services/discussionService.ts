@@ -39,10 +39,7 @@ const gatherDiscussions = async ({
     }
   );
 
-  const nextCursor =
-    response.data.discussions.length > 0
-      ? response.data.discussions[response.data.discussions.length - 1].id
-      : null;
+  const nextCursor = response.data.nextCursor ?? null;
 
   return {
     discussions: response.data.discussions,
