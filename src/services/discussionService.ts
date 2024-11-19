@@ -39,15 +39,15 @@ const gatherDiscussions = async ({
     }
   );
 
-  const nextPage =
+  const nextCursor =
     response.data.discussions.length > 0
       ? response.data.discussions[response.data.discussions.length - 1].id
-      : undefined;
+      : null;
 
   return {
     discussions: response.data.discussions,
     total: response.data.total,
-    nextPage,
+    nextCursor,
   };
 };
 

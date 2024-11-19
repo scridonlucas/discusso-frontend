@@ -17,9 +17,15 @@ export interface Comment {
   discussionId: number;
   createdAt: Date;
   updatedAt: Date;
-  user: User;
-  discussion: Discussion;
+  user: {
+    id: number;
+    username: string;
+  };
+  _count: {
+    likes: number;
+  };
 }
+
 export interface Follow {
   followerId: number;
   followedId: number;
