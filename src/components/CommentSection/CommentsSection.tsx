@@ -2,9 +2,10 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useState } from 'react';
 import commentDiscussionService from '../../services/commentDiscussionService';
-import { Flex, Spinner, Text, Stack, Box } from '@chakra-ui/react';
+import { Flex, Spinner, Text, Stack, Box, Icon } from '@chakra-ui/react';
 import CommentsSectionError from './CommentsSectionError';
 import { formatDistanceToNow } from 'date-fns';
+import { FaCommentDots } from 'react-icons/fa';
 const CommentsSection = ({ discussionId }: { discussionId: number }) => {
   const [sortCriteria] = useState<string>('recent');
 
@@ -53,30 +54,43 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
           }
         >
           <Stack spacing={4} align={'center'} justify={'center'}>
-            {data.pages.map((page) =>
-              page.comments.map((comment) => (
-                <Box
-                  key={comment.id}
-                  p={4}
-                  borderRadius="md"
-                  boxShadow="xl"
-                  width="100%"
-                >
-                  <Flex justify="space-between">
-                    <Text fontWeight="medium" color="gray.200">
-                      {comment.user.username}
+            {data.pages.length > 0 &&
+            data.pages.some((page) => page.comments.length > 0) ? (
+              data.pages.map((page) =>
+                page.comments.map((comment) => (
+                  <Box
+                    key={comment.id}
+                    p={3}
+                    borderRadius="lg"
+                    boxShadow="base"
+                    border="1px solid"
+                    borderColor="gray.700"
+                    bg="gray.800"
+                    width="100%"
+                  >
+                    <Flex justify="space-between" align="center">
+                      <Text fontWeight="medium" fontSize="sm" color="gray.300">
+                        {comment.user.username}
+                      </Text>
+                      <Text fontSize="xs" color="gray.500">
+                        {formatDistanceToNow(new Date(comment.createdAt), {
+                          addSuffix: true,
+                        })}
+                      </Text>
+                    </Flex>
+                    <Text mt={2} fontSize="sm" color="gray.400">
+                      {comment.content}
                     </Text>
-                    <Text fontSize="xs" color="gray.400">
-                      {formatDistanceToNow(new Date(comment.createdAt), {
-                        addSuffix: true,
-                      })}
-                    </Text>
-                  </Flex>
-                  <Text mt={2} color="gray.300">
-                    {comment.content}
-                  </Text>
-                </Box>
-              ))
+                  </Box>
+                ))
+              )
+            ) : (
+              <Flex direction="column" align="center" justify="center" gap={3}>
+                <Icon as={FaCommentDots} boxSize={8} color="gray.500" />
+                <Text fontSize="md" fontWeight="medium" color="gray.300">
+                  No comments yet. Be the first to share your thoughts!
+                </Text>
+              </Flex>
             )}
           </Stack>
         </InfiniteScroll>
