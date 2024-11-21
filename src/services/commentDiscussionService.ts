@@ -24,7 +24,7 @@ const postComment = async ({
   content: NewComment;
 }) => {
   const response = await axios.post<Comment>(
-    `${baseUrl}/comment/${discussionId}`,
+    `${baseUrl}/${discussionId}/comment`,
     content,
     {
       withCredentials: true,

@@ -6,7 +6,7 @@ import { Flex, Spinner, Text, Stack, Box } from '@chakra-ui/react';
 import CommentsSectionError from './CommentsSectionError';
 import { formatDistanceToNow } from 'date-fns';
 const CommentsSection = ({ discussionId }: { discussionId: number }) => {
-  const [sortCriteria, useSortCriteria] = useState<string>('recent');
+  const [sortCriteria] = useState<string>('recent');
 
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(

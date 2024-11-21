@@ -1,14 +1,5 @@
 import { useParams, Navigate } from 'react-router-dom';
-import {
-  Box,
-  Flex,
-  Stack,
-  Spinner,
-  Text,
-  Icon,
-  Button,
-  Textarea,
-} from '@chakra-ui/react';
+import { Box, Flex, Stack, Spinner, Text, Icon } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../../hooks/useAuth';
 import discussionService from '../../services/discussionService';
@@ -181,7 +172,7 @@ const DetailedDiscussion = () => {
           </Flex>
           {/* Comment Input */}
 
-          <CommentForm />
+          <CommentForm discussionId={Number(id)} />
 
           {/* Comments List */}
           <Stack spacing={4}>
