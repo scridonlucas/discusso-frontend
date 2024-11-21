@@ -1,7 +1,7 @@
 import { ValidationSchema } from './types';
 
 const validationSchema: ValidationSchema = {
-  comment: {
+  content: {
     required: 'Comment is required',
     minLength: {
       value: 3,

@@ -4,42 +4,45 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { usePostComment } from '../../../hooks/usePostComment';
 import { FormControl, FormErrorMessage } from '@chakra-ui/react';
 type NewComment = {
-  comment: string;
+  content: string;
 };
 const CommentForm = ({ discussionId }: { discussionId: number }) => {
   const {
     register,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm<NewComment>();
 
   const postCommentMutation = usePostComment();
-  const onSubmit: SubmitHandler<NewComment> = (data) => {
+  const onSubmit: SubmitHandler<NewComment> = (content) => {
     const parsedData = {
-      content: {
-        content: data.comment,
-      },
+      content,
       discussionId,
     };
 
-    postCommentMutation.mutate(parsedData);
+    postCommentMutation.mutate(parsedData, {
+      onSuccess: () => {
+        reset();
+      },
+    });
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex direction={'column'} gap={4}>
         <Flex>
-          <FormControl id="comment" isInvalid={!!errors.comment}>
+          <FormControl id="comment" isInvalid={!!errors.content}>
             <Textarea
               placeholder="Add a comment"
               resize="vertical"
               variant="filled"
               size="md"
               height="10"
-              {...register('comment', validationSchema.comment)}
+              {...register('content', validationSchema.content)}
             />
             <FormErrorMessage>
-              {errors.comment && errors.comment.message}
+              {errors.content && errors.content.message}
             </FormErrorMessage>
           </FormControl>
         </Flex>

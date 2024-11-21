@@ -1,5 +1,5 @@
 export interface ValidationSchema {
-  comment: ValidationRule;
+  content: ValidationRule;
 }
 
 interface ValidationRule {
