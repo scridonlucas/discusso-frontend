@@ -5,7 +5,8 @@ import commentDiscussionService from '../../services/commentDiscussionService';
 import { Flex, Spinner, Text, Stack, Box, Icon } from '@chakra-ui/react';
 import CommentsSectionError from './CommentsSectionError';
 import { formatDistanceToNow } from 'date-fns';
-import { FaCommentDots } from 'react-icons/fa';
+import { FaCommentDots, FaHeart } from 'react-icons/fa';
+import { FiFlag } from 'react-icons/fi';
 const CommentsSection = ({ discussionId }: { discussionId: number }) => {
   const [sortCriteria] = useState<string>('recent');
 
@@ -81,6 +82,28 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
                     <Text mt={2} fontSize="sm" color="gray.400">
                       {comment.content}
                     </Text>
+                    <Flex align="center" gap={3}>
+                      <Flex align="center" gap={2}>
+                        {/* Like logic */}
+                        <Icon as={FaHeart} boxSize={5} />
+                        <Text fontSize="sm" color="gray.400">
+                          23
+                        </Text>
+                      </Flex>
+                      <Flex>
+                        {/* Report logic */}
+                        <Icon
+                          as={FiFlag}
+                          boxSize={5}
+                          color="gray.500"
+                          transition="transform 0.2s ease, color 0.2s ease"
+                          _hover={{
+                            color: 'red.400',
+                            transform: 'scale(1.2)',
+                          }}
+                        />
+                      </Flex>
+                    </Flex>
                   </Box>
                 ))
               )
