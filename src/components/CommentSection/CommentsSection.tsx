@@ -69,39 +69,46 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
                     bg="gray.800"
                     width="100%"
                   >
-                    <Flex justify="space-between" align="center">
-                      <Text fontWeight="medium" fontSize="sm" color="gray.300">
-                        {comment.user.username}
-                      </Text>
-                      <Text fontSize="xs" color="gray.500">
-                        {formatDistanceToNow(new Date(comment.createdAt), {
-                          addSuffix: true,
-                        })}
-                      </Text>
-                    </Flex>
-                    <Text mt={2} fontSize="sm" color="gray.400">
-                      {comment.content}
-                    </Text>
-                    <Flex align="center" gap={3}>
-                      <Flex align="center" gap={2}>
-                        {/* Like logic */}
-                        <Icon as={FaHeart} boxSize={5} />
-                        <Text fontSize="sm" color="gray.400">
-                          23
+                    <Flex direction={'column'} gap={3}>
+                      <Flex justify="space-between" align="center">
+                        <Text
+                          fontWeight="medium"
+                          fontSize="sm"
+                          color="gray.300"
+                        >
+                          {comment.user.username}
+                        </Text>
+                        <Text fontSize="xs" color="gray.500">
+                          {formatDistanceToNow(new Date(comment.createdAt), {
+                            addSuffix: true,
+                          })}
                         </Text>
                       </Flex>
-                      <Flex>
-                        {/* Report logic */}
-                        <Icon
-                          as={FiFlag}
-                          boxSize={5}
-                          color="gray.500"
-                          transition="transform 0.2s ease, color 0.2s ease"
-                          _hover={{
-                            color: 'red.400',
-                            transform: 'scale(1.2)',
-                          }}
-                        />
+                      <Text fontSize="sm" color="gray.400">
+                        {comment.content}
+                      </Text>
+                      <Flex align="center" gap={3}>
+                        <Flex align="center" gap={2}>
+                          {/* Like logic */}
+                          <Icon as={FaHeart} cursor="pointer" boxSize={5} />
+                          <Text fontSize="sm" color="gray.400">
+                            {comment._count.likes}
+                          </Text>
+                        </Flex>
+                        <Flex>
+                          {/* Report logic */}
+                          <Icon
+                            as={FiFlag}
+                            cursor="pointer"
+                            boxSize={5}
+                            color="gray.500"
+                            transition="transform 0.2s ease, color 0.2s ease"
+                            _hover={{
+                              color: 'red.400',
+                              transform: 'scale(1.2)',
+                            }}
+                          />
+                        </Flex>
                       </Flex>
                     </Flex>
                   </Box>

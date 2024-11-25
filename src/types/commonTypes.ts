@@ -21,6 +21,12 @@ export interface Comment {
     id: number;
     username: string;
   };
+  likes: {
+    user: {
+      id: number;
+      username: string;
+    };
+  }[];
   _count: {
     likes: number;
   };
