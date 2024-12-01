@@ -6,8 +6,14 @@ import { Flex, Spinner, Text, Stack, Icon } from '@chakra-ui/react';
 import CommentsSectionError from './CommentsSectionError';
 import { FaCommentDots } from 'react-icons/fa';
 import Comment from './Comment';
+import { useAuth } from '../../hooks/useAuth';
 const CommentsSection = ({ discussionId }: { discussionId: number }) => {
   const [sortCriteria] = useState<string>('recent');
+  const {
+    data: authData,
+    isLoading: isLoadingAuth,
+    isError: isErrorAuth,
+  } = useAuth();
 
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(
@@ -22,7 +28,7 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
       }
     );
 
-  if (isLoading) {
+  if (isLoading || isLoadingAuth) {
     return (
       <Flex
         align="center"
@@ -36,7 +42,7 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
     );
   }
 
-  if (isError) {
+  if (isError || isErrorAuth) {
     return <CommentsSectionError />;
   }
 
@@ -58,7 +64,11 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
             data.pages.some((page) => page.comments.length > 0) ? (
               data.pages.map((page) =>
                 page.comments.map((comment) => (
-                  <Comment key={comment.id} comment={comment} />
+                  <Comment
+                    key={comment.id}
+                    comment={comment}
+                    userId={authData.user.userId}
+                  />
                 ))
               )
             ) : (

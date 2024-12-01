@@ -2,8 +2,22 @@ import { Flex, Box, Text, Icon } from '@chakra-ui/react';
 import { Comment as CommentType } from '../../types/commonTypes';
 import { formatDistanceToNow } from 'date-fns';
 import { FaHeart } from 'react-icons/fa';
-import { FiFlag } from 'react-icons/fi';
-const Comment = ({ comment }: { comment: CommentType }) => {
+import { FiFlag, FiHeart } from 'react-icons/fi';
+import commentsUtils from '../MainPage/commentsUtils';
+const Comment = ({
+  comment,
+  userId,
+}: {
+  comment: CommentType;
+  userId: number;
+}) => {
+  const isCommentLikedByUser = commentsUtils.isCommentLikedByUser(
+    comment,
+    userId
+  );
+
+  console.log(isCommentLikedByUser);
+
   return (
     <Box
       key={comment.id}
@@ -32,7 +46,17 @@ const Comment = ({ comment }: { comment: CommentType }) => {
         <Flex align="center" gap={3}>
           <Flex align="center" gap={2}>
             {/* Like logic */}
-            <Icon as={FaHeart} cursor="pointer" boxSize={5} />
+            <Icon
+              as={isCommentLikedByUser ? FaHeart : FiHeart}
+              color={isCommentLikedByUser ? 'red.500' : 'gray.500'}
+              cursor="pointer"
+              transition="transform 0.2s ease, color 0.2s ease"
+              _hover={{
+                transform: 'scale(1.2)',
+                color: isCommentLikedByUser ? 'red.400' : 'gray.400',
+              }}
+              boxSize={5}
+            />
             <Text fontSize="sm" color="gray.400">
               {comment._count.likes}
             </Text>
