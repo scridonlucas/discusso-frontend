@@ -2,11 +2,10 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useState } from 'react';
 import commentDiscussionService from '../../services/commentDiscussionService';
-import { Flex, Spinner, Text, Stack, Box, Icon } from '@chakra-ui/react';
+import { Flex, Spinner, Text, Stack, Icon } from '@chakra-ui/react';
 import CommentsSectionError from './CommentsSectionError';
-import { formatDistanceToNow } from 'date-fns';
-import { FaCommentDots, FaHeart } from 'react-icons/fa';
-import { FiFlag } from 'react-icons/fi';
+import { FaCommentDots } from 'react-icons/fa';
+import Comment from './Comment';
 const CommentsSection = ({ discussionId }: { discussionId: number }) => {
   const [sortCriteria] = useState<string>('recent');
 
@@ -59,59 +58,7 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
             data.pages.some((page) => page.comments.length > 0) ? (
               data.pages.map((page) =>
                 page.comments.map((comment) => (
-                  <Box
-                    key={comment.id}
-                    p={3}
-                    borderRadius="lg"
-                    boxShadow="base"
-                    border="1px solid"
-                    borderColor="gray.700"
-                    bg="gray.800"
-                    width="100%"
-                  >
-                    <Flex direction={'column'} gap={3}>
-                      <Flex justify="space-between" align="center">
-                        <Text
-                          fontWeight="medium"
-                          fontSize="sm"
-                          color="gray.300"
-                        >
-                          {comment.user.username}
-                        </Text>
-                        <Text fontSize="xs" color="gray.500">
-                          {formatDistanceToNow(new Date(comment.createdAt), {
-                            addSuffix: true,
-                          })}
-                        </Text>
-                      </Flex>
-                      <Text fontSize="sm" color="gray.400">
-                        {comment.content}
-                      </Text>
-                      <Flex align="center" gap={3}>
-                        <Flex align="center" gap={2}>
-                          {/* Like logic */}
-                          <Icon as={FaHeart} cursor="pointer" boxSize={5} />
-                          <Text fontSize="sm" color="gray.400">
-                            {comment._count.likes}
-                          </Text>
-                        </Flex>
-                        <Flex>
-                          {/* Report logic */}
-                          <Icon
-                            as={FiFlag}
-                            cursor="pointer"
-                            boxSize={5}
-                            color="gray.500"
-                            transition="transform 0.2s ease, color 0.2s ease"
-                            _hover={{
-                              color: 'red.400',
-                              transform: 'scale(1.2)',
-                            }}
-                          />
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  </Box>
+                  <Comment key={comment.id} comment={comment} />
                 ))
               )
             ) : (
