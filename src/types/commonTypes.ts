@@ -82,3 +82,21 @@ export interface NewBookmarkResponse {
     username: string;
   };
 }
+
+export interface NewCommentLikeRenpose {
+  id: number;
+  userId: number;
+  commentId: number;
+  createdAt: Date;
+  user: {
+    id: number;
+    username: string;
+  };
+}
+
+export interface RemovedCommentLikeResponse {
+  id: number;
+  userId: number;
+  commentId: number;
+  createdAt: Date;
+}

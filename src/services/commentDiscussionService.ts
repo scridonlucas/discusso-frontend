@@ -1,5 +1,10 @@
 import axios from 'axios';
 import { Comment } from '../types/commonTypes';
+import {
+  NewCommentLikeRenpose,
+  RemovedCommentLikeResponse,
+} from '../types/commonTypes';
+
 const baseUrl = 'http://localhost:3001/api/discussions';
 type CommentResponse = {
   comments: Comment[];
@@ -56,4 +61,31 @@ const gatherComments = async ({
   };
 };
 
-export default { gatherComments, postComment };
+const addCommentLike = async (commentId: number) => {
+  const response = await axios.post<NewCommentLikeRenpose>(
+    `${baseUrl}/comments/${commentId}/like`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
+const deleteComentLike = async (commentId: number) => {
+  const response = await axios.delete<RemovedCommentLikeResponse>(
+    `${baseUrl}/comments}/${commentId}/like`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+export default {
+  gatherComments,
+  postComment,
+  addCommentLike,
+  deleteComentLike,
+};
