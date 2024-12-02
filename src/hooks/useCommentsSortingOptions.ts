@@ -1,10 +1,8 @@
 import React, { createContext, useContext } from 'react';
 
 interface CommentsSortingOptionsContextType {
-  sort: 'recent' | 'oldest' | 'most_liked';
-  setSort: React.Dispatch<
-    React.SetStateAction<'recent' | 'oldest' | 'most_liked'>
-  >;
+  sort: string;
+  setSort: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const CommentsSortingOptionsContext = createContext<

@@ -5,7 +5,7 @@ interface CommentsSortingOptionsProviderProps {
   children: ReactNode;
 }
 
-export const SortingOptionsProvider: React.FC<
+export const CommentsSortingOptionsProvider: React.FC<
   CommentsSortingOptionsProviderProps
 > = ({ children }) => {
   const [sort, setSort] = useState<'recent' | 'oldest' | 'most_liked'>(
