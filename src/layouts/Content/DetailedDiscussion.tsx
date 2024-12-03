@@ -12,6 +12,7 @@ import CommentSection from '../../components/CommentSection/CommentsSection';
 import { formatDistanceToNow } from 'date-fns';
 import { FiUser } from 'react-icons/fi';
 import CommentForm from '../../components/Forms/CommentForm/CommentForm';
+import CommentsSortingBar from '../../components/CommentSection/CommentsSortingBar';
 import {
   FiBookmark,
   FiFlag,
@@ -171,14 +172,11 @@ const DetailedDiscussion = () => {
             </Flex>
           </Flex>
           {/* Comment Input */}
-
           <CommentForm discussionId={Number(id)} />
-
+          {/* Comments Sorting Bar */}
+          <CommentsSortingBar />
           {/* Comments List */}
           <Stack spacing={4}>
-            <Text fontSize="lg" fontWeight="bold" color="gray.300">
-              Comments
-            </Text>
             <CommentSection discussionId={Number(id)} />
           </Stack>
         </Box>

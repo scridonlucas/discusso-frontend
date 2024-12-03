@@ -8,12 +8,12 @@ interface CommentsSortingOptionsProviderProps {
 export const CommentsSortingOptionsProvider: React.FC<
   CommentsSortingOptionsProviderProps
 > = ({ children }) => {
-  const [sort, setSort] = useState<'recent' | 'oldest' | 'most_liked'>(
-    'recent'
-  );
+  const [sortCriteria, setSortCriteria] = useState<string>('recent');
 
   return (
-    <CommentsSortingOptionsContext.Provider value={{ sort, setSort }}>
+    <CommentsSortingOptionsContext.Provider
+      value={{ sortCriteria, setSortCriteria }}
+    >
       {children}
     </CommentsSortingOptionsContext.Provider>
   );

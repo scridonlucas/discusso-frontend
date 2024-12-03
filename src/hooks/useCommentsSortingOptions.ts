@@ -1,8 +1,8 @@
 import React, { createContext, useContext } from 'react';
 
 interface CommentsSortingOptionsContextType {
-  sort: string;
-  setSort: React.Dispatch<React.SetStateAction<string>>;
+  sortCriteria: string;
+  setSortCriteria: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const CommentsSortingOptionsContext = createContext<

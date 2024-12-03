@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import { useSortingOptions } from '../../hooks/useSortingOptions';
-import DropdownMenu from './DropdownMenu';
+import DropdownMenu from '../DropdownMenu.tsx/DropdownMenu';
 import ViewToggle from './ViewToggle';
 const SortingBar = () => {
   const {

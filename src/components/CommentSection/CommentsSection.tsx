@@ -1,14 +1,15 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useState } from 'react';
 import commentDiscussionService from '../../services/commentDiscussionService';
 import { Flex, Spinner, Text, Stack, Icon } from '@chakra-ui/react';
 import CommentsSectionError from './CommentsSectionError';
 import { FaCommentDots } from 'react-icons/fa';
 import Comment from './Comment';
 import { useAuth } from '../../hooks/useAuth';
+import { useCommentsSortingOptions } from '../../hooks/useCommentsSortingOptions';
 const CommentsSection = ({ discussionId }: { discussionId: number }) => {
-  const [sortCriteria] = useState<string>('recent');
+  const { sortCriteria } = useCommentsSortingOptions();
+
   const {
     data: authData,
     isLoading: isLoadingAuth,
