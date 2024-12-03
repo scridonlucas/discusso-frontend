@@ -4,7 +4,7 @@ import {
   NewDiscussion,
   DiscussionsResponse,
 } from '../types/discussionTypes';
-
+import { NewLikeResponse } from '../types/commonTypes';
 type GatherDiscussionsParams = {
   pageParam?: number;
   limit?: number;
@@ -57,4 +57,33 @@ const getDiscussionById = async ({ queryKey }: GatherDiscussionParams) => {
   return response.data;
 };
 
-export default { postDiscussion, gatherDiscussions, getDiscussionById };
+const addLike = async (discussionId: number) => {
+  const response = await axios.post<NewLikeResponse>(
+    `${baseUrl}/${discussionId}/like`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
+const deleteLike = async (discussionId: number) => {
+  const response = await axios.delete<NewLikeResponse>(
+    `${baseUrl}/${discussionId}/like`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
+export default {
+  postDiscussion,
+  gatherDiscussions,
+  getDiscussionById,
+  addLike,
+  deleteLike,
+};

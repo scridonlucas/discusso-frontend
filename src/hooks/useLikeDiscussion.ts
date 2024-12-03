@@ -4,7 +4,7 @@ import {
   InfiniteData,
 } from '@tanstack/react-query';
 import { useToast } from '@chakra-ui/react';
-import likeService from '../services/likeDiscussionService';
+import discussionService from '../services/discussionService';
 import { AxiosError } from 'axios';
 import { Discussion as DiscussionType } from '../types/discussionTypes';
 import { useSortingOptions } from './useSortingOptions';
@@ -34,7 +34,7 @@ export const useLikeDiscussion = () => {
   };
 
   const likeDiscussion = useMutation({
-    mutationFn: likeService.addLike,
+    mutationFn: discussionService.addLike,
     onSuccess: (likeData) => {
       queryClient.setQueryData<PaginatedDiscussions>(
         ['discussions', sortCriteria, timeFrame, feedType],
@@ -98,7 +98,7 @@ export const useLikeDiscussion = () => {
   });
 
   const unlikeDiscussion = useMutation({
-    mutationFn: likeService.deleteLike,
+    mutationFn: discussionService.deleteLike,
     onSuccess: (likeData) => {
       queryClient.setQueryData<PaginatedDiscussions>(
         ['discussions', sortCriteria, timeFrame, feedType],
