@@ -83,7 +83,7 @@ export interface NewBookmarkResponse {
   };
 }
 
-export interface NewCommentLikeRenpose {
+export interface NewCommentLikeResponse {
   id: number;
   userId: number;
   commentId: number;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Comment } from '../types/commonTypes';
 import {
-  NewCommentLikeRenpose,
+  NewCommentLikeResponse,
   RemovedCommentLikeResponse,
 } from '../types/commonTypes';
 
@@ -62,7 +62,7 @@ const gatherComments = async ({
 };
 
 const addCommentLike = async (commentId: number) => {
-  const response = await axios.post<NewCommentLikeRenpose>(
+  const response = await axios.post<NewCommentLikeResponse>(
     `${baseUrl}/comments/${commentId}/like`,
     {},
     {
@@ -73,9 +73,9 @@ const addCommentLike = async (commentId: number) => {
   return response.data;
 };
 
-const deleteComentLike = async (commentId: number) => {
+const deleteCommentLike = async (commentId: number) => {
   const response = await axios.delete<RemovedCommentLikeResponse>(
-    `${baseUrl}/comments}/${commentId}/like`,
+    `${baseUrl}/comments/${commentId}/like`,
     {
       withCredentials: true,
     }
@@ -87,5 +87,5 @@ export default {
   gatherComments,
   postComment,
   addCommentLike,
-  deleteComentLike,
+  deleteCommentLike,
 };

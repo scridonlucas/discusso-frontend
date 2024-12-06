@@ -22,7 +22,7 @@ import {
 } from 'react-icons/fi';
 const DetailedDiscussion = () => {
   const { id } = useParams();
-
+  
   const {
     data: discussion,
     isLoading,

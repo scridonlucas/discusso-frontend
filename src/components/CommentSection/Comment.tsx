@@ -4,6 +4,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { FaHeart } from 'react-icons/fa';
 import { FiFlag, FiHeart } from 'react-icons/fi';
 import commentsUtils from '../MainPage/commentsUtils';
+import { useLikeComment } from '../../hooks/useLikeComment';
 const Comment = ({
   comment,
   userId,
@@ -11,13 +12,21 @@ const Comment = ({
   comment: CommentType;
   userId: number;
 }) => {
+  const { likeComment, unlikeComment } = useLikeComment();
+
   const isCommentLikedByUser = commentsUtils.isCommentLikedByUser(
     comment,
     userId
   );
 
-  console.log(isCommentLikedByUser);
-
+  const handleLikeCommentClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    (isCommentLikedByUser ? unlikeComment : likeComment).mutate({
+      commentId: comment.id,
+      discussionId: comment.discussionId,
+    });
+  };
   return (
     <Box
       key={comment.id}
@@ -44,7 +53,7 @@ const Comment = ({
           {comment.content}
         </Text>
         <Flex align="center" gap={3}>
-          <Flex align="center" gap={2}>
+          <Flex align="center" gap={2} onClick={handleLikeCommentClick}>
             {/* Like logic */}
             <Icon
               as={isCommentLikedByUser ? FaHeart : FiHeart}

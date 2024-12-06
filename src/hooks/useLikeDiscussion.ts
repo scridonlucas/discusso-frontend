@@ -40,7 +40,6 @@ export const useLikeDiscussion = () => {
         ['discussions', sortCriteria, timeFrame, feedType],
         (oldData) => {
           if (!oldData) return oldData;
-          console.log(oldData);
           return {
             ...oldData,
             pages: oldData.pages.map((page) => ({
@@ -74,7 +73,7 @@ export const useLikeDiscussion = () => {
         ['discussion', likeData.discussionId],
         (oldDiscussion) => {
           if (!oldDiscussion) return oldDiscussion;
-          console.log(oldDiscussion);
+
           return {
             ...oldDiscussion,
             likes: [
