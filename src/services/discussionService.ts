@@ -4,7 +4,11 @@ import {
   NewDiscussion,
   DiscussionsResponse,
 } from '../types/discussionTypes';
-import { NewLikeResponse } from '../types/commonTypes';
+
+import {
+  NewLikeResponse,
+  NewDiscussionReportResponse,
+} from '../types/commonTypes';
 type GatherDiscussionsParams = {
   pageParam?: number;
   limit?: number;
@@ -14,6 +18,10 @@ type GatherDiscussionsParams = {
 type GatherDiscussionParams = {
   queryKey: [string, number];
 };
+
+interface ReportReason {
+  reportReason: string;
+}
 
 const baseUrl = 'http://localhost:3001/api/discussions';
 
@@ -57,6 +65,23 @@ const getDiscussionById = async ({ queryKey }: GatherDiscussionParams) => {
   return response.data;
 };
 
+const addDiscussionReport = async ({
+  discussionId,
+  reportReason,
+}: {
+  discussionId: number;
+  reportReason: ReportReason;
+}) => {
+  const response = await axios.post<NewDiscussionReportResponse>(
+    `${baseUrl}/${discussionId}/report`,
+    reportReason,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
 const addLike = async (discussionId: number) => {
   const response = await axios.post<NewLikeResponse>(
     `${baseUrl}/${discussionId}/like`,
@@ -84,6 +109,7 @@ export default {
   postDiscussion,
   gatherDiscussions,
   getDiscussionById,
+  addDiscussionReport,
   addLike,
   deleteLike,
 };

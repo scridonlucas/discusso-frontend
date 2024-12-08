@@ -110,3 +110,13 @@ export interface NewDiscussionReportResponse {
   createdAt: Date;
   reviewedAt: Date | null;
 }
+
+export interface NewCommentReportResponse {
+  id: number;
+  userId: number;
+  commentId: number;
+  reason: string;
+  status: string;
+  createdAt: Date;
+  reviewedAt: Date | null;
+}

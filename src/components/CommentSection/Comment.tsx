@@ -5,6 +5,9 @@ import { FaHeart } from 'react-icons/fa';
 import { FiFlag, FiHeart } from 'react-icons/fi';
 import commentsUtils from '../MainPage/commentsUtils';
 import { useLikeComment } from '../../hooks/useLikeComment';
+import { useReportComment } from '../../hooks/useReportComment';
+import { useDisclosure } from '@chakra-ui/react';
+import ReportModal from '../ReportModal/ReportModal';
 const Comment = ({
   comment,
   userId,
@@ -13,6 +16,8 @@ const Comment = ({
   userId: number;
 }) => {
   const { likeComment, unlikeComment } = useLikeComment();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const reportComment = useReportComment();
 
   const isCommentLikedByUser = commentsUtils.isCommentLikedByUser(
     comment,
@@ -26,6 +31,23 @@ const Comment = ({
       commentId: comment.id,
       discussionId: comment.discussionId,
     });
+  };
+
+  const handleOpenModalClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onOpen();
+  };
+
+  const handleReportSubmit = (reason: string) => {
+    reportComment.mutate(
+      { commentId: comment.id, reportReason: { reportReason: reason } },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
   return (
     <Box
@@ -82,10 +104,18 @@ const Comment = ({
                 color: 'red.400',
                 transform: 'scale(1.2)',
               }}
+              onClick={handleOpenModalClick}
             />
           </Flex>
         </Flex>
       </Flex>
+      <ReportModal
+        reportTarget="comment"
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={handleReportSubmit}
+        isLoading={reportComment.isLoading}
+      />
     </Box>
   );
 };

@@ -1,8 +1,8 @@
-import discussionService from '../services/discussionService';
+import commentDiscussionService from '../services/commentDiscussionService';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useToast } from '@chakra-ui/react';
-export const useReportDiscussion = () => {
+export const useReportComment = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
 
@@ -21,10 +21,10 @@ export const useReportDiscussion = () => {
   };
 
   return useMutation({
-    mutationFn: discussionService.addDiscussionReport,
+    mutationFn: commentDiscussionService.addCommentReport,
     onSuccess: () => {
       toast({
-        title: 'Successfully reported discussion!',
+        title: 'Successfully reported comment!',
         description: 'Your report has been successfully submitted.',
         status: 'success',
         duration: 9000,
@@ -32,7 +32,7 @@ export const useReportDiscussion = () => {
       });
 
       queryClient.invalidateQueries({
-        queryKey: ['discussionReports'],
+        queryKey: ['commentReports'],
       });
     },
     onError: handleError,

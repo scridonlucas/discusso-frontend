@@ -24,8 +24,8 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const { data, isLoading, isError } = useAuth();
   const { likeDiscussion, unlikeDiscussion } = useLikeDiscussion();
   const { addBookmark, removeBookmark } = useSaveDiscussion();
-  const reportDiscussion = useReportDiscussion();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const reportDiscussion = useReportDiscussion();
 
   if (isLoading) {
     return <LoadingDiscussion />;

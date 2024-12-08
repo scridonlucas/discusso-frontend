@@ -3,6 +3,7 @@ import { Comment } from '../types/commonTypes';
 import {
   NewCommentLikeResponse,
   RemovedCommentLikeResponse,
+  NewCommentReportResponse,
 } from '../types/commonTypes';
 
 const baseUrl = 'http://localhost:3001/api/discussions';
@@ -20,6 +21,10 @@ type GatherCommentsParam = {
 type NewComment = {
   content: string;
 };
+
+interface ReportReason {
+  reportReason: string;
+}
 
 const postComment = async ({
   discussionId,
@@ -83,9 +88,28 @@ const deleteCommentLike = async (commentId: number) => {
 
   return response.data;
 };
+
+const addCommentReport = async ({
+  commentId,
+  reportReason,
+}: {
+  commentId: number;
+  reportReason: ReportReason;
+}) => {
+  const response = await axios.post<NewCommentReportResponse>(
+    `${baseUrl}/comments/${commentId}/report`,
+    reportReason,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
 export default {
   gatherComments,
   postComment,
   addCommentLike,
   deleteCommentLike,
+  addCommentReport,
 };
