@@ -100,3 +100,13 @@ export interface RemovedCommentLikeResponse {
   commentId: number;
   createdAt: Date;
 }
+
+export interface NewDiscussionReportResponse {
+  id: number;
+  userId: number;
+  discussionId: number;
+  reason: string;
+  status: string;
+  createdAt: Date;
+  reviewedAt: Date | null;
+}

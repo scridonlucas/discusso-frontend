@@ -1,5 +1,6 @@
 import { Box, Flex, Text, Icon } from '@chakra-ui/react';
 import LoadingDiscussion from './LoadingDiscussionPreview';
+import ReportModal from '../ReportModal/ReportModal';
 import utils from '../MainPage/discussionUtils';
 import {
   FiHeart,
@@ -16,12 +17,15 @@ import { useAuth } from '../../hooks/useAuth';
 import { Navigate } from 'react-router-dom';
 import { useLikeDiscussion } from '../../hooks/useLikeDiscussion';
 import { useSaveDiscussion } from '../../hooks/useSaveDiscussion';
+import { useReportDiscussion } from '../../hooks/useReportDiscussion';
+import { useDisclosure } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-
 const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
   const { data, isLoading, isError } = useAuth();
   const { likeDiscussion, unlikeDiscussion } = useLikeDiscussion();
   const { addBookmark, removeBookmark } = useSaveDiscussion();
+  const reportDiscussion = useReportDiscussion();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   if (isLoading) {
     return <LoadingDiscussion />;
@@ -50,6 +54,23 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
     event.preventDefault();
     event.stopPropagation();
     (savedByUser ? removeBookmark : addBookmark).mutate(discussion.id);
+  };
+
+  const handleOpenModalClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onOpen();
+  };
+
+  const handleReportSubmit = (reason: string) => {
+    reportDiscussion.mutate(
+      { discussionId: discussion.id, reportReason: { reportReason: reason } },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   return (
@@ -83,10 +104,7 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
             color="gray.500"
             _hover={{ color: 'red.400', transform: 'scale(1.1)' }}
             transition="transform 0.2s ease, color 0.2s ease"
-            onClick={(e) => {
-              e.stopPropagation();
-              // Handle report logic here
-            }}
+            onClick={handleOpenModalClick}
           />
           <Icon
             as={savedByUser ? FaBookmark : FiBookmark}
@@ -164,6 +182,14 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
           </Flex>
         </Flex>
       </Flex>
+
+      <ReportModal
+        reportTarget="discussion"
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={handleReportSubmit}
+        isLoading={reportDiscussion.isLoading}
+      />
     </Box>
   );
 };
