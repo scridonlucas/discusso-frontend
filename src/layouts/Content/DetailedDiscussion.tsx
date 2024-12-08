@@ -13,6 +13,10 @@ import { formatDistanceToNow } from 'date-fns';
 import { FiUser } from 'react-icons/fi';
 import CommentForm from '../../components/Forms/CommentForm/CommentForm';
 import CommentsSortingBar from '../../components/CommentSection/CommentsSortingBar';
+import { useDisclosure } from '@chakra-ui/react';
+import { useReportDiscussion } from '../../hooks/useReportDiscussion';
+import ReportModal from '../../components/ReportModal/ReportModal';
+
 import {
   FiBookmark,
   FiFlag,
@@ -22,7 +26,7 @@ import {
 } from 'react-icons/fi';
 const DetailedDiscussion = () => {
   const { id } = useParams();
-  
+
   const {
     data: discussion,
     isLoading,
@@ -43,6 +47,8 @@ const DetailedDiscussion = () => {
 
   const { likeDiscussion, unlikeDiscussion } = useLikeDiscussion();
   const { addBookmark, removeBookmark } = useSaveDiscussion();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const reportDiscussion = useReportDiscussion();
 
   if (!id) {
     return <Navigate to="/home" />;
@@ -87,6 +93,23 @@ const DetailedDiscussion = () => {
     (savedByUser ? removeBookmark : addBookmark).mutate(discussion.id);
   };
 
+  const handleOpenModalClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onOpen();
+  };
+
+  const handleReportSubmit = (reason: string) => {
+    reportDiscussion.mutate(
+      { discussionId: discussion.id, reportReason: { reportReason: reason } },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
+  };
+
   return (
     <Flex align="center" justify="center">
       <Stack spacing={8} width="100%" maxW="5xl" py={12} px={6}>
@@ -126,6 +149,7 @@ const DetailedDiscussion = () => {
                 color="gray.500"
                 cursor="pointer"
                 _hover={{ color: 'red.400' }}
+                onClick={handleOpenModalClick}
               />
             </Flex>
           </Flex>
@@ -181,6 +205,13 @@ const DetailedDiscussion = () => {
           </Stack>
         </Box>
       </Stack>
+      <ReportModal
+        reportTarget="discussion"
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={handleReportSubmit}
+        isLoading={reportDiscussion.isLoading}
+      />
     </Flex>
   );
 };

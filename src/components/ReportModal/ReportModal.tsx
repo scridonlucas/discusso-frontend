@@ -55,7 +55,7 @@ const ReportModal = ({
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Report {reportTarget}</ModalHeader>
+        <ModalHeader pb={2}>Report {reportTarget}</ModalHeader>
         <ModalBody>
           <Text mb={4}>
             We want to make things better. What's the issue with this{' '}
