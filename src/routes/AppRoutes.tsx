@@ -8,7 +8,9 @@ import Timeline from '../layouts/Content/Timeline';
 import Profile from '../layouts/Content/Profile';
 import Create from '../layouts/Content/Create';
 import DetailedDiscussion from '../layouts/Content/DetailedDiscussion';
-
+import AdminRoutes from './AdminRoutes';
+import AdminPage from '../pages/Admin';
+import Unauthorized from '../pages/Unauthorized';
 const AppRoutes = () => {
   return (
     <Routes>
@@ -24,7 +26,13 @@ const AppRoutes = () => {
           <Route path="/create" element={<Create />} />
           <Route path="/discussions/:id" element={<DetailedDiscussion />} />
         </Route>
+        <Route element={<AdminRoutes />}>
+          <Route element={<AdminPage />}>
+            <Route path="/admin" element={<Profile />} />
+          </Route>
+        </Route>
       </Route>
+      <Route path="/unauthorized" element={<Unauthorized />} />
     </Routes>
   );
 };

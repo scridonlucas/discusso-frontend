@@ -15,7 +15,7 @@ export interface LogoutResponse {
 interface AuthResponseUser {
   username: string;
   userId: number;
-  role: 'User' | 'Admin' | '';
+  role: 'USER' | 'ADMIN' | '';
 }
 
 export interface AuthResponse {

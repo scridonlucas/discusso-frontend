@@ -40,6 +40,10 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
     navigate('/create');
   };
 
+  const handleAdminDashboard = () => {
+    navigate('/admin');
+  };
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -138,6 +142,11 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
+              {role === 'ADMIN' && (
+                <MenuItem onClick={handleAdminDashboard}>
+                  Admin Dashboard
+                </MenuItem>
+              )}
               <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
             </MenuList>
           </Menu>
