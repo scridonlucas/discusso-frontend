@@ -6,11 +6,21 @@ import {
   FiBarChart2,
   FiPlusCircle,
   FiFileText,
+  FiGrid,
 } from 'react-icons/fi';
 import { LinkItemProps } from '../types';
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Flagged Discussions', icon: FiFlag, path: '/' },
+  {
+    name: 'Dashboard',
+    icon: FiGrid,
+    path: '/admin/dashboard',
+  },
+  {
+    name: 'Flagged Discussions',
+    icon: FiFlag,
+    path: '/admin/flagged-discussions',
+  },
   { name: 'Flagged Comments', icon: FiMessageSquare, path: '/' },
   { name: 'User Management', icon: FiUsers, path: '/' },
   { name: 'Analytics', icon: FiBarChart2, path: '/' },

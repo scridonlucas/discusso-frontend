@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import authService from '../services/authService';
 import { useQueryClient } from '@tanstack/react-query';
-import commentDiscussionService from '../services/commentDiscussionService';
+import discussionService from '../services/discussionService';
 export const usePostComment = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const toast = useToast();
 
   return useMutation({
-    mutationFn: commentDiscussionService.postComment,
+    mutationFn: discussionService.postComment,
 
     onSuccess: () => {
       toast({

@@ -10,6 +10,7 @@ import Create from '../layouts/Content/Create';
 import DetailedDiscussion from '../layouts/Content/DetailedDiscussion';
 import AdminRoutes from './AdminRoutes';
 import AdminPage from '../pages/Admin';
+import FlaggedDiscussions from '../layouts/AdminContent/FlaggedDiscussions';
 import Unauthorized from '../pages/Unauthorized';
 const AppRoutes = () => {
   return (
@@ -28,7 +29,14 @@ const AppRoutes = () => {
         </Route>
         <Route element={<AdminRoutes />}>
           <Route element={<AdminPage />}>
-            <Route path="/admin" element={<Profile />} />
+            <Route
+              path="/admin"
+              element={<Navigate to="/admin/flagged-discussions" />}
+            />
+            <Route
+              path="/admin/flagged-discussions"
+              element={<FlaggedDiscussions />}
+            />
           </Route>
         </Route>
       </Route>

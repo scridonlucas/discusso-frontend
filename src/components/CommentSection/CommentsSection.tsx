@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import commentDiscussionService from '../../services/commentDiscussionService';
+import discussionService from '../../services/discussionService';
 import { Flex, Spinner, Text, Stack, Icon } from '@chakra-ui/react';
 import CommentsSectionError from './CommentsSectionError';
 import { FaCommentDots } from 'react-icons/fa';
@@ -19,7 +19,7 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(
       ['comments', discussionId, sortCriteria],
-      commentDiscussionService.gatherComments,
+      discussionService.gatherComments,
       {
         getNextPageParam: (lastPage) => {
           console.log('Next Cursor:', lastPage.nextCursor);

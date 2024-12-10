@@ -32,6 +32,46 @@ export interface Comment {
   };
 }
 
+export interface DiscussionReport {
+  id: number;
+  userId: number;
+  discussionId: number;
+  reason: string;
+  status: string;
+  createdAt: Date;
+  reviewedAt: Date | null;
+  notes: string | null;
+  discussion: {
+    id: number;
+    createdAt: Date;
+    title: string;
+  };
+  user: {
+    id: number;
+    username: string;
+  };
+}
+
+export interface CommentReport {
+  id: number;
+  userId: number;
+  commentId: number;
+  reason: string;
+  status: string;
+  createdAt: Date;
+  reviewedAt: Date | null;
+  notes: string | null;
+  comment: {
+    id: number;
+    createdAt: Date;
+    content: string;
+  };
+  user: {
+    id: number;
+    username: string;
+  };
+}
+
 export interface Follow {
   followerId: number;
   followedId: number;
