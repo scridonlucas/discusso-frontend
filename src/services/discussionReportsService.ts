@@ -4,7 +4,7 @@ import { DiscussionReport } from '../types/commonTypes';
 const baseUrl = 'http://localhost:3001/api/discussion-reports';
 
 type DiscussionReportsResponse = {
-  reports: DiscussionReport[];
+  discussionReports: DiscussionReport[];
   total: number;
   nextCursor: number | null;
 };
@@ -28,8 +28,9 @@ const gatherDiscussionReports = async ({
     }
   );
   const nextCursor = response.data.nextCursor ?? null;
+
   return {
-    reports: response.data.reports,
+    reports: response.data.discussionReports,
     total: response.data.total,
     nextCursor,
   };

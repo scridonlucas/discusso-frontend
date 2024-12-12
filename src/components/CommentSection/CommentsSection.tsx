@@ -22,8 +22,6 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
       discussionService.gatherComments,
       {
         getNextPageParam: (lastPage) => {
-          console.log('Next Cursor:', lastPage.nextCursor);
-
           return lastPage.nextCursor ?? undefined;
         },
       }
@@ -42,46 +40,52 @@ const CommentsSection = ({ discussionId }: { discussionId: number }) => {
       </Flex>
     );
   }
-
   if (isError || isErrorAuth) {
     return <CommentsSectionError />;
   }
-
   return (
     <Flex align={'center'} justify={'center'}>
-      <Stack spacing={8} mx={'auto'} width={'100%'} maxW={'5xl'}>
-        <InfiniteScroll
-          dataLength={data?.pages.length || 0}
-          next={fetchNextPage}
-          hasMore={hasNextPage ?? false}
-          loader={
-            <Stack align="center" justify="center" width="100%" py={4}>
-              <Spinner size="md" />
+      <Stack spacing={8} mx="auto" width="100%" maxW="5xl" py={12} px={6}>
+        <Stack spacing={8} mx={'auto'} width={'100%'} maxW={'5xl'}>
+          <InfiniteScroll
+            dataLength={data?.pages.length || 0}
+            next={fetchNextPage}
+            hasMore={hasNextPage ?? false}
+            loader={
+              <Stack align="center" justify="center" width="100%" py={4}>
+                <Spinner size="md" />
+              </Stack>
+            }
+          >
+            <Stack spacing={4} align={'center'} justify={'center'}>
+              {data.pages.length > 0 &&
+              data.pages.length > 0 &&
+              data.pages.some((page) => page.comments.length > 0) ? (
+                data.pages.map((page) =>
+                  page.comments.map((comment) => (
+                    <Comment
+                      key={comment.id}
+                      comment={comment}
+                      userId={authData.user.userId}
+                    />
+                  ))
+                )
+              ) : (
+                <Flex
+                  direction="column"
+                  align="center"
+                  justify="center"
+                  gap={3}
+                >
+                  <Icon as={FaCommentDots} boxSize={8} color="gray.500" />
+                  <Text fontSize="md" fontWeight="medium" color="gray.300">
+                    No comments yet. Be the first to share your thoughts!
+                  </Text>
+                </Flex>
+              )}
             </Stack>
-          }
-        >
-          <Stack spacing={4} align={'center'} justify={'center'}>
-            {data.pages.length > 0 &&
-            data.pages.some((page) => page.comments.length > 0) ? (
-              data.pages.map((page) =>
-                page.comments.map((comment) => (
-                  <Comment
-                    key={comment.id}
-                    comment={comment}
-                    userId={authData.user.userId}
-                  />
-                ))
-              )
-            ) : (
-              <Flex direction="column" align="center" justify="center" gap={3}>
-                <Icon as={FaCommentDots} boxSize={8} color="gray.500" />
-                <Text fontSize="md" fontWeight="medium" color="gray.300">
-                  No comments yet. Be the first to share your thoughts!
-                </Text>
-              </Flex>
-            )}
-          </Stack>
-        </InfiniteScroll>
+          </InfiniteScroll>
+        </Stack>
       </Stack>
     </Flex>
   );

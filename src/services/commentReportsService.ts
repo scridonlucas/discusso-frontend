@@ -3,7 +3,7 @@ import { CommentReport } from '../types/commonTypes';
 const baseUrl = 'http://localhost:3001/api/comment-reports';
 
 type CommentReportsResponse = {
-  reports: CommentReport[];
+  commentReports: CommentReport[];
   total: number;
   nextCursor: number | null;
 };
@@ -28,7 +28,7 @@ const gatherCommentReports = async ({
   );
   const nextCursor = response.data.nextCursor ?? null;
   return {
-    reports: response.data.reports,
+    reports: response.data.commentReports,
     total: response.data.total,
     nextCursor,
   };
