@@ -9,10 +9,27 @@ type DiscussionReportsResponse = {
   nextCursor: number | null;
 };
 
+type GatherDiscussionReportByIdParams = {
+  queryKey: [string, number];
+};
+
 type GatherDiscussionReportsParams = {
   pageParam?: number;
   limit?: number;
   queryKey: [string, string];
+};
+
+const getgatherDiscussionReportById = async ({
+  queryKey,
+}: GatherDiscussionReportByIdParams) => {
+  const discussionId = queryKey[1];
+  const response = await axios.get<DiscussionReport>(
+    `${baseUrl}/${discussionId}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
 };
 
 const gatherDiscussionReports = async ({
@@ -37,5 +54,6 @@ const gatherDiscussionReports = async ({
 };
 
 export default {
+  getgatherDiscussionReportById,
   gatherDiscussionReports,
 };

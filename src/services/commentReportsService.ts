@@ -14,6 +14,20 @@ type GatherCommentReportsParams = {
   queryKey: [string, string];
 };
 
+type GatherCommentReportByIdParams = {
+  queryKey: [string, number];
+};
+
+const gatherCommentReportById = async ({
+  queryKey,
+}: GatherCommentReportByIdParams) => {
+  const commentId = queryKey[1];
+  const response = await axios.get<CommentReport>(`${baseUrl}/${commentId}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
 const gatherCommentReports = async ({
   pageParam = 0,
   limit = 20,
@@ -36,4 +50,5 @@ const gatherCommentReports = async ({
 
 export default {
   gatherCommentReports,
+  gatherCommentReportById,
 };
