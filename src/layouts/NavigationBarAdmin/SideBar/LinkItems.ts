@@ -21,7 +21,11 @@ const LinkItems: Array<LinkItemProps> = [
     icon: FiFlag,
     path: '/admin/flagged-discussions',
   },
-  { name: 'Flagged Comments', icon: FiMessageSquare, path: '/' },
+  {
+    name: 'Flagged Comments',
+    icon: FiMessageSquare,
+    path: '/admin/flagged-comments',
+  },
   { name: 'User Management', icon: FiUsers, path: '/' },
   { name: 'Analytics', icon: FiBarChart2, path: '/' },
   {

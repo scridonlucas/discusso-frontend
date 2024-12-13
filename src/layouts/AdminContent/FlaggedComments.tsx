@@ -2,14 +2,14 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { Flex, Spinner, Text, Stack, Icon } from '@chakra-ui/react';
 import { FaFlag } from 'react-icons/fa';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import discussionReportsService from '../../services/discussionReportsService';
+import commentReportsService from '../../services/commentReportsService';
 import ServerError from '../../components/MainPage/ServerError';
 import Ticket from '../../components/Ticket/Ticket';
-const FlaggedDiscussions = () => {
+const FlaggedComments = () => {
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(
-      ['flagged-discussions', 'PENDING'],
-      discussionReportsService.gatherDiscussionReports,
+      ['flagged-comments', 'PENDING'],
+      commentReportsService.gatherCommentReports,
       {
         getNextPageParam: (lastPage) => {
           return lastPage.nextCursor ?? undefined;
@@ -59,9 +59,9 @@ const FlaggedDiscussions = () => {
                 page.reports.map((report) => (
                   <Ticket
                     key={report.id}
-                    type="discussion"
+                    type="comment"
                     id={report.id}
-                    reportedItemId={report.discussion.id}
+                    reportedItemId={report.comment.id}
                     reason={report.reason}
                     status={report.status}
                     reporter={report.user.username}
@@ -78,7 +78,7 @@ const FlaggedDiscussions = () => {
               >
                 <Icon as={FaFlag} boxSize={8} color="gray.500" />
                 <Text fontSize="md" fontWeight="medium" color="gray.300">
-                  No flagged discussions yet. Everything looks clean!
+                  No flagged comments yet. Everything looks clean!
                 </Text>
               </Flex>
             )}
@@ -89,4 +89,4 @@ const FlaggedDiscussions = () => {
   );
 };
 
-export default FlaggedDiscussions;
+export default FlaggedComments;

@@ -11,6 +11,7 @@ import DetailedDiscussion from '../layouts/Content/DetailedDiscussion';
 import AdminRoutes from './AdminRoutes';
 import AdminPage from '../pages/Admin';
 import FlaggedDiscussions from '../layouts/AdminContent/FlaggedDiscussions';
+import FlaggedComments from '../layouts/AdminContent/FlaggedComments';
 import Unauthorized from '../pages/Unauthorized';
 const AppRoutes = () => {
   return (
@@ -36,6 +37,10 @@ const AppRoutes = () => {
             <Route
               path="/admin/flagged-discussions"
               element={<FlaggedDiscussions />}
+            />
+            <Route
+              path="/admin/flagged-comments"
+              element={<FlaggedComments />}
             />
           </Route>
         </Route>
