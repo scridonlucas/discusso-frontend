@@ -19,7 +19,7 @@ type GatherDiscussionReportsParams = {
   queryKey: [string, string];
 };
 
-const getgatherDiscussionReportById = async ({
+const getDiscussionReportById = async ({
   queryKey,
 }: GatherDiscussionReportByIdParams) => {
   const discussionId = queryKey[1];
@@ -54,6 +54,6 @@ const gatherDiscussionReports = async ({
 };
 
 export default {
-  getgatherDiscussionReportById,
+  getDiscussionReportById,
   gatherDiscussionReports,
 };

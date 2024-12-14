@@ -45,6 +45,7 @@ export interface DiscussionReport {
     id: number;
     createdAt: Date;
     title: string;
+    content: string;
   };
   user: {
     id: number;

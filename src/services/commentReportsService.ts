@@ -18,7 +18,7 @@ type GatherCommentReportByIdParams = {
   queryKey: [string, number];
 };
 
-const gatherCommentReportById = async ({
+const getCommentReportById = async ({
   queryKey,
 }: GatherCommentReportByIdParams) => {
   const commentId = queryKey[1];
@@ -50,5 +50,5 @@ const gatherCommentReports = async ({
 
 export default {
   gatherCommentReports,
-  gatherCommentReportById,
+  getCommentReportById,
 };

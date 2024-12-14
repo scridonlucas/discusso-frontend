@@ -12,7 +12,8 @@ import AdminRoutes from './AdminRoutes';
 import AdminPage from '../pages/Admin';
 import FlaggedDiscussions from '../layouts/AdminContent/FlaggedDiscussions';
 import FlaggedComments from '../layouts/AdminContent/FlaggedComments';
-import DetailedTicket from '../layouts/AdminContent/DetailedDiscussionTicket';
+import DetailedDiscussionTicket from '../layouts/AdminContent/DetailedDiscussionTicket';
+import DetailedCommentTicket from '../layouts/AdminContent/DetailedCommentTicket';
 import Unauthorized from '../pages/Unauthorized';
 const AppRoutes = () => {
   return (
@@ -42,11 +43,15 @@ const AppRoutes = () => {
             />
             <Route
               path="/admin/flagged-discussions/:id"
-              element={<DetailedTicket type="discussion" />}
+              element={<DetailedDiscussionTicket />}
             />
             <Route
               path="/admin/flagged-comments"
               element={<FlaggedComments />}
+            />
+            <Route
+              path="/admin/flagged-comments/:id"
+              element={<DetailedCommentTicket />}
             />
           </Route>
         </Route>

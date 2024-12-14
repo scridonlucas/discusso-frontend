@@ -197,12 +197,8 @@ const DetailedDiscussion = () => {
           </Flex>
           {/* Comment Input */}
           <CommentForm discussionId={Number(id)} />
-          {/* Comments Sorting Bar */}
           <CommentsSortingBar />
-          {/* Comments List */}
-          <Stack spacing={4}>
-            <CommentSection discussionId={Number(id)} />
-          </Stack>
+          <CommentSection discussionId={Number(id)} />
         </Box>
       </Stack>
       <ReportModal

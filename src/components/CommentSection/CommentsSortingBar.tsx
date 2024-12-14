@@ -18,7 +18,7 @@ const CommentsSortingBar: React.FC = () => {
   };
 
   return (
-    <Flex align="center" mb={4}>
+    <Flex align="center" mb={2} px={4}>
       <DropdownMenu
         options={sortOptions}
         selectedValue={sortCriteria}

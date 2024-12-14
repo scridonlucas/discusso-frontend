@@ -4,7 +4,7 @@ import { FaFlag } from 'react-icons/fa';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import discussionReportsService from '../../services/discussionReportsService';
 import ServerError from '../../components/MainPage/ServerError';
-import Ticket from '../../components/Ticket/Ticket';
+import Ticket from '../../components/Ticket/TicketPreview';
 const FlaggedDiscussions = () => {
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(

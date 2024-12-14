@@ -4,7 +4,7 @@ import { FaFlag } from 'react-icons/fa';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import commentReportsService from '../../services/commentReportsService';
 import ServerError from '../../components/MainPage/ServerError';
-import Ticket from '../../components/Ticket/Ticket';
+import Ticket from '../../components/Ticket/TicketPreview';
 const FlaggedComments = () => {
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(
