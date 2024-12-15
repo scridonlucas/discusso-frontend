@@ -24,13 +24,24 @@ export const useSignIn = () => {
     },
     onError: (error: unknown) => {
       if (error instanceof AxiosError && error.response) {
-        toast({
-          title: 'Incorrect Credentials!',
-          description: 'Incorrent email address or password!',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        });
+        if (error.response.status === 403) {
+          toast({
+            title: 'Access Denied!',
+            description:
+              'Your account has been banned and cannot sign in. Please contact support for further assistance!',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        } else if (error.response.status === 401) {
+          toast({
+            title: 'Incorrect Credentials!',
+            description: 'Incorrent email address or password!',
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          });
+        }
       } else {
         toast({
           title: 'Network Error!',

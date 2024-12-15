@@ -15,7 +15,7 @@ import CommentForm from '../../components/Forms/CommentForm/CommentForm';
 import CommentsSortingBar from '../../components/CommentSection/CommentsSortingBar';
 import { useDisclosure } from '@chakra-ui/react';
 import { useReportDiscussion } from '../../hooks/useReportDiscussion';
-import ReportModal from '../../components/ReportModal/ReportModal';
+import ReportModal from '../../components/Modals/ReportModal';
 
 import {
   FiBookmark,

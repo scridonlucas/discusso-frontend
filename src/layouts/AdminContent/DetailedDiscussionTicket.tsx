@@ -11,10 +11,11 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
-
 import { useQuery } from '@tanstack/react-query';
 import discussionReportsService from '../../services/discussionReportsService';
 import ServerError from '../../components/MainPage/ServerError';
+import { format } from 'date-fns';
+
 const DetailedDiscussionTicket = () => {
   const { id } = useParams();
 
@@ -123,6 +124,12 @@ const DetailedDiscussionTicket = () => {
             </Text>
             <Text>
               <Text as="span" fontWeight="semibold" color="blue.200">
+                Created at:
+              </Text>{' '}
+              {format(new Date(data.createdAt), 'PPPpp')}
+            </Text>
+            <Text>
+              <Text as="span" fontWeight="semibold" color="blue.200">
                 Reporter:
               </Text>{' '}
               {data.user.username}
@@ -131,18 +138,14 @@ const DetailedDiscussionTicket = () => {
 
           {/* Actions Section */}
           <HStack justify="flex-end" spacing={4}>
-            {/* Dismiss Button */}
             <Button
-              colorScheme="gray"
-              variant="outline"
+              colorScheme="blue"
               onClick={() => {
                 console.log('Dismiss action triggered');
               }}
             >
               Dismiss
             </Button>
-
-            {/* Remove Discussion Button */}
             <Button
               colorScheme="red"
               onClick={() => {
@@ -151,8 +154,6 @@ const DetailedDiscussionTicket = () => {
             >
               Remove Discussion
             </Button>
-
-            {/* Remove Discussion + Ban User Button */}
             <Button
               colorScheme="orange"
               onClick={() => {

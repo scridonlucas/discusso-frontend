@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Icon } from '@chakra-ui/react';
 import LoadingDiscussion from './LoadingDiscussionPreview';
-import ReportModal from '../ReportModal/ReportModal';
+import ReportModal from '../Modals/ReportModal';
 import utils from '../MainPage/discussionUtils';
 import {
   FiHeart,

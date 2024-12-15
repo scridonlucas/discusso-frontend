@@ -7,7 +7,7 @@ import commentsUtils from '../MainPage/commentsUtils';
 import { useLikeComment } from '../../hooks/useLikeComment';
 import { useReportComment } from '../../hooks/useReportComment';
 import { useDisclosure } from '@chakra-ui/react';
-import ReportModal from '../ReportModal/ReportModal';
+import ReportModal from '../Modals/ReportModal';
 const Comment = ({
   comment,
   userId,
