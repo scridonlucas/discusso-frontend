@@ -19,10 +19,6 @@ type GatherDiscussionReportsParams = {
   queryKey: [string, string];
 };
 
-type CloseDiscussionReportParams = {
-  queryKey: [string, number, string];
-};
-
 const getDiscussionReportById = async ({
   queryKey,
 }: GatherDiscussionReportByIdParams) => {
@@ -58,14 +54,16 @@ const gatherDiscussionReports = async ({
 };
 
 const closeDiscussionReportTicket = async ({
-  queryKey,
-}: CloseDiscussionReportParams) => {
-  const reportId = queryKey[1];
-  const reason = queryKey[2];
+  reportId,
+  action,
+}: {
+  reportId: number;
+  action: string;
+}) => {
   const response = await axios.put<DiscussionReport>(
     `${baseUrl}/${reportId}/close`,
     {
-      reason,
+      action,
     },
     {
       withCredentials: true,

@@ -14,18 +14,24 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import discussionReportsService from '../../services/discussionReportsService';
 import ServerError from '../../components/MainPage/ServerError';
+import { useCloseDiscussionTicket } from '../../hooks/useCloseDiscussionTicket';
+import { useDisclosure } from '@chakra-ui/react';
 import { format } from 'date-fns';
 
 const DetailedDiscussionTicket = () => {
   const { id } = useParams();
 
   const { data, isLoading, isError } = useQuery(
-    ['discussionTicket', Number(id)!],
+    ['discussionTickets', Number(id)!],
     discussionReportsService.getDiscussionReportById,
     {
       enabled: !!id,
     }
   );
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const closeDiscussionTicket = useCloseDiscussionTicket();
 
   if (!id) {
     return <Navigate to="/admin/flagged-discussions" />;
@@ -42,6 +48,23 @@ const DetailedDiscussionTicket = () => {
   if (isError) {
     return <ServerError />;
   }
+
+  const handleOpenModalClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    event.stopPropagation();
+    onOpen();
+  };
+
+  const handleCloseTicket = (action: string) => {
+    closeDiscussionTicket.mutate(
+      { reportId: data.id, action },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
+  };
 
   return (
     <Flex align="center" justify="center">
