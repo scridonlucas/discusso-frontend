@@ -9,6 +9,7 @@ import {
   Badge,
   VStack,
   Button,
+  Tooltip,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -171,24 +172,34 @@ const DetailedDiscussionTicket = () => {
 
           {/* Actions Section */}
           <HStack justify="flex-end" spacing={4}>
-            <Button
-              colorScheme="blue"
-              onClick={() => handleOpenModal('DISMISS')}
+            <Tooltip
+              label="Actions are disabled because this ticket is not pending."
+              isDisabled={data.status === 'PENDING'}
             >
-              Dismiss
-            </Button>
-            <Button
-              colorScheme="red"
-              onClick={() => handleOpenModal('REMOVE_RESOURCE')}
-            >
-              Remove Discussion
-            </Button>
-            <Button
-              colorScheme="orange"
-              onClick={() => handleOpenModal('REMOVE_AND_BAN')}
-            >
-              Remove Discussion + Ban User
-            </Button>
+              <HStack spacing={4} opacity={data.status === 'PENDING' ? 1 : 0.6}>
+                <Button
+                  colorScheme="blue"
+                  onClick={() => handleOpenModal('DISMISS')}
+                  isDisabled={data.status !== 'PENDING'}
+                >
+                  Dismiss
+                </Button>
+                <Button
+                  colorScheme="red"
+                  onClick={() => handleOpenModal('REMOVE_RESOURCE')}
+                  isDisabled={data.status !== 'PENDING'}
+                >
+                  Remove Discussion
+                </Button>
+                <Button
+                  colorScheme="orange"
+                  onClick={() => handleOpenModal('REMOVE_AND_BAN')}
+                  isDisabled={data.status !== 'PENDING'}
+                >
+                  Remove Discussion + Ban User
+                </Button>
+              </HStack>
+            </Tooltip>
           </HStack>
         </Box>
       </Stack>

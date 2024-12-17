@@ -26,7 +26,7 @@ const LinkItems: Array<LinkItemProps> = [
     icon: FiMessageSquare,
     path: '/admin/flagged-comments',
   },
-  { name: 'User Management', icon: FiUsers, path: '/' },
+  { name: 'User Management', icon: FiUsers, path: '/admin/user-management' },
   { name: 'Analytics', icon: FiBarChart2, path: '/' },
   {
     name: 'Communities',

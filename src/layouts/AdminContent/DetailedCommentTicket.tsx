@@ -9,6 +9,7 @@ import {
   Badge,
   VStack,
   Button,
+  Tooltip,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import ServerError from '../../components/MainPage/ServerError';
@@ -19,6 +20,7 @@ import { useState } from 'react';
 import { useDisclosure } from '@chakra-ui/react';
 import { useCloseCommentTicket } from '../../hooks/useCloseCommentTicket';
 import TicketConfirmationModal from '../../components/Modals/TicketConfirmationModal';
+
 const DetailedCommentTicket = () => {
   const { id } = useParams();
 
@@ -180,24 +182,34 @@ const DetailedCommentTicket = () => {
 
           {/* Actions Section */}
           <HStack justify="flex-end" spacing={4}>
-            <Button
-              colorScheme="blue"
-              onClick={() => handleOpenModal('DISMISS')}
+            <Tooltip
+              label="Actions are disabled because this ticket is not pending."
+              isDisabled={data.status === 'PENDING'}
             >
-              Dismiss
-            </Button>
-            <Button
-              colorScheme="red"
-              onClick={() => handleOpenModal('REMOVE_RESOURCE')}
-            >
-              Remove Comment
-            </Button>
-            <Button
-              colorScheme="orange"
-              onClick={() => handleOpenModal('REMOVE_AND_BAN')}
-            >
-              Remove Comment + Ban User
-            </Button>
+              <HStack spacing={4} opacity={data.status === 'PENDING' ? 1 : 0.6}>
+                <Button
+                  colorScheme="blue"
+                  onClick={() => handleOpenModal('DISMISS')}
+                  isDisabled={data.status !== 'PENDING'}
+                >
+                  Dismiss
+                </Button>
+                <Button
+                  colorScheme="red"
+                  onClick={() => handleOpenModal('REMOVE_RESOURCE')}
+                  isDisabled={data.status !== 'PENDING'}
+                >
+                  Remove Comment
+                </Button>
+                <Button
+                  colorScheme="orange"
+                  onClick={() => handleOpenModal('REMOVE_AND_BAN')}
+                  isDisabled={data.status !== 'PENDING'}
+                >
+                  Remove Comment + Ban User
+                </Button>
+              </HStack>
+            </Tooltip>
           </HStack>
         </Box>
       </Stack>
