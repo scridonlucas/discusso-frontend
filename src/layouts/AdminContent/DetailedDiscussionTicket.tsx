@@ -112,6 +112,12 @@ const DetailedDiscussionTicket = () => {
             </VStack>
             <Text>
               <Text as="span" fontWeight="semibold" color="blue.200">
+                Reported user ID:
+              </Text>{' '}
+              {data.discussion.userId}
+            </Text>
+            <Text>
+              <Text as="span" fontWeight="semibold" color="blue.200">
                 Discussion ID:
               </Text>{' '}
               {data.discussion.id}

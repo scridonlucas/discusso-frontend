@@ -18,6 +18,10 @@ type GatherCommentReportByIdParams = {
   queryKey: [string, number];
 };
 
+type CloseCommentReportParams = {
+  queryKey: [string, number, string];
+};
+
 const getCommentReportById = async ({
   queryKey,
 }: GatherCommentReportByIdParams) => {
@@ -48,7 +52,25 @@ const gatherCommentReports = async ({
   };
 };
 
+const clonseCommentReportTicket = async ({
+  queryKey,
+}: CloseCommentReportParams) => {
+  const reportId = queryKey[1];
+  const reason = queryKey[2];
+  const response = await axios.put<CommentReportsResponse>(
+    `${baseUrl}/${reportId}/close`,
+    {
+      reason,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
 export default {
   gatherCommentReports,
   getCommentReportById,
+  clonseCommentReportTicket,
 };

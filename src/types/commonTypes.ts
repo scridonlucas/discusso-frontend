@@ -46,6 +46,8 @@ export interface DiscussionReport {
     createdAt: Date;
     title: string;
     content: string;
+    user: string;
+    userId: number;
   };
   user: {
     id: number;
@@ -66,6 +68,8 @@ export interface CommentReport {
     id: number;
     createdAt: Date;
     content: string;
+    user: string;
+    userId: number;
   };
   user: {
     id: number;
