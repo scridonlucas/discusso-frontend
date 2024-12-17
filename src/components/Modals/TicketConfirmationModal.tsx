@@ -9,7 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 interface ConfirmationModalProps {
-  actionType: 'remove' | 'removeAndBan' | 'dismiss';
+  actionType: 'DISMISS' | 'REMOVE_RESOURCE' | 'REMOVE_AND_BAN';
   targetType: 'discussion' | 'comment';
   isOpen: boolean;
   onClose: () => void;
@@ -26,27 +26,29 @@ const TicketConfirmationModal = ({
   isLoading,
 }: ConfirmationModalProps) => {
   const actionMessages = {
-    remove: {
+    REMOVE_RESOURCE: {
       title: `Remove ${targetType}`,
       body: `Are you sure you want to remove this ${targetType}?`,
     },
-    removeAndBan: {
+    REMOVE_AND_BAN: {
       title: `Remove ${targetType} and Ban User`,
       body: `Are you sure you want to remove this ${targetType} and ban the user?`,
     },
-    dismiss: {
+    DISMISS: {
       title: `Dismiss Ticket`,
       body: `Are you sure you want to dismiss this ticket? No further action will be taken.`,
     },
   };
 
+  const { title, body } = actionMessages[actionType];
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{actionMessages[actionType]['title']}</ModalHeader>
+        <ModalHeader>{title}</ModalHeader>
         <ModalBody>
-          <Text>{actionMessages[actionType]['body']}</Text>
+          <Text>{body}</Text>
         </ModalBody>
         <ModalFooter>
           <Button variant="ghost" onClick={onClose} mr={3}>

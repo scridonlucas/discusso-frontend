@@ -60,7 +60,7 @@ const closeDiscussionReportTicket = async ({
   reportId: number;
   action: string;
 }) => {
-  const response = await axios.put<DiscussionReport>(
+  const response = await axios.post<DiscussionReport>(
     `${baseUrl}/${reportId}/close`,
     {
       action,

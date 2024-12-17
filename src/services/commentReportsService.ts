@@ -55,7 +55,7 @@ const closeCommentReportTicket = async ({
   reportId: number;
   action: string;
 }) => {
-  const response = await axios.put<CommentReportsResponse>(
+  const response = await axios.post<CommentReportsResponse>(
     `${baseUrl}/${reportId}/close`,
     {
       action,

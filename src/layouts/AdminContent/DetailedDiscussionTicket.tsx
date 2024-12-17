@@ -17,7 +17,8 @@ import ServerError from '../../components/MainPage/ServerError';
 import { useCloseDiscussionTicket } from '../../hooks/useCloseDiscussionTicket';
 import { useDisclosure } from '@chakra-ui/react';
 import { format } from 'date-fns';
-
+import { useState } from 'react';
+import TicketConfirmationModal from '../../components/Modals/TicketConfirmationModal';
 const DetailedDiscussionTicket = () => {
   const { id } = useParams();
 
@@ -30,6 +31,10 @@ const DetailedDiscussionTicket = () => {
   );
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [actionType, setActionType] = useState<
+    'DISMISS' | 'REMOVE_RESOURCE' | 'REMOVE_AND_BAN' | null
+  >(null);
 
   const closeDiscussionTicket = useCloseDiscussionTicket();
 
@@ -49,21 +54,20 @@ const DetailedDiscussionTicket = () => {
     return <ServerError />;
   }
 
-  const handleOpenModalClick = (event: React.MouseEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
+  const handleOpenModal = (
+    action: 'DISMISS' | 'REMOVE_RESOURCE' | 'REMOVE_AND_BAN'
+  ) => {
+    setActionType(action);
     onOpen();
   };
 
-  const handleCloseTicket = (action: string) => {
-    closeDiscussionTicket.mutate(
-      { reportId: data.id, action },
-      {
-        onSuccess: () => {
-          onClose();
-        },
-      }
-    );
+  const handleConfirmAction = () => {
+    if (actionType) {
+      closeDiscussionTicket.mutate(
+        { reportId: data.id, action: actionType },
+        { onSuccess: onClose }
+      );
+    }
   };
 
   return (
@@ -169,31 +173,35 @@ const DetailedDiscussionTicket = () => {
           <HStack justify="flex-end" spacing={4}>
             <Button
               colorScheme="blue"
-              onClick={() => {
-                console.log('Dismiss action triggered');
-              }}
+              onClick={() => handleOpenModal('DISMISS')}
             >
               Dismiss
             </Button>
             <Button
               colorScheme="red"
-              onClick={() => {
-                console.log('Remove Discussion action triggered');
-              }}
+              onClick={() => handleOpenModal('REMOVE_RESOURCE')}
             >
               Remove Discussion
             </Button>
             <Button
               colorScheme="orange"
-              onClick={() => {
-                console.log('Remove Discussion and Ban User action triggered');
-              }}
+              onClick={() => handleOpenModal('REMOVE_AND_BAN')}
             >
               Remove Discussion + Ban User
             </Button>
           </HStack>
         </Box>
       </Stack>
+      {actionType && (
+        <TicketConfirmationModal
+          actionType={actionType}
+          targetType="discussion"
+          isOpen={isOpen}
+          onClose={onClose}
+          onConfirm={handleConfirmAction}
+          isLoading={closeDiscussionTicket.isLoading}
+        />
+      )}
     </Flex>
   );
 };
