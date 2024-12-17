@@ -101,7 +101,7 @@ const DetailedDiscussionTicket = () => {
           <VStack align="start" spacing={4} mb={6}>
             <Text>
               <Text as="span" fontWeight="semibold" color="blue.200">
-                Discussion Title:
+                Discussion ID:
               </Text>{' '}
               <Text
                 as={Link}
@@ -111,8 +111,14 @@ const DetailedDiscussionTicket = () => {
                 textDecoration="underline"
                 _hover={{ color: 'gray.400' }}
               >
-                {data.discussion.title}
+                {data.discussion.id}
               </Text>
+            </Text>
+            <Text>
+              <Text as="span" fontWeight="semibold" color="blue.200">
+                Discussion Title:
+              </Text>{' '}
+              {data.discussion.title}
             </Text>
             <VStack align="start" spacing={3}>
               <Text as="span" fontWeight="semibold" color="blue.200">
@@ -142,12 +148,6 @@ const DetailedDiscussionTicket = () => {
                 Reported user ID:
               </Text>{' '}
               {data.discussion.userId}
-            </Text>
-            <Text>
-              <Text as="span" fontWeight="semibold" color="blue.200">
-                Discussion ID:
-              </Text>{' '}
-              {data.discussion.id}
             </Text>
             <Text>
               <Text as="span" fontWeight="semibold" color="blue.200">

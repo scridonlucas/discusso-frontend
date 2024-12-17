@@ -70,6 +70,7 @@ export interface CommentReport {
     content: string;
     user: string;
     userId: number;
+    discussionId: number;
   };
   user: {
     id: number;
