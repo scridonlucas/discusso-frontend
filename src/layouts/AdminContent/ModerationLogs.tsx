@@ -5,7 +5,9 @@ import {
   createColumnHelper,
   getCoreRowModel,
   getFilteredRowModel,
+  getSortedRowModel,
   getPaginationRowModel,
+  SortingState,
 } from '@tanstack/react-table';
 import DataTable from '../../components/DataTable/DataTable';
 import { Flex, Spinner, Text } from '@chakra-ui/react';
@@ -22,32 +24,102 @@ const ModerationLogs = () => {
   );
 
   const [globalFilter, setGlobalFilter] = useState('');
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns = useMemo(
     () => [
       columnHelper.accessor('createdAt', {
-        header: 'Created at',
+        header: ({ column }) => (
+          <Flex
+            align="center"
+            gap={2}
+            onClick={column.getToggleSortingHandler()}
+            cursor="pointer"
+          >
+            <Text>Created At</Text>
+
+            {column.getIsSorted() === 'asc' && '▲'}
+            {column.getIsSorted() === 'desc' && '▼'}
+            {column.getIsSorted() === false && '⇅'}
+          </Flex>
+        ),
         cell: (info) => format(info.getValue(), 'yyyy-MM-dd HH:mm:ss'),
+        enableSorting: true,
       }),
       columnHelper.accessor((row) => row.admin.username, {
         id: 'adminUsername',
-        header: 'Admin',
+        header: ({ column }) => (
+          <Flex
+            align="center"
+            gap={2}
+            onClick={column.getToggleSortingHandler()}
+            cursor="pointer"
+          >
+            <Text>Admin</Text>
+
+            {column.getIsSorted() === 'asc' && '▲'}
+            {column.getIsSorted() === 'desc' && '▼'}
+            {column.getIsSorted() === false && '⇅'}
+          </Flex>
+        ),
         cell: (info) => info.getValue(),
+        enableSorting: true,
       }),
       columnHelper.accessor((row) => row.user?.username ?? '-', {
         id: 'userUsername',
-        header: 'User',
+        header: ({ column }) => (
+          <Flex
+            align="center"
+            gap={2}
+            onClick={column.getToggleSortingHandler()}
+            cursor="pointer"
+          >
+            <Text>Reported User</Text>
+
+            {column.getIsSorted() === 'asc' && '▲'}
+            {column.getIsSorted() === 'desc' && '▼'}
+            {column.getIsSorted() === false && '⇅'}
+          </Flex>
+        ),
         cell: (info) => info.getValue(),
+        enableSorting: true,
       }),
       columnHelper.accessor('action', {
-        header: 'Action',
+        header: ({ column }) => (
+          <Flex
+            align="center"
+            gap={2}
+            onClick={column.getToggleSortingHandler()}
+            cursor="pointer"
+          >
+            <Text>Action</Text>
+
+            {column.getIsSorted() === 'asc' && '▲'}
+            {column.getIsSorted() === 'desc' && '▼'}
+            {column.getIsSorted() === false && '⇅'}
+          </Flex>
+        ),
         cell: (info) => info.getValue(),
+        enableSorting: true,
       }),
       columnHelper.accessor((row) => row.targetId ?? '-', {
         id: 'targetId',
-        header: 'Target ID',
+        header: ({ column }) => (
+          <Flex
+            align="center"
+            gap={2}
+            onClick={column.getToggleSortingHandler()}
+            cursor="pointer"
+          >
+            <Text>Target ID</Text>
+
+            {column.getIsSorted() === 'asc' && '▲'}
+            {column.getIsSorted() === 'desc' && '▼'}
+            {column.getIsSorted() === false && '⇅'}
+          </Flex>
+        ),
         cell: (info) => info.getValue(),
+        enableSorting: true,
       }),
     ],
     []
@@ -58,11 +130,13 @@ const ModerationLogs = () => {
     columns,
     state: {
       globalFilter,
+      sorting,
     },
     onGlobalFilterChange: setGlobalFilter,
-
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     globalFilterFn: (row, columnId, filterValue) => {
       const value = row.getValue(columnId);

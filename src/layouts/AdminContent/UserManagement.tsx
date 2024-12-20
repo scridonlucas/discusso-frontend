@@ -5,7 +5,9 @@ import {
   createColumnHelper,
   getCoreRowModel,
   getFilteredRowModel,
+  getSortedRowModel,
   getPaginationRowModel,
+  SortingState,
 } from '@tanstack/react-table';
 import DataTable from '../../components/DataTable/DataTable';
 import userService from '../../services/userService';
@@ -25,26 +27,83 @@ const UserManagement = () => {
   const updateUserStatus = useUpdateUserStatus();
   const updateUserRole = useUpdateUserRole();
   const [globalFilter, setGlobalFilter] = useState('');
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns = useMemo(
     () => [
       columnHelper.accessor('id', {
-        header: 'ID',
+        header: ({ column }) => (
+          <Flex
+            align="center"
+            gap={2}
+            onClick={column.getToggleSortingHandler()}
+            cursor="pointer"
+          >
+            <Text>ID</Text>
+
+            {column.getIsSorted() === 'asc' && '▲'}
+            {column.getIsSorted() === 'desc' && '▼'}
+            {column.getIsSorted() === false && '⇅'}
+          </Flex>
+        ),
         cell: (info) => info.getValue(),
+        enableSorting: true,
       }),
 
       columnHelper.accessor('username', {
-        header: 'Username',
+        header: ({ column }) => (
+          <Flex
+            align="center"
+            gap={2}
+            onClick={column.getToggleSortingHandler()}
+            cursor="pointer"
+          >
+            <Text>Username</Text>
+
+            {column.getIsSorted() === 'asc' && '▲'}
+            {column.getIsSorted() === 'desc' && '▼'}
+            {column.getIsSorted() === false && '⇅'}
+          </Flex>
+        ),
         cell: (info) => info.getValue(),
+        enableSorting: true,
       }),
       columnHelper.accessor('status', {
-        header: 'Status',
+        header: ({ column }) => (
+          <Flex
+            align="center"
+            gap={2}
+            onClick={column.getToggleSortingHandler()}
+            cursor="pointer"
+          >
+            <Text>Status</Text>
+
+            {column.getIsSorted() === 'asc' && '▲'}
+            {column.getIsSorted() === 'desc' && '▼'}
+            {column.getIsSorted() === false && '⇅'}
+          </Flex>
+        ),
         cell: (info) => info.getValue(),
+        enableSorting: true,
       }),
       columnHelper.accessor((row) => row.role.roleName, {
         id: 'roleName',
-        header: 'Role',
+        header: ({ column }) => (
+          <Flex
+            align="center"
+            gap={2}
+            onClick={column.getToggleSortingHandler()}
+            cursor="pointer"
+          >
+            <Text>Role</Text>
+
+            {column.getIsSorted() === 'asc' && '▲'}
+            {column.getIsSorted() === 'desc' && '▼'}
+            {column.getIsSorted() === false && '⇅'}
+          </Flex>
+        ),
         cell: (info) => info.getValue(),
+        enableSorting: true,
       }),
       columnHelper.display({
         id: 'actions',
@@ -117,10 +176,13 @@ const UserManagement = () => {
     columns,
     state: {
       globalFilter,
+      sorting,
     },
     onGlobalFilterChange: setGlobalFilter,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     globalFilterFn: (row, columnId, filterValue) => {
       const value = row.getValue(columnId);
