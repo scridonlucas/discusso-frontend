@@ -8,108 +8,49 @@ import {
   getPaginationRowModel,
 } from '@tanstack/react-table';
 import DataTable from '../../components/DataTable/DataTable';
-import userService from '../../services/userService';
-import { Flex, Spinner, Text, Button, Select } from '@chakra-ui/react';
-import { User } from '../../types/userTypes';
+import { Flex, Spinner, Text } from '@chakra-ui/react';
 import ServerError from '../../components/MainPage/ServerError';
-import { useUpdateUserStatus } from '../../hooks/useUpdateUserStatus';
-import { useUpdateUserRole } from '../../hooks/useUpdateUserRole';
+import logsService from '../../services/logsService';
+import { ModerationLog } from '../../types/commonTypes';
+import { format } from 'date-fns';
 
-const columnHelper = createColumnHelper<User>();
-const roles = ['ADMIN', 'USER'];
+const columnHelper = createColumnHelper<ModerationLog>();
 const ModerationLogs = () => {
   const { data, isLoading, isError } = useQuery(
     ['users'],
-    userService.gatherUsers
+    logsService.gatherModerationLogs
   );
-  const updateUserStatus = useUpdateUserStatus();
-  const updateUserRole = useUpdateUserRole();
+
   const [globalFilter, setGlobalFilter] = useState('');
+  const [sorting, setSorting] = useState([]);
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor('id', {
-        header: 'ID',
+      columnHelper.accessor('createdAt', {
+        header: 'Created at',
+        cell: (info) => format(info.getValue(), 'yyyy-MM-dd HH:mm:ss'),
+      }),
+      columnHelper.accessor((row) => row.admin.username, {
+        id: 'adminUsername',
+        header: 'Admin',
         cell: (info) => info.getValue(),
       }),
-
-      columnHelper.accessor('username', {
-        header: 'Username',
+      columnHelper.accessor((row) => row.user?.username ?? '-', {
+        id: 'userUsername',
+        header: 'User',
         cell: (info) => info.getValue(),
       }),
-      columnHelper.accessor('status', {
-        header: 'Status',
+      columnHelper.accessor('action', {
+        header: 'Action',
         cell: (info) => info.getValue(),
       }),
-      columnHelper.accessor((row) => row.role.roleName, {
-        id: 'roleName',
-        header: 'Role',
+      columnHelper.accessor((row) => row.targetId ?? '-', {
+        id: 'targetId',
+        header: 'Target ID',
         cell: (info) => info.getValue(),
-      }),
-      columnHelper.display({
-        id: 'actions',
-        header: 'Actions',
-        cell: (info) => {
-          const user = info.row.original;
-          const isBanned = user.status === 'BANNED';
-          const nextStatus = isBanned ? 'ACTIVE' : 'BANNED';
-
-          const handleClick = () => {
-            updateUserStatus.mutate({
-              userId: user.id,
-              userStatus: nextStatus,
-            });
-          };
-
-          return (
-            <Button
-              colorScheme={isBanned ? 'green' : 'red'}
-              size="sm"
-              onClick={handleClick}
-              isLoading={
-                updateUserStatus.isLoading &&
-                updateUserStatus.variables?.userId === user.id
-              }
-            >
-              {isBanned ? 'Unban' : 'Ban'}
-            </Button>
-          );
-        },
-      }),
-      columnHelper.display({
-        id: 'role',
-        header: 'Role',
-        cell: ({ row: { original: user } }) => {
-          const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-            const selectedRoleName = e.target.value;
-            updateUserRole.mutate({
-              userId: user.id,
-              roleName: selectedRoleName,
-            });
-          };
-
-          return (
-            <Select
-              size="sm"
-              _hover={{ boxShadow: 'lg', cursor: 'pointer' }}
-              value={user.role.roleName}
-              onChange={handleChange}
-              isDisabled={
-                updateUserRole.isLoading &&
-                updateUserRole.variables?.userId === user.id
-              }
-            >
-              {roles.map((role) => (
-                <option key={role} value={role}>
-                  {role}
-                </option>
-              ))}
-            </Select>
-          );
-        },
       }),
     ],
-    [updateUserStatus, updateUserRole]
+    []
   );
 
   const table = useReactTable({
@@ -119,6 +60,7 @@ const ModerationLogs = () => {
       globalFilter,
     },
     onGlobalFilterChange: setGlobalFilter,
+
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -129,7 +71,7 @@ const ModerationLogs = () => {
     initialState: {
       pagination: {
         pageIndex: 0,
-        pageSize: 10,
+        pageSize: 5,
       },
     },
   });

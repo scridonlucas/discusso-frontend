@@ -102,10 +102,17 @@ export interface Bookmark {
 
 export interface ModerationLog {
   id: number;
-  moderatorId: number;
-  affectedUserId: number;
+  adminId: number;
+  userId?: number;
   action: string;
-  timestamp: Date;
+  targetId?: number;
+  createdAt: Date;
+  admin: {
+    username: string;
+  };
+  user?: {
+    username: string;
+  };
 }
 
 export interface NewLikeResponse {
