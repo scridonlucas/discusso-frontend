@@ -9,24 +9,30 @@ import {
 } from '@tanstack/react-table';
 import DataTable from '../../components/DataTable/DataTable';
 import userService from '../../services/userService';
-import { Flex, Spinner, Text, Button } from '@chakra-ui/react';
+import { Flex, Spinner, Text, Button, Select } from '@chakra-ui/react';
 import { User } from '../../types/userTypes';
 import ServerError from '../../components/MainPage/ServerError';
 import { useUpdateUserStatus } from '../../hooks/useUpdateUserStatus';
+import { useUpdateUserRole } from '../../hooks/useUpdateUserRole';
 
 const columnHelper = createColumnHelper<User>();
-
+const roles = ['ADMIN', 'USER'];
 const UserManagement = () => {
   const { data, isLoading, isError } = useQuery(
     ['users'],
     userService.gatherUsers
   );
   const updateUserStatus = useUpdateUserStatus();
-
+  const updateUserRole = useUpdateUserRole();
   const [globalFilter, setGlobalFilter] = useState('');
 
   const columns = useMemo(
     () => [
+      columnHelper.accessor('id', {
+        header: 'ID',
+        cell: (info) => info.getValue(),
+      }),
+
       columnHelper.accessor('username', {
         header: 'Username',
         cell: (info) => info.getValue(),
@@ -70,8 +76,40 @@ const UserManagement = () => {
           );
         },
       }),
+      columnHelper.display({
+        id: 'role',
+        header: 'Role',
+        cell: ({ row: { original: user } }) => {
+          const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+            const selectedRoleName = e.target.value;
+            updateUserRole.mutate({
+              userId: user.id,
+              roleName: selectedRoleName,
+            });
+          };
+
+          return (
+            <Select
+              size="sm"
+              _hover={{ boxShadow: 'lg', cursor: 'pointer' }}
+              value={user.role.roleName}
+              onChange={handleChange}
+              isDisabled={
+                updateUserRole.isLoading &&
+                updateUserRole.variables?.userId === user.id
+              }
+            >
+              {roles.map((role) => (
+                <option key={role} value={role}>
+                  {role}
+                </option>
+              ))}
+            </Select>
+          );
+        },
+      }),
     ],
-    [updateUserStatus]
+    [updateUserStatus, updateUserRole]
   );
 
   const table = useReactTable({

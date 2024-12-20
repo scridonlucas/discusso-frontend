@@ -19,7 +19,7 @@ const updateUserStatus = async ({
   userStatus: 'ACTIVE' | 'BANNED';
 }) => {
   const response = await axios.patch<User>(
-    `${baseUrl}/${userId}`,
+    `${baseUrl}/${userId}/status`,
     {
       status: userStatus,
     },
@@ -31,4 +31,24 @@ const updateUserStatus = async ({
   return response.data;
 };
 
-export default { gatherUsers, updateUserStatus };
+const updateUserRole = async ({
+  userId,
+  roleName,
+}: {
+  userId: number;
+  roleName: string;
+}) => {
+  const response = await axios.patch<User>(
+    `${baseUrl}/${userId}/role`,
+    {
+      roleName,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
+export default { gatherUsers, updateUserStatus, updateUserRole };

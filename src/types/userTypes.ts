@@ -1,6 +1,7 @@
 import { Like } from './commonTypes';
 export interface User {
   id: number;
+  roleId: number;
   firstName: string;
   lastName: string;
   username: string;
