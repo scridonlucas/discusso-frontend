@@ -17,6 +17,7 @@ import DetailedCommentTicket from '../layouts/AdminContent/DetailedCommentTicket
 import UserManagement from '../layouts/AdminContent/UserManagement';
 import Unauthorized from '../pages/Unauthorized';
 import ModerationLogs from '../layouts/AdminContent/ModerationLogs';
+import Communities from '../layouts/AdminContent/Communities';
 const AppRoutes = () => {
   return (
     <Routes>
@@ -41,6 +42,7 @@ const AppRoutes = () => {
             />
             <Route path="/admin/user-management" element={<UserManagement />} />
             <Route path="/admin/moderation-logs" element={<ModerationLogs />} />
+            <Route path="/admin/communities" element={<Communities />} />
             <Route
               path="/admin/flagged-discussions"
               element={<FlaggedDiscussions />}

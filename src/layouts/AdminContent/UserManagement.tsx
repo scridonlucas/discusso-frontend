@@ -10,6 +10,7 @@ import {
   SortingState,
 } from '@tanstack/react-table';
 import DataTable from '../../components/DataTable/DataTable';
+import SortingHeader from '../../components/DataTable/SortingHeader';
 import userService from '../../services/userService';
 import { Flex, Spinner, Text, Button, Select } from '@chakra-ui/react';
 import { User } from '../../types/userTypes';
@@ -32,76 +33,28 @@ const UserManagement = () => {
   const columns = useMemo(
     () => [
       columnHelper.accessor('id', {
-        header: ({ column }) => (
-          <Flex
-            align="center"
-            gap={2}
-            onClick={column.getToggleSortingHandler()}
-            cursor="pointer"
-          >
-            <Text>ID</Text>
-
-            {column.getIsSorted() === 'asc' && '▲'}
-            {column.getIsSorted() === 'desc' && '▼'}
-            {column.getIsSorted() === false && '⇅'}
-          </Flex>
-        ),
+        header: ({ column }) => <SortingHeader column={column} label="ID" />,
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),
 
       columnHelper.accessor('username', {
         header: ({ column }) => (
-          <Flex
-            align="center"
-            gap={2}
-            onClick={column.getToggleSortingHandler()}
-            cursor="pointer"
-          >
-            <Text>Username</Text>
-
-            {column.getIsSorted() === 'asc' && '▲'}
-            {column.getIsSorted() === 'desc' && '▼'}
-            {column.getIsSorted() === false && '⇅'}
-          </Flex>
+          <SortingHeader column={column} label="Username" />
         ),
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),
       columnHelper.accessor('status', {
         header: ({ column }) => (
-          <Flex
-            align="center"
-            gap={2}
-            onClick={column.getToggleSortingHandler()}
-            cursor="pointer"
-          >
-            <Text>Status</Text>
-
-            {column.getIsSorted() === 'asc' && '▲'}
-            {column.getIsSorted() === 'desc' && '▼'}
-            {column.getIsSorted() === false && '⇅'}
-          </Flex>
+          <SortingHeader column={column} label="Status" />
         ),
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),
       columnHelper.accessor((row) => row.role.roleName, {
         id: 'roleName',
-        header: ({ column }) => (
-          <Flex
-            align="center"
-            gap={2}
-            onClick={column.getToggleSortingHandler()}
-            cursor="pointer"
-          >
-            <Text>Role</Text>
-
-            {column.getIsSorted() === 'asc' && '▲'}
-            {column.getIsSorted() === 'desc' && '▼'}
-            {column.getIsSorted() === false && '⇅'}
-          </Flex>
-        ),
+        header: ({ column }) => <SortingHeader column={column} label="Role" />,
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),

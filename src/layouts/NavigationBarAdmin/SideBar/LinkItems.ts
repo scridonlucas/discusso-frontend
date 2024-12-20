@@ -31,7 +31,7 @@ const LinkItems: Array<LinkItemProps> = [
   {
     name: 'Communities',
     icon: FiPlusCircle,
-    path: '/',
+    path: '/admin/communities',
   },
   {
     name: 'Moderation Logs',

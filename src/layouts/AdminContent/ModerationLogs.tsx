@@ -10,6 +10,7 @@ import {
   SortingState,
 } from '@tanstack/react-table';
 import DataTable from '../../components/DataTable/DataTable';
+import SortingHeader from '../../components/DataTable/SortingHeader';
 import { Flex, Spinner, Text } from '@chakra-ui/react';
 import ServerError from '../../components/MainPage/ServerError';
 import logsService from '../../services/logsService';
@@ -30,74 +31,28 @@ const ModerationLogs = () => {
     () => [
       columnHelper.accessor('createdAt', {
         header: ({ column }) => (
-          <Flex
-            align="center"
-            gap={2}
-            onClick={column.getToggleSortingHandler()}
-            cursor="pointer"
-          >
-            <Text>Created At</Text>
-
-            {column.getIsSorted() === 'asc' && '▲'}
-            {column.getIsSorted() === 'desc' && '▼'}
-            {column.getIsSorted() === false && '⇅'}
-          </Flex>
+          <SortingHeader column={column} label="Created At" />
         ),
         cell: (info) => format(info.getValue(), 'yyyy-MM-dd HH:mm:ss'),
         enableSorting: true,
       }),
       columnHelper.accessor((row) => row.admin.username, {
         id: 'adminUsername',
-        header: ({ column }) => (
-          <Flex
-            align="center"
-            gap={2}
-            onClick={column.getToggleSortingHandler()}
-            cursor="pointer"
-          >
-            <Text>Admin</Text>
-
-            {column.getIsSorted() === 'asc' && '▲'}
-            {column.getIsSorted() === 'desc' && '▼'}
-            {column.getIsSorted() === false && '⇅'}
-          </Flex>
-        ),
+        header: ({ column }) => <SortingHeader column={column} label="Admin" />,
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),
       columnHelper.accessor((row) => row.user?.username ?? '-', {
         id: 'userUsername',
         header: ({ column }) => (
-          <Flex
-            align="center"
-            gap={2}
-            onClick={column.getToggleSortingHandler()}
-            cursor="pointer"
-          >
-            <Text>Reported User</Text>
-
-            {column.getIsSorted() === 'asc' && '▲'}
-            {column.getIsSorted() === 'desc' && '▼'}
-            {column.getIsSorted() === false && '⇅'}
-          </Flex>
+          <SortingHeader column={column} label="Reported User" />
         ),
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),
       columnHelper.accessor('action', {
         header: ({ column }) => (
-          <Flex
-            align="center"
-            gap={2}
-            onClick={column.getToggleSortingHandler()}
-            cursor="pointer"
-          >
-            <Text>Action</Text>
-
-            {column.getIsSorted() === 'asc' && '▲'}
-            {column.getIsSorted() === 'desc' && '▼'}
-            {column.getIsSorted() === false && '⇅'}
-          </Flex>
+          <SortingHeader column={column} label="Action" />
         ),
         cell: (info) => info.getValue(),
         enableSorting: true,
@@ -105,18 +60,7 @@ const ModerationLogs = () => {
       columnHelper.accessor((row) => row.targetId ?? '-', {
         id: 'targetId',
         header: ({ column }) => (
-          <Flex
-            align="center"
-            gap={2}
-            onClick={column.getToggleSortingHandler()}
-            cursor="pointer"
-          >
-            <Text>Target ID</Text>
-
-            {column.getIsSorted() === 'asc' && '▲'}
-            {column.getIsSorted() === 'desc' && '▼'}
-            {column.getIsSorted() === false && '⇅'}
-          </Flex>
+          <SortingHeader column={column} label="Target ID" />
         ),
         cell: (info) => info.getValue(),
         enableSorting: true,
