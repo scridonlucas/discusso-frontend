@@ -16,6 +16,7 @@ import DetailedDiscussionTicket from '../layouts/AdminContent/DetailedDiscussion
 import DetailedCommentTicket from '../layouts/AdminContent/DetailedCommentTicket';
 import UserManagement from '../layouts/AdminContent/UserManagement';
 import Unauthorized from '../pages/Unauthorized';
+import ModerationLogs from '../layouts/AdminContent/ModerationLogs';
 const AppRoutes = () => {
   return (
     <Routes>
@@ -39,6 +40,7 @@ const AppRoutes = () => {
               element={<Navigate to="/admin/flagged-discussions" />}
             />
             <Route path="/admin/user-management" element={<UserManagement />} />
+            <Route path="/admin/moderation-logs" element={<ModerationLogs />} />
             <Route
               path="/admin/flagged-discussions"
               element={<FlaggedDiscussions />}

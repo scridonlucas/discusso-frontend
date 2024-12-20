@@ -34,9 +34,9 @@ const LinkItems: Array<LinkItemProps> = [
     path: '/',
   },
   {
-    name: 'Logs',
+    name: 'Moderation Logs',
     icon: FiFileText,
-    path: '/',
+    path: '/admin/moderation-logs',
   },
   { name: 'Home', icon: FiHome, path: '/' },
 ];
