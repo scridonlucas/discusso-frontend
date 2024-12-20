@@ -1,10 +1,12 @@
 import { Like } from './commonTypes';
 export interface User {
+  id: number;
   firstName: string;
   lastName: string;
   username: string;
   email: string;
   gender: Gender;
+  status: Status;
   birthDate: string;
   password: string;
   confirmPassword: string;
@@ -18,5 +20,8 @@ export interface LoginUser {
 }
 
 type Gender = 'MALE' | 'FEMALE' | 'OTHER';
-
-type Role = 'ADMIN' | 'MODERATOR' | 'PREMIUM' | 'USER';
+type Status = 'ACTIVE' | 'BANNED';
+interface Role {
+  roleId: number;
+  roleName: 'ADMIN' | 'MODERATOR' | 'PREMIUM' | 'USER';
+}
