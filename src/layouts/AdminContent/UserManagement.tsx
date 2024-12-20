@@ -208,7 +208,7 @@ const UserManagement = () => {
       >
         <Spinner size="xl" />
         <Text fontSize="xl" color="white">
-          Just a moment! We're gathering all the latest discussions for you...
+          Just a moment! We're gathering the user list for you..
         </Text>
       </Flex>
     );

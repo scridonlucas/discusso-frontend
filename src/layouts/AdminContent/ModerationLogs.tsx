@@ -19,7 +19,7 @@ import { format } from 'date-fns';
 const columnHelper = createColumnHelper<ModerationLog>();
 const ModerationLogs = () => {
   const { data, isLoading, isError } = useQuery(
-    ['users'],
+    ['moderation-logs'],
     logsService.gatherModerationLogs
   );
 
@@ -162,7 +162,7 @@ const ModerationLogs = () => {
       >
         <Spinner size="xl" />
         <Text fontSize="xl" color="white">
-          Just a moment! We're gathering all the latest discussions for you...
+          Just a moment! We're gathering all the moderation logs for you...
         </Text>
       </Flex>
     );
