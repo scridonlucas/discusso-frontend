@@ -1,23 +1,26 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoutes from './ProtectedRoutes';
 import AuthRoutes from './AuthRoutes';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import MainPage from '../pages/Main';
-import Timeline from '../layouts/Content/Timeline';
-import Profile from '../layouts/Content/Profile';
-import Create from '../layouts/Content/Create';
-import DetailedDiscussion from '../layouts/Content/DetailedDiscussion';
 import AdminRoutes from './AdminRoutes';
-import AdminPage from '../pages/Admin';
-import FlaggedDiscussions from '../layouts/AdminContent/FlaggedDiscussions';
-import FlaggedComments from '../layouts/AdminContent/FlaggedComments';
-import DetailedDiscussionTicket from '../layouts/AdminContent/DetailedDiscussionTicket';
-import DetailedCommentTicket from '../layouts/AdminContent/DetailedCommentTicket';
-import UserManagement from '../layouts/AdminContent/UserManagement';
-import Unauthorized from '../pages/Unauthorized';
-import ModerationLogs from '../layouts/AdminContent/ModerationLogs';
-import Communities from '../layouts/AdminContent/Communities';
+import { Login, Register, MainPage, AdminPage, Unauthorized } from '../pages';
+import {
+  Timeline,
+  Profile,
+  Create,
+  DetailedDiscussion,
+} from '../layouts/Content';
+import {
+  FlaggedDiscussions,
+  FlaggedComments,
+  DetailedDiscussionTicket,
+  DetailedCommentTicket,
+  UserManagement,
+  ModerationLogs,
+  Communities,
+  Analytics,
+  AdminDashboard,
+} from '../layouts/AdminContent';
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -36,10 +39,9 @@ const AppRoutes = () => {
         </Route>
         <Route element={<AdminRoutes />}>
           <Route element={<AdminPage />}>
-            <Route
-              path="/admin"
-              element={<Navigate to="/admin/flagged-discussions" />}
-            />
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/analytics" element={<Analytics />} />
             <Route path="/admin/user-management" element={<UserManagement />} />
             <Route path="/admin/moderation-logs" element={<ModerationLogs />} />
             <Route path="/admin/communities" element={<Communities />} />

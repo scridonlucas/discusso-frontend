@@ -3,6 +3,9 @@ import { User } from '../types/userTypes';
 
 const baseUrl = 'http://localhost:3001/api/users';
 
+interface GatherUserCountParams {
+  queryKey: [string, string?, string?, string?];
+}
 const gatherUsers = async () => {
   const response = await axios.get<User[]>(`${baseUrl}`, {
     withCredentials: true,
@@ -11,6 +14,19 @@ const gatherUsers = async () => {
   return response.data;
 };
 
+const getUsersCount = async ({ queryKey }: GatherUserCountParams) => {
+  const status = queryKey[1] || 'ACTIVE';
+  const startDate = queryKey[2] || '';
+  const endDate = queryKey[3] || '';
+  const response = await axios.get<number>(
+    `${baseUrl}/count?status=${status}&startDate=${startDate}&endDate=${endDate}`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
 const updateUserStatus = async ({
   userId,
   userStatus,
@@ -51,4 +67,4 @@ const updateUserRole = async ({
   return response.data;
 };
 
-export default { gatherUsers, updateUserStatus, updateUserRole };
+export default { gatherUsers, updateUserStatus, updateUserRole, getUsersCount };

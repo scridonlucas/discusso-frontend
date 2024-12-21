@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { Community, NewCommunityParams } from '../types/communityTypes';
+import {
+  Community,
+  NewCommunityParams,
+  CommunityUpdateParams,
+} from '../types/communityTypes';
 
 const baseUrl = 'http://localhost:3001/api/communities';
 
@@ -16,4 +20,22 @@ const addCommunity = async (community: NewCommunityParams) => {
   });
   return response.data;
 };
-export default { gatherCommunities, addCommunity };
+
+const updateCommunity = async ({
+  communityId,
+  communityData,
+}: {
+  communityId: number;
+  communityData: CommunityUpdateParams;
+}) => {
+  console.log(`${baseUrl}/${communityId}/update`);
+  const response = await axios.patch<Community>(
+    `${baseUrl}/${communityId}/update`,
+    communityData,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+export default { gatherCommunities, addCommunity, updateCommunity };

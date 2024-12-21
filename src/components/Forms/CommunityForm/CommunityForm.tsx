@@ -1,4 +1,4 @@
-import { Button, Stack, Input, Textarea } from '@chakra-ui/react';
+import { Button, HStack, Input, Stack } from '@chakra-ui/react';
 import validationSchema from './validationSchema';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { FormControl, FormErrorMessage } from '@chakra-ui/react';
@@ -22,41 +22,32 @@ const CommunityForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={4}>
-        <FormControl id="communityName" isInvalid={!!errors.communityName}>
-          <Input
-            placeholder="Community Name"
-            size="lg"
-            {...register('communityName', validationSchema.communityName)}
-          />
-          <FormErrorMessage>
-            {errors.communityName && errors.communityName.message}
-          </FormErrorMessage>
-        </FormControl>
+    <Stack maxW={'sm'}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <HStack spacing={4}>
+          <FormControl id="communityName" isInvalid={!!errors.communityName}>
+            <Input
+              placeholder="Community Name"
+              size="md"
+              {...register('communityName', validationSchema.communityName)}
+            />
+            <FormErrorMessage>
+              {errors.communityName && errors.communityName.message}
+            </FormErrorMessage>
+          </FormControl>
 
-        <FormControl id="description" isInvalid={!!errors.description}>
-          <Textarea
-            placeholder="Description (optional)"
-            size="lg"
-            resize="vertical"
-            {...register('description', validationSchema.description)}
-          />
-          <FormErrorMessage>
-            {errors.description && errors.description.message}
-          </FormErrorMessage>
-        </FormControl>
-
-        <Button
-          type="submit"
-          colorScheme="blue"
-          size="lg"
-          isLoading={postCommunityMutation.isLoading}
-        >
-          Create
-        </Button>
-      </Stack>
-    </form>
+          <Button
+            type="submit"
+            colorScheme="blue"
+            size="md"
+            isLoading={postCommunityMutation.isLoading}
+            w={'80%'}
+          >
+            Create community
+          </Button>
+        </HStack>
+      </form>
+    </Stack>
   );
 };
 

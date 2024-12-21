@@ -5,9 +5,19 @@ export interface Community {
   userId: number;
   createdAt: Date;
   updatedAt: Date;
+  _count: {
+    discussions: number;
+    followers: number;
+  };
 }
 
 export interface NewCommunityParams {
   communityName: string;
   description?: string;
+}
+
+export interface CommunityUpdateParams {
+  communityName?: string;
+  description?: string;
+  isDeleted?: boolean;
 }

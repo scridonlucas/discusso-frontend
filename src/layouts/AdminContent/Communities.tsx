@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import CommunityForm from '../../components/Forms/CommunityForm/CommunityForm';
 import { useQuery } from '@tanstack/react-query';
 import {
   useReactTable,
@@ -9,11 +10,12 @@ import {
   getPaginationRowModel,
   SortingState,
 } from '@tanstack/react-table';
+import { useUpdateCommunity } from '../../hooks/useUpdateCommunity';
 import communityService from '../../services/communityService';
 import ServerError from '../../components/MainPage/ServerError';
 import DataTable from '../../components/DataTable/DataTable';
 import SortingHeader from '../../components/DataTable/SortingHeader';
-import { Flex, Spinner, Text } from '@chakra-ui/react';
+import { Flex, Spinner, Text, Button } from '@chakra-ui/react';
 import { Community } from '../../types/communityTypes';
 import { format } from 'date-fns';
 
@@ -24,6 +26,7 @@ const Communities = () => {
     ['communities'],
     communityService.gatherCommunities
   );
+  const updateCommunity = useUpdateCommunity();
 
   const [globalFilter, setGlobalFilter] = useState('');
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -40,6 +43,22 @@ const Communities = () => {
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),
+      columnHelper.accessor('_count.discussions', {
+        header: ({ column }) => (
+          <SortingHeader column={column} label="Discussions" />
+        ),
+        cell: (info) => info.getValue(),
+        enableSorting: true,
+      }),
+
+      columnHelper.accessor('_count.followers', {
+        header: ({ column }) => (
+          <SortingHeader column={column} label="Followers" />
+        ),
+        cell: (info) => info.getValue(),
+        enableSorting: true,
+      }),
+
       columnHelper.accessor('createdAt', {
         header: ({ column }) => (
           <SortingHeader column={column} label="Created At" />
@@ -48,8 +67,28 @@ const Communities = () => {
 
         enableSorting: true,
       }),
+      columnHelper.display({
+        id: 'actions',
+        header: 'Actions',
+        cell: (info) => {
+          const communityId = info.row.original.id;
+
+          const handleRemove = () => {
+            updateCommunity.mutate({
+              communityId: communityId,
+              communityData: { isDeleted: true },
+            });
+          };
+
+          return (
+            <Button size="sm" colorScheme="red" onClick={handleRemove}>
+              Remove
+            </Button>
+          );
+        },
+      }),
     ],
-    []
+    [updateCommunity]
   );
 
   const table = useReactTable({
@@ -99,15 +138,20 @@ const Communities = () => {
     <ServerError />;
   }
   return (
-    <Flex align="center" justify="center" p={4} w="full">
-      <DataTable
-        table={table}
-        showSearch={true}
-        showPagination={true}
-        globalFilter={globalFilter}
-        onGlobalFilterChange={setGlobalFilter}
-        width="80%"
-      />
+    <Flex direction="column" gap={6}>
+      <Flex align="center" width="80%" mx="auto" mt={6}>
+        <CommunityForm />
+      </Flex>
+      <Flex justify={'center'}>
+        <DataTable
+          table={table}
+          showSearch={true}
+          showPagination={true}
+          globalFilter={globalFilter}
+          onGlobalFilterChange={setGlobalFilter}
+          width="80%"
+        />
+      </Flex>
     </Flex>
   );
 };
