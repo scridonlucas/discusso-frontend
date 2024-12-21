@@ -11,8 +11,9 @@ import {
 } from '@tanstack/react-table';
 import DataTable from '../../components/DataTable/DataTable';
 import SortingHeader from '../../components/DataTable/SortingHeader';
-import { Flex, Spinner, Text } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import ServerError from '../../components/MainPage/ServerError';
+import ServerLoading from '../../components/MainPage/ServerLoading';
 import logsService from '../../services/logsService';
 import { ModerationLog } from '../../types/commonTypes';
 import { format } from 'date-fns';
@@ -95,21 +96,7 @@ const ModerationLogs = () => {
   });
 
   if (isLoading) {
-    return (
-      <Flex
-        align={'center'}
-        flexDirection={'column'}
-        gap={'3vh'}
-        justify={'center'}
-        alignItems={'center'}
-        minH={'100vh'}
-      >
-        <Spinner size="xl" />
-        <Text fontSize="xl" color="white">
-          Just a moment! We're gathering all the moderation logs for you...
-        </Text>
-      </Flex>
-    );
+    return <ServerLoading />;
   }
 
   if (isError) {

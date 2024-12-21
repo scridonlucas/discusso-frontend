@@ -12,9 +12,10 @@ import {
 import DataTable from '../../components/DataTable/DataTable';
 import SortingHeader from '../../components/DataTable/SortingHeader';
 import userService from '../../services/userService';
-import { Flex, Spinner, Text, Button, Select } from '@chakra-ui/react';
+import { Flex, Button, Select } from '@chakra-ui/react';
 import { User } from '../../types/userTypes';
 import ServerError from '../../components/MainPage/ServerError';
+import ServerLoading from '../../components/MainPage/ServerLoading';
 import { useUpdateUserStatus } from '../../hooks/useUpdateUserStatus';
 import { useUpdateUserRole } from '../../hooks/useUpdateUserRole';
 
@@ -150,21 +151,7 @@ const UserManagement = () => {
   });
 
   if (isLoading) {
-    return (
-      <Flex
-        align={'center'}
-        flexDirection={'column'}
-        gap={'3vh'}
-        justify={'center'}
-        alignItems={'center'}
-        minH={'100vh'}
-      >
-        <Spinner size="xl" />
-        <Text fontSize="xl" color="white">
-          Just a moment! We're gathering the user list for you..
-        </Text>
-      </Flex>
-    );
+    return <ServerLoading />;
   }
 
   if (isError) {

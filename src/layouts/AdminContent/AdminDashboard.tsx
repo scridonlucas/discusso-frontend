@@ -1,47 +1,52 @@
-import { Flex, Text, Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import userService from '../../services/userService';
+import discussionReportsService from '../../services/discussionReportsService';
 import { useQuery } from '@tanstack/react-query';
 import DashboardCard from '../../components/DashboardCard/DashboardCard';
 import ServerError from '../../components/MainPage/ServerError';
+import ServerLoading from '../../components/MainPage/ServerLoading';
 const AdminDashboard = () => {
-  const { data, isLoading, isError } = useQuery(
-    ['usersCount'],
-    userService.getUsersCount
+  const {
+    data: usersCountData,
+    isLoading: usersCountIsLoading,
+    isError: usersCountIsError,
+  } = useQuery(['usersCount'], userService.getUsersCount);
+
+  const {
+    data: discussionReportsCountData,
+    isLoading: discussionReportsCountIsLoading,
+    isError: discussionReportsCountIsError,
+  } = useQuery(
+    ['discussionReportsCount'],
+    discussionReportsService.getDiscussionReportsCount
   );
 
-  if (isLoading) {
-    return (
-      <Flex
-        align={'center'}
-        flexDirection={'column'}
-        gap={'3vh'}
-        justify={'center'}
-        alignItems={'center'}
-        minH={'100vh'}
-      >
-        <Spinner size="xl" />
-        <Text fontSize="xl" color="white">
-          Just a moment! We're gathering all the latest reports...
-        </Text>
-      </Flex>
-    );
+  if (usersCountIsLoading || discussionReportsCountIsLoading) {
+    return <ServerLoading />;
   }
 
-  if (isError) {
+  if (usersCountIsError || discussionReportsCountIsError) {
     return <ServerError />;
   }
   return (
-    <Flex gap="4" p="8">
+    <Flex gap="6" align={'center'} justify={'center'} marginTop={6}>
       <DashboardCard
-        title="Total users"
-        value={data}
+        title="Pending Flagged Discussions"
+        value={discussionReportsCountData}
+        bgColor="teal.500"
+        hoverColor="teal.600"
+        textColor="white"
+      />
+      <DashboardCard
+        title="Comments Pending Tickets"
+        value={0}
         bgColor="teal.500"
         hoverColor="teal.600"
         textColor="white"
       />
       <DashboardCard
         title="Total users"
-        value={data}
+        value={usersCountData}
         bgColor="purple.500"
         hoverColor="purple.600"
         textColor="white"

@@ -17,7 +17,7 @@ const DashboardCard = ({
 }: CardProps) => {
   return (
     <Box
-      w={['100%', '100%', '200px']}
+      w={['100%', '100%', '300px']}
       p="6"
       bg={bgColor}
       borderRadius="md"

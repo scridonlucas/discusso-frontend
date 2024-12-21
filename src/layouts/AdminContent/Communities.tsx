@@ -13,9 +13,10 @@ import {
 import { useUpdateCommunity } from '../../hooks/useUpdateCommunity';
 import communityService from '../../services/communityService';
 import ServerError from '../../components/MainPage/ServerError';
+import ServerLoading from '../../components/MainPage/ServerLoading';
 import DataTable from '../../components/DataTable/DataTable';
 import SortingHeader from '../../components/DataTable/SortingHeader';
-import { Flex, Spinner, Text, Button } from '@chakra-ui/react';
+import { Flex, Button } from '@chakra-ui/react';
 import { Community } from '../../types/communityTypes';
 import { format } from 'date-fns';
 
@@ -117,21 +118,7 @@ const Communities = () => {
   });
 
   if (isLoading) {
-    return (
-      <Flex
-        align={'center'}
-        flexDirection={'column'}
-        gap={'3vh'}
-        justify={'center'}
-        alignItems={'center'}
-        minH={'100vh'}
-      >
-        <Spinner size="xl" />
-        <Text fontSize="xl" color="white">
-          Just a moment! We're gathering the community list for you..
-        </Text>
-      </Flex>
-    );
+    return <ServerLoading />;
   }
 
   if (isError) {

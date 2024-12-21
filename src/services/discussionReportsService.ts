@@ -13,6 +13,10 @@ type GatherDiscussionReportByIdParams = {
   queryKey: [string, number];
 };
 
+type GatherDiscussionReportsCount = {
+  queryKey: [string, string?];
+};
+
 type GatherDiscussionReportsParams = {
   pageParam?: number;
   limit?: number;
@@ -25,6 +29,19 @@ const getDiscussionReportById = async ({
   const discussionId = queryKey[1];
   const response = await axios.get<DiscussionReport>(
     `${baseUrl}/${discussionId}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+const getDiscussionReportsCount = async ({
+  queryKey,
+}: GatherDiscussionReportsCount) => {
+  const status = queryKey[1] ? queryKey[1] : 'PENDING';
+  const response = await axios.get<number>(
+    `${baseUrl}/count?status=${status}`,
     {
       withCredentials: true,
     }
@@ -76,4 +93,5 @@ export default {
   getDiscussionReportById,
   gatherDiscussionReports,
   closeDiscussionReportTicket,
+  getDiscussionReportsCount,
 };

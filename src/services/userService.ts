@@ -24,7 +24,6 @@ const getUsersCount = async ({ queryKey }: GatherUserCountParams) => {
       withCredentials: true,
     }
   );
-
   return response.data;
 };
 const updateUserStatus = async ({
