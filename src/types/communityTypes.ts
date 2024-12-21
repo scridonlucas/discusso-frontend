@@ -6,3 +6,8 @@ export interface Community {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface NewCommunityParams {
+  communityName: string;
+  description?: string;
+}

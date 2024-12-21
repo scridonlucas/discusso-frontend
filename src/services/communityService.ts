@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Community } from '../types/communityTypes';
+import { Community, NewCommunityParams } from '../types/communityTypes';
 
 const baseUrl = 'http://localhost:3001/api/communities';
 
@@ -10,4 +10,10 @@ const gatherCommunities = async () => {
   return response.data;
 };
 
-export default { gatherCommunities };
+const addCommunity = async (community: NewCommunityParams) => {
+  const response = await axios.post<Community>(`${baseUrl}`, community, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+export default { gatherCommunities, addCommunity };
