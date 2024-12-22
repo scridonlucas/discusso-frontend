@@ -3,11 +3,9 @@ import userService from '../../services/userService';
 import discussionReportsService from '../../services/discussionReportsService';
 import commentReportsService from '../../services/commentReportsService';
 import { useQuery } from '@tanstack/react-query';
-import {
-  DashboardCard,
-  ErrorCard,
-  LoadingCard,
-} from '../../components/DashboardCard';
+import { DashboardCard } from '../../components/DashboardCard';
+
+import { startOfWeek, endOfWeek, formatISO } from 'date-fns';
 
 const AdminDashboard = () => {
   const {
@@ -15,6 +13,24 @@ const AdminDashboard = () => {
     isLoading: usersCountIsLoading,
     isError: usersCountIsError,
   } = useQuery(['usersCount'], userService.getUsersCount);
+
+  const {
+    data: newRegisteredUsersCountData,
+    isLoading: newRegisteredUsersCountIsLoading,
+    isError: newRegisteredUsersCountIsError,
+  } = useQuery(
+    [
+      'newRegisteredUsersCount',
+      'ACTIVE',
+      formatISO(startOfWeek(new Date(), { weekStartsOn: 1 }), {
+        representation: 'complete',
+      }),
+      formatISO(endOfWeek(new Date(), { weekStartsOn: 1 }), {
+        representation: 'complete',
+      }),
+    ],
+    userService.getUsersCount
+  );
 
   const {
     data: discussionReportsCountData,
@@ -34,35 +50,47 @@ const AdminDashboard = () => {
     commentReportsService.getCommentReportsCount
   );
 
+  console.log(newRegisteredUsersCountData);
   return (
     <Box p={6}>
       <SimpleGrid columns={[1, 2, 4]} spacing={6} mb={6}>
-        {usersCountIsLoading ? (
-          <LoadingCard title="Loading Total Users..." />
-        ) : usersCountIsError ? (
-          <ErrorCard title="Error loading Total Users" />
-        ) : (
-          <DashboardCard
-            title="Total users"
-            value={usersCountData}
-            bgColor="purple.500"
-            hoverColor="purple.600"
-            textColor="white"
-          />
-        )}
-        {discussionReportsCountIsLoading || commentReportsCountIsLoading ? (
-          <LoadingCard title="Loading Pending Tickets..." />
-        ) : discussionReportsCountIsError || commentReportsCountIsError ? (
-          <ErrorCard title="Error loading Pending Tickets" />
-        ) : (
-          <DashboardCard
-            title="Pending Tickets"
-            value={discussionReportsCountData + commentReportsCountData}
-            bgColor="teal.500"
-            hoverColor="teal.600"
-            textColor="white"
-          />
-        )}
+        <DashboardCard
+          isLoading={usersCountIsLoading}
+          isError={usersCountIsError}
+          loadingTitle="Loading Total Users..."
+          errorTitle="Error loading Total Users"
+          title="Total users"
+          value={usersCountData}
+          bgColor="purple.500"
+          hoverColor="purple.600"
+          textColor="white"
+        />
+        <DashboardCard
+          isLoading={newRegisteredUsersCountIsLoading}
+          isError={newRegisteredUsersCountIsError}
+          loadingTitle="Loading New Registered Users..."
+          errorTitle="Error loading New Registered Users"
+          title="New Registered Users"
+          value={newRegisteredUsersCountData}
+          bgColor="blue.500"
+          hoverColor="blue.600"
+          textColor="white"
+        />
+        <DashboardCard
+          isLoading={
+            discussionReportsCountIsLoading || commentReportsCountIsLoading
+          }
+          isError={discussionReportsCountIsError || commentReportsCountIsError}
+          loadingTitle="Loading Pending Tickets..."
+          errorTitle="Error loading Pending Tickets"
+          title="Pending Tickets"
+          value={
+            (discussionReportsCountData ?? 0) + (commentReportsCountData ?? 0)
+          }
+          bgColor="red.500"
+          hoverColor="red.600"
+          textColor="white"
+        />
       </SimpleGrid>
     </Box>
   );

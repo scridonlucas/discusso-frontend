@@ -16,8 +16,9 @@ const gatherUsers = async () => {
 
 const getUsersCount = async ({ queryKey }: GatherUserCountParams) => {
   const status = queryKey[1] || 'ACTIVE';
-  const startDate = queryKey[2] || '';
-  const endDate = queryKey[3] || '';
+  const startDate = queryKey[2] ? encodeURIComponent(queryKey[2]) : '';
+  const endDate = queryKey[3] ? encodeURIComponent(queryKey[3]) : '';
+
   const response = await axios.get<number>(
     `${baseUrl}/count?status=${status}&startDate=${startDate}&endDate=${endDate}`,
     {

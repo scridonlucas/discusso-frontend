@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex } from '@chakra-ui/react';
-import DropdownMenu from '../DropdownMenu.tsx/DropdownMenu';
+import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import { useCommentsSortingOptions } from '../../hooks/useCommentsSortingOptions';
 const CommentsSortingBar: React.FC = () => {
   const { sortCriteria, setSortCriteria } = useCommentsSortingOptions();

@@ -1,46 +1,47 @@
-import { Box, Text } from '@chakra-ui/react';
+import { FC } from 'react';
 
-interface CardProps {
+import DataCard from './DataCard';
+import LoadingCard from './LoadingCard';
+import ErrorCard from './ErrorCard';
+
+interface DashboardCardProps {
+  isLoading: boolean;
+  isError: boolean;
+  loadingTitle: string;
+  errorTitle: string;
   title: string;
-  value: number | string;
-  bgColor?: string;
-  textColor?: string;
-  hoverColor?: string;
+  value?: string | number;
+  bgColor: string;
+  hoverColor: string;
+  textColor: string;
 }
-
-const DashboardCard = ({
+const DashboardCard: FC<DashboardCardProps> = ({
+  isLoading,
+  isError,
+  loadingTitle,
+  errorTitle,
   title,
   value,
-  bgColor = 'gray.800',
-  textColor = 'white',
-  hoverColor = 'blue.500',
-}: CardProps) => {
+  bgColor,
+  hoverColor,
+  textColor,
+}) => {
+  if (isLoading) {
+    return <LoadingCard title={loadingTitle} />;
+  }
+
+  if (isError) {
+    return <ErrorCard title={errorTitle} />;
+  }
+
   return (
-    <Box
-      p="6"
-      bg={bgColor}
-      borderRadius="md"
-      boxShadow="lg"
-      textAlign="center"
-      color={textColor}
-      _hover={{
-        transform: 'scale(1.05)',
-        transition: 'all 0.2s',
-        bg: hoverColor,
-      }}
-    >
-      <Text whiteSpace="normal" fontSize="lg" fontWeight="bold" mb="2">
-        {title}
-      </Text>
-      <Text
-        fontSize="3xl"
-        fontWeight="extrabold"
-        whiteSpace="normal"
-        wordBreak="break-word"
-      >
-        {value}
-      </Text>
-    </Box>
+    <DataCard
+      title={title}
+      value={value}
+      bgColor={bgColor}
+      hoverColor={hoverColor}
+      textColor={textColor}
+    />
   );
 };
 
