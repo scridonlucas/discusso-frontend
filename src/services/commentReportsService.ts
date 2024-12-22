@@ -18,6 +18,10 @@ type GatherCommentReportByIdParams = {
   queryKey: [string, number];
 };
 
+type GatherCommentReportsCount = {
+  queryKey: [string, string?];
+};
+
 const getCommentReportById = async ({
   queryKey,
 }: GatherCommentReportByIdParams) => {
@@ -48,6 +52,20 @@ const gatherCommentReports = async ({
   };
 };
 
+const getCommentReportsCount = async ({
+  queryKey,
+}: GatherCommentReportsCount) => {
+  const status = queryKey[1] ? queryKey[1] : 'PENDING';
+  const response = await axios.get<number>(
+    `${baseUrl}/count?status=${status}`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
+};
+
 const closeCommentReportTicket = async ({
   reportId,
   action,
@@ -71,4 +89,5 @@ export default {
   gatherCommentReports,
   getCommentReportById,
   closeCommentReportTicket,
+  getCommentReportsCount,
 };

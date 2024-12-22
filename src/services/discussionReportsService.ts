@@ -46,6 +46,7 @@ const getDiscussionReportsCount = async ({
       withCredentials: true,
     }
   );
+
   return response.data;
 };
 

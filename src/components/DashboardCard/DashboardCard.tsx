@@ -17,7 +17,6 @@ const DashboardCard = ({
 }: CardProps) => {
   return (
     <Box
-      w={['100%', '100%', '300px']}
       p="6"
       bg={bgColor}
       borderRadius="md"
@@ -30,10 +29,15 @@ const DashboardCard = ({
         bg: hoverColor,
       }}
     >
-      <Text fontSize="lg" fontWeight="bold" mb="2">
+      <Text whiteSpace="normal" fontSize="lg" fontWeight="bold" mb="2">
         {title}
       </Text>
-      <Text fontSize="3xl" fontWeight="extrabold">
+      <Text
+        fontSize="3xl"
+        fontWeight="extrabold"
+        whiteSpace="normal"
+        wordBreak="break-word"
+      >
         {value}
       </Text>
     </Box>
