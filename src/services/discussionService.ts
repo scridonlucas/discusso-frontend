@@ -52,6 +52,15 @@ const postDiscussion = async (credentials: NewDiscussion) => {
   return response.data;
 };
 
+const deleteDiscussion = async (discussionId: number) => {
+  const response = await axios.delete<{ message: string }>(
+    `${baseUrl}/${discussionId}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
 const getDiscussionsCount = async ({
   queryKey,
 }: GatherDiscussionCountParams) => {
@@ -193,6 +202,7 @@ const gatherComments = async ({
 
 export default {
   postDiscussion,
+  deleteDiscussion,
   gatherDiscussions,
   gatherTrendingDiscussions,
   getDiscussionsCount,

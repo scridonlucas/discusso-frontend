@@ -1,29 +1,40 @@
 import { useParams, Navigate } from 'react-router-dom';
-import { Box, Flex, Stack, Spinner, Text, Icon } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
-import { useAuth } from '../../hooks/useAuth';
-import discussionService from '../../services/discussionService';
-import ServerError from '../../components/MainPage/ServerError';
-import discussionUtils from '../../components/MainPage/discussionUtils';
-import { useSaveDiscussion } from '../../hooks/useSaveDiscussion';
-import { useLikeDiscussion } from '../../hooks/useLikeDiscussion';
-import { FaBookmark, FaHeart } from 'react-icons/fa';
-import CommentSection from '../../components/CommentSection/CommentsSection';
-import { formatDistanceToNow } from 'date-fns';
-import { FiUser } from 'react-icons/fi';
-import CommentForm from '../../components/Forms/CommentForm/CommentForm';
-import CommentsSortingBar from '../../components/CommentSection/CommentsSortingBar';
-import { useDisclosure } from '@chakra-ui/react';
-import { useReportDiscussion } from '../../hooks/useReportDiscussion';
-import ReportModal from '../../components/Modals/ReportModal';
-
+import {
+  Box,
+  Flex,
+  Stack,
+  Spinner,
+  Text,
+  Icon,
+  useDisclosure,
+} from '@chakra-ui/react';
 import {
   FiBookmark,
   FiFlag,
   FiHeart,
   FiMessageCircle,
   FiSend,
+  FiTrash,
+  FiUser,
 } from 'react-icons/fi';
+import { FaBookmark, FaHeart } from 'react-icons/fa';
+import { useQuery } from '@tanstack/react-query';
+import discussionService from '../../services/discussionService';
+import ServerError from '../../components/MainPage/ServerError';
+import CommentSection from '../../components/CommentSection/CommentsSection';
+import CommentForm from '../../components/Forms/CommentForm/CommentForm';
+import CommentsSortingBar from '../../components/CommentSection/CommentsSortingBar';
+import { ReportModal, RemoveDiscussionModal } from '../../components/Modals';
+import discussionUtils from '../../components/MainPage/discussionUtils';
+import { formatDistanceToNow } from 'date-fns';
+
+import {
+  useDeleteDiscussion,
+  useSaveDiscussion,
+  useLikeDiscussion,
+  useReportDiscussion,
+  useAuth,
+} from '../../hooks';
 const DetailedDiscussion = () => {
   const { id } = useParams();
 
@@ -47,8 +58,19 @@ const DetailedDiscussion = () => {
 
   const { likeDiscussion, unlikeDiscussion } = useLikeDiscussion();
   const { addBookmark, removeBookmark } = useSaveDiscussion();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isReportModalOpen,
+    onOpen: onReportModalOpen,
+    onClose: onReportModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isRemoveModalOpen,
+    onOpen: onRemoveModalOpen,
+    onClose: onRemoveModalClose,
+  } = useDisclosure();
+
   const reportDiscussion = useReportDiscussion();
+  const removeDiscussion = useDeleteDiscussion();
 
   if (!id) {
     return <Navigate to="/home" />;
@@ -74,6 +96,9 @@ const DetailedDiscussion = () => {
   const likedByUser = discussionUtils.isLikedByUser(discussion, userId);
   const savedByUser = discussionUtils.isSavedByUser(discussion, userId);
 
+  const canDeleteDiscussion =
+    userId === discussion.user.id || authData.user.role === 'ADMIN';
+
   const createdDiscussionDate = new Date(discussion.createdAt);
 
   const formattedcreatedDiscussionDate = formatDistanceToNow(
@@ -93,10 +118,14 @@ const DetailedDiscussion = () => {
     (savedByUser ? removeBookmark : addBookmark).mutate(discussion.id);
   };
 
-  const handleOpenModalClick = (event: React.MouseEvent) => {
+  const handleOpenReportModalClick = (event: React.MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
-    onOpen();
+    onReportModalOpen();
+  };
+
+  const handleOpenRemoveDiscussionModal = () => {
+    onRemoveModalOpen();
   };
 
   const handleReportSubmit = (reason: string) => {
@@ -104,10 +133,17 @@ const DetailedDiscussion = () => {
       { discussionId: discussion.id, reportReason: { reportReason: reason } },
       {
         onSuccess: () => {
-          onClose();
+          onRemoveModalClose();
         },
       }
     );
+  };
+  const handleRemoveDiscussion = () => {
+    removeDiscussion.mutate(discussion.id, {
+      onSuccess: () => {
+        onRemoveModalClose();
+      },
+    });
   };
 
   return (
@@ -135,6 +171,16 @@ const DetailedDiscussion = () => {
               </Text>
             </Flex>
             <Flex align="center" gap={4}>
+              {canDeleteDiscussion && (
+                <Icon
+                  as={FiTrash}
+                  color="red.500"
+                  boxSize={6}
+                  cursor="pointer"
+                  _hover={{ color: 'red.300' }}
+                  onClick={handleOpenRemoveDiscussionModal}
+                />
+              )}
               <Icon
                 as={savedByUser ? FaBookmark : FiBookmark}
                 color={savedByUser ? 'blue.500' : 'gray.500'}
@@ -149,7 +195,7 @@ const DetailedDiscussion = () => {
                 color="gray.500"
                 cursor="pointer"
                 _hover={{ color: 'red.400' }}
-                onClick={handleOpenModalClick}
+                onClick={handleOpenReportModalClick}
               />
             </Flex>
           </Flex>
@@ -203,10 +249,16 @@ const DetailedDiscussion = () => {
       </Stack>
       <ReportModal
         reportTarget="discussion"
-        isOpen={isOpen}
-        onClose={onClose}
+        isOpen={isReportModalOpen}
+        onClose={onReportModalClose}
         onSubmit={handleReportSubmit}
         isLoading={reportDiscussion.isLoading}
+      />
+      <RemoveDiscussionModal
+        isOpen={isRemoveModalOpen}
+        onClose={onRemoveModalClose}
+        onConfirm={handleRemoveDiscussion}
+        isLoading={removeDiscussion.isLoading}
       />
     </Flex>
   );
