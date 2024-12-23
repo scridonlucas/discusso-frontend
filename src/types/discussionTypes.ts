@@ -48,3 +48,7 @@ export interface DiscussionsResponse {
   total: number;
   nextCursor: number | null;
 }
+
+export interface TrendingDiscussionResponse {
+  discussions: Discussion[];
+}

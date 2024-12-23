@@ -8,6 +8,7 @@ import {
   Profile,
   Create,
   DetailedDiscussion,
+  Trending,
 } from '../layouts/Content';
 import {
   FlaggedDiscussions,
@@ -36,6 +37,7 @@ const AppRoutes = () => {
           <Route path="/create" element={<Create />} />
           <Route path="/discussions/" element={<Timeline />} />
           <Route path="/discussions/:id" element={<DetailedDiscussion />} />
+          <Route path="/trending" element={<Trending />} />
         </Route>
         <Route element={<AdminRoutes />}>
           <Route element={<AdminPage />}>

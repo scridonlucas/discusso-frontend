@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   Discussion,
   NewDiscussion,
+  TrendingDiscussionResponse,
   DiscussionsResponse,
 } from '../types/discussionTypes';
 import { Comment } from '../types/commonTypes';
@@ -14,6 +15,10 @@ type GatherDiscussionsParams = {
   limit?: number;
   queryKey: [string, string, string, string];
 };
+
+interface GatherDiscussionCountParams {
+  queryKey: [string, string?, string?];
+}
 
 type GatherDiscussionParams = {
   queryKey: [string, number];
@@ -47,6 +52,21 @@ const postDiscussion = async (credentials: NewDiscussion) => {
   return response.data;
 };
 
+const getDiscussionsCount = async ({
+  queryKey,
+}: GatherDiscussionCountParams) => {
+  const startDate = queryKey[1] ? encodeURIComponent(queryKey[1]) : '';
+  const endDate = queryKey[2] ? encodeURIComponent(queryKey[2]) : '';
+
+  const response = await axios.get<number>(
+    `${baseUrl}/count?startDate=${startDate}&endDate=${endDate}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
 const gatherDiscussions = async ({
   pageParam = 0,
   limit = 20,
@@ -69,6 +89,17 @@ const gatherDiscussions = async ({
     total: response.data.total,
     nextCursor,
   };
+};
+
+const gatherTrendingDiscussions = async () => {
+  const response = await axios.get<TrendingDiscussionResponse>(
+    `${baseUrl}/trending`,
+    {
+      withCredentials: true,
+    }
+  );
+
+  return response.data;
 };
 
 const getDiscussionById = async ({ queryKey }: GatherDiscussionParams) => {
@@ -163,6 +194,8 @@ const gatherComments = async ({
 export default {
   postDiscussion,
   gatherDiscussions,
+  gatherTrendingDiscussions,
+  getDiscussionsCount,
   getDiscussionById,
   addDiscussionReport,
   addLike,

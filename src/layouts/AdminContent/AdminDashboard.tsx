@@ -1,7 +1,8 @@
-import { Flex, Box, SimpleGrid } from '@chakra-ui/react';
+import { Box, SimpleGrid } from '@chakra-ui/react';
 import userService from '../../services/userService';
 import discussionReportsService from '../../services/discussionReportsService';
 import commentReportsService from '../../services/commentReportsService';
+import discussionService from '../../services/discussionService';
 import { useQuery } from '@tanstack/react-query';
 import { DashboardCard } from '../../components/DashboardCard';
 
@@ -13,6 +14,12 @@ const AdminDashboard = () => {
     isLoading: usersCountIsLoading,
     isError: usersCountIsError,
   } = useQuery(['usersCount'], userService.getUsersCount);
+
+  const {
+    data: discussionsCountData,
+    isLoading: discussionsCountIsLoading,
+    isError: discussionsCountIsError,
+  } = useQuery(['discussionsCount'], discussionService.getDiscussionsCount);
 
   const {
     data: newRegisteredUsersCountData,
@@ -50,7 +57,6 @@ const AdminDashboard = () => {
     commentReportsService.getCommentReportsCount
   );
 
-  console.log(newRegisteredUsersCountData);
   return (
     <Box p={6}>
       <SimpleGrid columns={[1, 2, 4]} spacing={6} mb={6}>
@@ -74,6 +80,17 @@ const AdminDashboard = () => {
           value={newRegisteredUsersCountData}
           bgColor="blue.500"
           hoverColor="blue.600"
+          textColor="white"
+        />
+        <DashboardCard
+          isLoading={discussionsCountIsLoading}
+          isError={discussionsCountIsError}
+          loadingTitle="Loading Discussions..."
+          errorTitle="Error loading Discussions"
+          title="Discussions"
+          value={discussionsCountData}
+          bgColor="green.500"
+          hoverColor="green.600"
           textColor="white"
         />
         <DashboardCard

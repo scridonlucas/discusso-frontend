@@ -92,7 +92,11 @@ export const useLikeDiscussion = () => {
           };
         }
       );
+      queryClient.invalidateQueries({
+        queryKey: ['trendingDiscussions'],
+      });
     },
+
     onError: handleError,
   });
 
@@ -143,6 +147,9 @@ export const useLikeDiscussion = () => {
           };
         }
       );
+      queryClient.invalidateQueries({
+        queryKey: ['trendingDiscussions'],
+      });
     },
     onError: handleError,
   });

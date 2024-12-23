@@ -94,7 +94,9 @@ export const useSaveDiscussion = () => {
           };
         }
       );
-
+      queryClient.invalidateQueries({
+        queryKey: ['trendingDiscussions'],
+      });
       succesToast('Discussion saved!');
     },
     onError: handleError,
@@ -139,6 +141,11 @@ export const useSaveDiscussion = () => {
           };
         }
       );
+
+      queryClient.invalidateQueries({
+        queryKey: ['trendingDiscussions'],
+      });
+
       succesToast('Discussion no longer in your saved list!');
     },
     onError: handleError,
