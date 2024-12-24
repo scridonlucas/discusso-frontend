@@ -27,7 +27,7 @@ const Trending = () => {
       </Flex>
     );
   }
-  console.log(data);
+
   if (isError) {
     return <ServerError />;
   }

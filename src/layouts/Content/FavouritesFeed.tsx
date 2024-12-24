@@ -1,56 +1,28 @@
 import { Flex, Stack, Text, Spinner, Box, VStack } from '@chakra-ui/react';
 import SortingBar from '../../components/SortingBar/SortingBar';
-import communityService from '../../services/communityService';
 import discussionService from '../../services/discussionService';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Discussion from '../../components/DiscussionPreview/DiscussionPreview';
-import LayoutTitle from '../../components/LayoutTitle/LayoutTitle';
 import ServerError from '../../components/MainPage/ServerError';
-import { useParams, Navigate } from 'react-router-dom';
+import LayoutTitle from '../../components/LayoutTitle/LayoutTitle';
 import { useState } from 'react';
-
-const CommunityFeed: React.FC = () => {
+const FavouritesFeed = () => {
+  const [feedType, setFeedType] = useState<string>('explore');
   const [sortCriteria, setSortCriteria] = useState<string>('recent');
   const [timeFrame, setTimeFrame] = useState<string>('all');
-  const [feedType, setFeedType] = useState<string>('explore');
-  const { id: communityId } = useParams();
-  const {
-    data: discussionsData,
-    fetchNextPage,
-    hasNextPage,
-    isLoading: isDiscussionsLoading,
-    isError: isDiscussionsError,
-  } = useInfiniteQuery(
-    [
-      'discussions',
-      Number(communityId)!,
-      feedType,
-      sortCriteria,
-      timeFrame,
-      false,
-    ],
-    discussionService.gatherDiscussions,
-    {
-      getNextPageParam: (lastPage) => {
-        return lastPage.nextCursor ?? undefined;
-      },
-      enabled: !!communityId,
-    }
-  );
-  const {
-    data: communityData,
-    isLoading: isCommunityLoading,
-    isError: isCommunityError,
-  } = useQuery(
-    ['community', Number(communityId)!],
-    communityService.getCommunityById,
-    {
-      enabled: !!communityId,
-    }
-  );
+  const { data, fetchNextPage, hasNextPage, isLoading, isError } =
+    useInfiniteQuery(
+      ['discussions', null, feedType, sortCriteria, timeFrame, true],
+      discussionService.gatherDiscussions,
+      {
+        getNextPageParam: (lastPage) => {
+          return lastPage.nextCursor ?? undefined;
+        },
+      }
+    );
 
-  if (isDiscussionsLoading || isCommunityLoading) {
+  if (isLoading) {
     return (
       <Flex
         align={'center'}
@@ -62,17 +34,13 @@ const CommunityFeed: React.FC = () => {
       >
         <Spinner size="xl" />
         <Text fontSize="xl" color="white">
-          Just a moment! We're gathering all the latest discussions for you...
+          Just a moment! We're gathering all the saved discussions for you...
         </Text>
       </Flex>
     );
   }
 
-  if (!communityId || isNaN(Number(communityId))) {
-    return <Navigate to="/communities" />;
-  }
-
-  if (isDiscussionsError || isCommunityError) {
+  if (isError) {
     return <ServerError />;
   }
 
@@ -105,8 +73,7 @@ const CommunityFeed: React.FC = () => {
         onFeedTypeChange={handleFeedTypeChange}
       />
       <VStack py={6}>
-        <LayoutTitle title={communityData.name} mb={0} color="cyan.400" />
-
+        <LayoutTitle title="Saved Discussions" mb={0} />
         <Stack
           spacing={8}
           mx={'auto'}
@@ -116,7 +83,7 @@ const CommunityFeed: React.FC = () => {
           px={6}
         >
           <InfiniteScroll
-            dataLength={discussionsData?.pages?.length || 0}
+            dataLength={data?.pages?.length || 0}
             next={fetchNextPage}
             hasMore={hasNextPage ?? false}
             loader={
@@ -126,7 +93,7 @@ const CommunityFeed: React.FC = () => {
             }
           >
             <Stack spacing={4} align={'center'} justify={'center'}>
-              {discussionsData.pages.map((page) =>
+              {data.pages.map((page) =>
                 page.discussions.map((discussion) => (
                   <Discussion key={discussion.id} discussion={discussion} />
                 ))
@@ -139,4 +106,4 @@ const CommunityFeed: React.FC = () => {
   );
 };
 
-export default CommunityFeed;
+export default FavouritesFeed;

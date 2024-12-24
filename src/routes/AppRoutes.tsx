@@ -11,6 +11,7 @@ import {
   Trending,
   CommunityList,
   CommunityFeed,
+  FavouritesFeed,
 } from '../layouts/Content';
 import {
   FlaggedDiscussions,
@@ -42,6 +43,7 @@ const AppRoutes = () => {
           <Route path="/communities" element={<CommunityList />} />
           <Route path="/communities/:id" element={<CommunityFeed />} />
           <Route path="/trending" element={<Trending />} />
+          <Route path="/saved" element={<FavouritesFeed />} />
         </Route>
         <Route element={<AdminRoutes />}>
           <Route element={<AdminPage />}>

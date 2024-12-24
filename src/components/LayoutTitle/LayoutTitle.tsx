@@ -1,6 +1,8 @@
-import { Text } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
+
 interface LayoutTitleProps {
   title: string;
+  subtitle?: string; // Optional subtitle for extra context
   fontSize?: { base: string; md: string } | string;
   mb?: number;
   fontWeight?: string;
@@ -13,30 +15,48 @@ interface LayoutTitleProps {
     | 'right'
     | 'start'
     | undefined;
-  bgGradient?: string;
-  bgClip?: string;
+  color?: string;
+  borderBottom?: boolean; // Option for bottom border
+  padding?: number; // Optional padding
 }
 
 const LayoutTitle: React.FC<LayoutTitleProps> = ({
   title,
-  fontSize = { base: '2xl', md: '3xl' },
+  subtitle,
+  fontSize = { base: '2xl', md: '4xl' }, // Slightly larger for social media
   mb = 6,
   fontWeight = 'bold',
-  textAlign = 'center',
-  bgGradient = 'linear(to-r, teal.300, blue.400)',
-  bgClip = 'text',
+  textAlign = 'left', // Social media layouts often align left
+  color = 'gray.800', // Dark gray for a modern touch
+  borderBottom = true, // Adds a subtle divider
+  padding = 2,
 }) => {
   return (
-    <Text
-      fontSize={fontSize}
+    <Box
       mb={mb}
-      fontWeight={fontWeight}
-      textAlign={textAlign}
-      bgGradient={bgGradient}
-      bgClip={bgClip}
+      pb={padding}
+      borderBottom={borderBottom ? '1px solid #E2E8F0' : 'none'}
     >
-      {title}
-    </Text>
+      <Text
+        fontSize={fontSize}
+        fontWeight={fontWeight}
+        textAlign={textAlign}
+        color={color}
+      >
+        {title}
+      </Text>
+      {subtitle && (
+        <Text
+          fontSize={{ base: 'md', md: 'lg' }}
+          fontWeight="medium"
+          textAlign={textAlign}
+          color="gray.500" // Softer gray for the subtitle
+          mt={1}
+        >
+          {subtitle}
+        </Text>
+      )}
+    </Box>
   );
 };
 

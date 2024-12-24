@@ -7,6 +7,9 @@ import {
 } from '../types/communityTypes';
 
 const baseUrl = 'http://localhost:3001/api/communities';
+type GatherCommunityParams = {
+  queryKey: [string, number];
+};
 
 const gatherCommunities = async () => {
   const response = await axios.get<Community[]>(`${baseUrl}`, {
@@ -40,6 +43,14 @@ const updateCommunity = async ({
   return response.data;
 };
 
+const getCommunityById = async ({ queryKey }: GatherCommunityParams) => {
+  const communityId = queryKey[1];
+  const response = await axios.get<Community>(`${baseUrl}/${communityId}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
 const followCommunity = async (communityId: number) => {
   const response = await axios.post<FollowCommunityResponse>(
     `${baseUrl}/${communityId}/follow`,
@@ -62,6 +73,7 @@ const unfollowCommunity = async (communityId: number) => {
 };
 export default {
   gatherCommunities,
+  getCommunityById,
   addCommunity,
   updateCommunity,
   followCommunity,

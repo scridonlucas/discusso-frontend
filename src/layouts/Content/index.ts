@@ -5,3 +5,4 @@ export { default as DetailedDiscussion } from './DetailedDiscussion';
 export { default as Trending } from './Trending';
 export { default as CommunityList } from './CommunityList';
 export { default as CommunityFeed } from './CommunityFeed';
+export { default as FavouritesFeed } from './FavouritesFeed';
