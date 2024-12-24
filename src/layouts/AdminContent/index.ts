@@ -4,6 +4,6 @@ export { default as DetailedDiscussionTicket } from './DetailedDiscussionTicket'
 export { default as DetailedCommentTicket } from './DetailedCommentTicket';
 export { default as UserManagement } from './UserManagement';
 export { default as ModerationLogs } from './ModerationLogs';
-export { default as Communities } from './Communities';
+export { default as AdminCommunities } from './AdminCommunities';
 export { default as Analytics } from './Analytics';
 export { default as AdminDashboard } from './AdminDashboard';

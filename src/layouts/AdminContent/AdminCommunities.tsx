@@ -22,7 +22,7 @@ import { format } from 'date-fns';
 
 const columnHelper = createColumnHelper<Community>();
 
-const Communities = () => {
+const AdminCommunities = () => {
   const { data, isLoading, isError } = useQuery(
     ['communities'],
     communityService.gatherCommunities
@@ -143,4 +143,4 @@ const Communities = () => {
   );
 };
 
-export default Communities;
+export default AdminCommunities;

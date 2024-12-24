@@ -9,6 +9,8 @@ import {
   Create,
   DetailedDiscussion,
   Trending,
+  CommunityList,
+  Community,
 } from '../layouts/Content';
 import {
   FlaggedDiscussions,
@@ -17,7 +19,7 @@ import {
   DetailedCommentTicket,
   UserManagement,
   ModerationLogs,
-  Communities,
+  AdminCommunities,
   Analytics,
   AdminDashboard,
 } from '../layouts/AdminContent';
@@ -37,6 +39,8 @@ const AppRoutes = () => {
           <Route path="/create" element={<Create />} />
           <Route path="/discussions/" element={<Timeline />} />
           <Route path="/discussions/:id" element={<DetailedDiscussion />} />
+          <Route path="/communities" element={<CommunityList />} />
+          <Route path="/communities/:id" element={<Community />} />
           <Route path="/trending" element={<Trending />} />
         </Route>
         <Route element={<AdminRoutes />}>
@@ -46,7 +50,7 @@ const AppRoutes = () => {
             <Route path="/admin/analytics" element={<Analytics />} />
             <Route path="/admin/user-management" element={<UserManagement />} />
             <Route path="/admin/moderation-logs" element={<ModerationLogs />} />
-            <Route path="/admin/communities" element={<Communities />} />
+            <Route path="/admin/communities" element={<AdminCommunities />} />
             <Route
               path="/admin/flagged-discussions"
               element={<FlaggedDiscussions />}

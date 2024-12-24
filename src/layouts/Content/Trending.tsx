@@ -3,7 +3,7 @@ import discussionService from '../../services/discussionService';
 import Discussion from '../../components/DiscussionPreview/DiscussionPreview';
 import ServerError from '../../components/MainPage/ServerError';
 import { useQuery } from '@tanstack/react-query';
-
+import LayoutTitle from '../../components/LayoutTitle/LayoutTitle';
 const Trending = () => {
   const { data, isLoading, isError } = useQuery(
     ['trendingDiscussions'],
@@ -33,14 +33,25 @@ const Trending = () => {
   }
 
   return (
-    <>
+    <Flex
+      align="center"
+      justify="center"
+      flexDirection="column"
+      maxW="6xl"
+      mx="auto"
+      py={8}
+      px={6}
+      bg="gray.800"
+      color="white"
+    >
+      <LayoutTitle title="Trending Discussions" mb={0} />
       <Flex align={'center'} justify={'center'}>
         <Stack
           spacing={8}
           mx={'auto'}
           width={'100%'}
           maxW={'5xl'}
-          py={12}
+          py={8}
           px={6}
         >
           <Stack spacing={4} align={'center'} justify={'center'}>
@@ -50,7 +61,7 @@ const Trending = () => {
           </Stack>
         </Stack>
       </Flex>
-    </>
+    </Flex>
   );
 };
 
