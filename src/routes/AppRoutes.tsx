@@ -10,7 +10,7 @@ import {
   DetailedDiscussion,
   Trending,
   CommunityList,
-  Community,
+  CommunityFeed,
 } from '../layouts/Content';
 import {
   FlaggedDiscussions,
@@ -40,7 +40,7 @@ const AppRoutes = () => {
           <Route path="/discussions/" element={<Timeline />} />
           <Route path="/discussions/:id" element={<DetailedDiscussion />} />
           <Route path="/communities" element={<CommunityList />} />
-          <Route path="/communities/:id" element={<Community />} />
+          <Route path="/communities/:id" element={<CommunityFeed />} />
           <Route path="/trending" element={<Trending />} />
         </Route>
         <Route element={<AdminRoutes />}>

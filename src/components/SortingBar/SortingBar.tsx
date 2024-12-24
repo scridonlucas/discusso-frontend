@@ -1,35 +1,24 @@
 import { Flex } from '@chakra-ui/react';
-import { useSortingOptions } from '../../hooks/useSortingOptions';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import ViewToggle from './ViewToggle';
-const SortingBar = () => {
-  const {
-    sortCriteria,
-    setSortCriteria,
-    timeFrame,
-    setTimeFrame,
-    feedType,
-    setFeedType,
-  } = useSortingOptions();
 
-  const handleSortChange = (sortCriteria: string | string[]) => {
-    if (typeof sortCriteria === 'string') {
-      setSortCriteria(sortCriteria);
-    }
-  };
+interface SortingBarProps {
+  sortCriteria: string;
+  onSortChange: (value: string | string[]) => void;
+  timeFrame: string;
+  onTimeFrameChange: (value: string | string[]) => void;
+  feedType: string;
+  onFeedTypeChange: (value: string | string[]) => void;
+}
 
-  const handleTimeFrameChange = (timeFrame: string | string[]) => {
-    if (typeof timeFrame === 'string') {
-      setTimeFrame(timeFrame);
-    }
-  };
-
-  const handleFeedTypeChange = (feedType: string | string[]) => {
-    if (typeof feedType === 'string') {
-      setFeedType(feedType);
-    }
-  };
-
+const SortingBar: React.FC<SortingBarProps> = ({
+  sortCriteria,
+  onSortChange,
+  timeFrame,
+  onTimeFrameChange,
+  feedType,
+  onFeedTypeChange,
+}) => {
   const sortOptions = [
     { value: 'recent', label: 'Recent' },
     { value: 'most_liked', label: 'Hot' },
@@ -65,14 +54,14 @@ const SortingBar = () => {
         <DropdownMenu
           options={sortOptions}
           selectedValue={sortCriteria}
-          onChange={handleSortChange}
+          onChange={onSortChange}
           title="Sort by"
           defaultLabel="Sort by"
         />
         <DropdownMenu
           options={timeFrameOptions}
           selectedValue={timeFrame}
-          onChange={handleTimeFrameChange}
+          onChange={onTimeFrameChange}
           title="Order by"
           defaultLabel="Order by"
         />
@@ -80,7 +69,7 @@ const SortingBar = () => {
       <ViewToggle
         options={feedOptions}
         selectedValue={feedType}
-        onChange={handleFeedTypeChange}
+        onChange={onFeedTypeChange}
       />
     </Flex>
   );

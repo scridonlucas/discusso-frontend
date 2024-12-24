@@ -42,7 +42,7 @@ const CommunityPreview = ({ community }: { community: Community }) => {
     <Box
       key={community.id}
       as={Link}
-      to={`/community/${community.id}`}
+      to={`/communities/${community.id}`}
       borderWidth="1px"
       borderRadius="lg"
       p={6}

@@ -1,14 +1,40 @@
 import { Flex, Stack } from '@chakra-ui/react';
 import SortingBar from '../../components/SortingBar/SortingBar';
-
-import { useSortingOptions } from '../../hooks/useSortingOptions';
 import DiscussionSection from '../../components/DiscussionSection/DiscussionSection';
+import { useState } from 'react';
 const Timeline = () => {
-  const { sortCriteria, timeFrame, feedType } = useSortingOptions();
+  const [sortCriteria, setSortCriteria] = useState<string>('recent');
+  const [timeFrame, setTimeFrame] = useState<string>('all');
+  const [feedType, setFeedType] = useState<string>('explore');
+
+  const handleSortChange = (value: string | string[]) => {
+    if (typeof value === 'string') {
+      setSortCriteria(value);
+    }
+  };
+
+  const handleTimeFrameChange = (value: string | string[]) => {
+    if (typeof value === 'string') {
+      setTimeFrame(value);
+    }
+  };
+
+  const handleFeedTypeChange = (value: string | string[]) => {
+    if (typeof value === 'string') {
+      setFeedType(value);
+    }
+  };
 
   return (
     <>
-      <SortingBar />
+      <SortingBar
+        sortCriteria={sortCriteria}
+        onSortChange={handleSortChange}
+        timeFrame={timeFrame}
+        onTimeFrameChange={handleTimeFrameChange}
+        feedType={feedType}
+        onFeedTypeChange={handleFeedTypeChange}
+      />
       <Flex align={'center'} justify={'center'}>
         <Stack
           spacing={8}

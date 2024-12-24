@@ -4,20 +4,30 @@ import discussionService from '../../services/discussionService';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Discussion from '../../components/DiscussionPreview/DiscussionPreview';
-import { useSortingOptions } from '../../hooks/useSortingOptions';
 import ServerError from '../../components/MainPage/ServerError';
 import { useParams, Navigate } from 'react-router-dom';
-const Timeline = () => {
-  const { sortCriteria, timeFrame, feedType } = useSortingOptions();
+import { useState } from 'react';
+const CommunityFeed = () => {
+  const [sortCriteria, setSortCriteria] = useState<string>('recent');
+  const [timeFrame, setTimeFrame] = useState<string>('all');
+  const [feedType, setFeedType] = useState<string>('explore');
   const { id: communityId } = useParams();
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(
-      ['discussions', sortCriteria, timeFrame, feedType],
+      [
+        'discussions',
+        Number(communityId)!,
+        feedType,
+        sortCriteria,
+        timeFrame,
+        false,
+      ],
       discussionService.gatherDiscussions,
       {
         getNextPageParam: (lastPage) => {
           return lastPage.nextCursor ?? undefined;
         },
+        enabled: !!communityId,
       }
     );
 
@@ -47,9 +57,34 @@ const Timeline = () => {
     return <ServerError />;
   }
 
+  const handleSortChange = (value: string | string[]) => {
+    if (typeof value === 'string') {
+      setSortCriteria(value);
+    }
+  };
+
+  const handleTimeFrameChange = (value: string | string[]) => {
+    if (typeof value === 'string') {
+      setTimeFrame(value);
+    }
+  };
+
+  const handleFeedTypeChange = (value: string | string[]) => {
+    if (typeof value === 'string') {
+      setFeedType(value);
+    }
+  };
+
   return (
     <>
-      <SortingBar />
+      <SortingBar
+        sortCriteria={sortCriteria}
+        onSortChange={handleSortChange}
+        timeFrame={timeFrame}
+        onTimeFrameChange={handleTimeFrameChange}
+        feedType={feedType}
+        onFeedTypeChange={handleFeedTypeChange}
+      />
       <Flex align={'center'} justify={'center'}>
         <Stack
           spacing={8}
@@ -83,4 +118,4 @@ const Timeline = () => {
   );
 };
 
-export default Timeline;
+export default CommunityFeed;
