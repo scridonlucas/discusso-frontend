@@ -6,9 +6,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Discussion from '../../components/DiscussionPreview/DiscussionPreview';
 import { useSortingOptions } from '../../hooks/useSortingOptions';
 import ServerError from '../../components/MainPage/ServerError';
-
+import { useParams, Navigate } from 'react-router-dom';
 const Timeline = () => {
   const { sortCriteria, timeFrame, feedType } = useSortingOptions();
+  const { id: communityId } = useParams();
   const { data, fetchNextPage, hasNextPage, isLoading, isError } =
     useInfiniteQuery(
       ['discussions', sortCriteria, timeFrame, feedType],
@@ -36,6 +37,10 @@ const Timeline = () => {
         </Text>
       </Flex>
     );
+  }
+
+  if (!communityId || isNaN(Number(communityId))) {
+    return <Navigate to="/communities" />;
   }
 
   if (isError) {

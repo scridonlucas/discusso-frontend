@@ -12,10 +12,18 @@ import {
 } from '../types/commonTypes';
 import buildQueryParams from './utils/buildQueryParams';
 
+type DiscussionQueryKey = [
+  string,
+  number | null,
+  string,
+  string,
+  string,
+  boolean
+];
 type GatherDiscussionsParams = {
   pageParam?: number;
   limit?: number;
-  queryKey: [string, string, string, string, string?, boolean?];
+  queryKey: DiscussionQueryKey;
 };
 
 interface GatherDiscussionCountParams {
@@ -83,22 +91,22 @@ const gatherDiscussions = async ({
   limit = 20,
   queryKey,
 }: GatherDiscussionsParams) => {
-  const sortParam = queryKey[1] ? queryKey[1] : 'recent';
-  const timeFrame = queryKey[2] ? queryKey[2] : 'all';
-  const feedType = queryKey[3] ? queryKey[3] : 'explore';
-  const communityId = queryKey[4] ? queryKey[4] : null;
+  const communityId = queryKey[1] ? queryKey[1] : null;
+  const feedType = queryKey[2] ? queryKey[2] : 'explore';
+  const sortParam = queryKey[3] ? queryKey[3] : 'recent';
+  const timeFrame = queryKey[4] ? queryKey[4] : 'all';
   const saved = queryKey[5] ? queryKey[5] : null;
 
   const queryParams = buildQueryParams({
     limit,
     cursor: pageParam,
+    community_id: communityId,
+    feed_type: feedType,
     sort: sortParam,
     date_range: timeFrame,
-    feed_type: feedType,
-    community_id: communityId,
     saved,
   });
-
+  console.log(`${baseUrl}?${queryParams}`);
   const response = await axios.get<DiscussionsResponse>(
     `${baseUrl}?${queryParams}`,
     {
