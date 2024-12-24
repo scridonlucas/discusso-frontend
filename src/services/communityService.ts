@@ -3,6 +3,7 @@ import {
   Community,
   NewCommunityParams,
   CommunityUpdateParams,
+  FollowCommunityResponse,
 } from '../types/communityTypes';
 
 const baseUrl = 'http://localhost:3001/api/communities';
@@ -38,4 +39,31 @@ const updateCommunity = async ({
   );
   return response.data;
 };
-export default { gatherCommunities, addCommunity, updateCommunity };
+
+const followCommunity = async (communityId: number) => {
+  const response = await axios.post<FollowCommunityResponse>(
+    `${baseUrl}/${communityId}/follow`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+const unfollowCommunity = async (communityId: number) => {
+  const response = await axios.delete<FollowCommunityResponse>(
+    `${baseUrl}/${communityId}/follow`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+export default {
+  gatherCommunities,
+  addCommunity,
+  updateCommunity,
+  followCommunity,
+  unfollowCommunity,
+};
