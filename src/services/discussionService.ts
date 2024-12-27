@@ -18,7 +18,8 @@ type DiscussionQueryKey = [
   string,
   string,
   string,
-  boolean
+  boolean,
+  string
 ];
 type GatherDiscussionsParams = {
   pageParam?: number;
@@ -96,6 +97,7 @@ const gatherDiscussions = async ({
   const sortParam = queryKey[3] ? queryKey[3] : 'recent';
   const timeFrame = queryKey[4] ? queryKey[4] : 'all';
   const saved = queryKey[5] ? queryKey[5] : null;
+  const search = queryKey[6] ? queryKey[6] : null;
 
   const queryParams = buildQueryParams({
     limit,
@@ -105,6 +107,7 @@ const gatherDiscussions = async ({
     sort: sortParam,
     date_range: timeFrame,
     saved,
+    search: search,
   });
   console.log(`${baseUrl}?${queryParams}`);
   const response = await axios.get<DiscussionsResponse>(

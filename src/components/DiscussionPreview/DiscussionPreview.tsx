@@ -81,7 +81,7 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
       borderRadius="md"
       p={6}
       boxShadow="md"
-      maxW="2xl"
+      maxW="3xl"
       width="100%"
       _hover={{ boxShadow: 'lg', cursor: 'pointer' }}
     >

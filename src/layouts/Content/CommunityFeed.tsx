@@ -1,10 +1,9 @@
-import { Flex, Stack, Text, Spinner, Box, VStack } from '@chakra-ui/react';
+import { Flex, Text, Spinner, Box } from '@chakra-ui/react';
 import SortingBar from '../../components/SortingBar/SortingBar';
 import communityService from '../../services/communityService';
-import discussionService from '../../services/discussionService';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import Discussion from '../../components/DiscussionPreview/DiscussionPreview';
+import DiscussionSection from '../../components/DiscussionSection/DiscussionSection';
+import { useQuery } from '@tanstack/react-query';
+
 import LayoutTitle from '../../components/LayoutTitle/LayoutTitle';
 import ServerError from '../../components/MainPage/ServerError';
 import { useParams, Navigate } from 'react-router-dom';
@@ -14,30 +13,11 @@ const CommunityFeed: React.FC = () => {
   const [sortCriteria, setSortCriteria] = useState<string>('recent');
   const [timeFrame, setTimeFrame] = useState<string>('all');
   const [feedType, setFeedType] = useState<string>('explore');
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [triggeredSearch, setTriggeredSearch] = useState<string>('');
+
   const { id: communityId } = useParams();
-  const {
-    data: discussionsData,
-    fetchNextPage,
-    hasNextPage,
-    isLoading: isDiscussionsLoading,
-    isError: isDiscussionsError,
-  } = useInfiniteQuery(
-    [
-      'discussions',
-      Number(communityId)!,
-      feedType,
-      sortCriteria,
-      timeFrame,
-      false,
-    ],
-    discussionService.gatherDiscussions,
-    {
-      getNextPageParam: (lastPage) => {
-        return lastPage.nextCursor ?? undefined;
-      },
-      enabled: !!communityId,
-    }
-  );
+
   const {
     data: communityData,
     isLoading: isCommunityLoading,
@@ -50,7 +30,7 @@ const CommunityFeed: React.FC = () => {
     }
   );
 
-  if (isDiscussionsLoading || isCommunityLoading) {
+  if (isCommunityLoading) {
     return (
       <Flex
         align={'center'}
@@ -72,7 +52,7 @@ const CommunityFeed: React.FC = () => {
     return <Navigate to="/communities" />;
   }
 
-  if (isDiscussionsError || isCommunityError) {
+  if (isCommunityError) {
     return <ServerError />;
   }
 
@@ -94,6 +74,14 @@ const CommunityFeed: React.FC = () => {
     }
   };
 
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearchClick = () => {
+    setTriggeredSearch(searchInput);
+  };
+
   return (
     <Box>
       <SortingBar
@@ -103,38 +91,26 @@ const CommunityFeed: React.FC = () => {
         onTimeFrameChange={handleTimeFrameChange}
         feedType={feedType}
         onFeedTypeChange={handleFeedTypeChange}
+        searchInput={searchInput}
+        onSearchInputChange={handleSearchInputChange}
+        onSearchClick={handleSearchClick}
       />
-      <VStack py={6}>
-        <LayoutTitle title={communityData.name} mb={0} color="cyan.400" />
-
-        <Stack
-          spacing={8}
-          mx={'auto'}
-          width={'100%'}
-          maxW={'5xl'}
-          py={6}
-          px={6}
-        >
-          <InfiniteScroll
-            dataLength={discussionsData?.pages?.length || 0}
-            next={fetchNextPage}
-            hasMore={hasNextPage ?? false}
-            loader={
-              <Stack align="center" justify="center" width="100%" py={4}>
-                <Spinner size="md" />
-              </Stack>
-            }
-          >
-            <Stack spacing={4} align={'center'} justify={'center'}>
-              {discussionsData.pages.map((page) =>
-                page.discussions.map((discussion) => (
-                  <Discussion key={discussion.id} discussion={discussion} />
-                ))
-              )}
-            </Stack>
-          </InfiniteScroll>
-        </Stack>
-      </VStack>
+      <Box mx="auto" px={4} py={8} maxWidth={'3xl'} width="100%">
+        <Box mb={6}>
+          <LayoutTitle title={communityData.name} mb={2} textAlign="start" />
+        </Box>
+        <DiscussionSection
+          queryKey={[
+            'discussions',
+            Number(communityId)!,
+            feedType,
+            sortCriteria,
+            timeFrame,
+            false,
+            triggeredSearch,
+          ]}
+        />
+      </Box>
     </Box>
   );
 };

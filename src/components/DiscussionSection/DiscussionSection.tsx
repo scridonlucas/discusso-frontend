@@ -11,7 +11,8 @@ type DiscussionQueryKey = [
   string,
   string,
   string,
-  boolean
+  boolean,
+  string
 ];
 
 interface DiscussionSectionProps {
@@ -44,7 +45,6 @@ const DiscussionSection: React.FC<DiscussionSectionProps> = ({ queryKey }) => {
   if (isError) {
     return <ServerError />;
   }
-
   return (
     <Stack spacing={8}>
       <InfiniteScroll

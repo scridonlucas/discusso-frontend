@@ -1,4 +1,5 @@
-import { Flex, Stack, Text, Spinner } from '@chakra-ui/react';
+import { Flex, Stack, Text, Spinner, Icon, Box } from '@chakra-ui/react';
+import { FiUsers } from 'react-icons/fi';
 import LayoutTitle from '../../components/LayoutTitle/LayoutTitle';
 import { useQuery } from '@tanstack/react-query';
 import ServerError from '../../components/MainPage/ServerError';
@@ -42,13 +43,30 @@ const CommunityList = () => {
       flexDirection="column"
       maxW="6xl"
       mx="auto"
-      py={10}
+      py={8}
       px={6}
       bg="gray.800"
       color="white"
     >
-      <LayoutTitle title="Discover & Join Communities" />
-      <Stack spacing={6} width="80%">
+      <Flex align="center" justify={'center'} gap={4} mb={4}>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          transition="transform 0.2s ease, box-shadow 0.2s ease"
+          borderRadius="full"
+          _hover={{
+            transform: 'scale(1.2)',
+            cursor: 'pointer',
+          }}
+        >
+          <Icon as={FiUsers} w={8} h={8} color="teal.300" />
+        </Box>
+        <Box>
+          <LayoutTitle title="Discover & Join Communities" />
+        </Box>
+      </Flex>
+      <Stack spacing={4} width="80%" py={8} px={6}>
         {data.map((community) => (
           <CommunityPreview key={community.id} community={community} />
         ))}

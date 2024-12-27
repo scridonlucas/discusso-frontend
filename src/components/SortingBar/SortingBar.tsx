@@ -1,4 +1,12 @@
-import { Flex } from '@chakra-ui/react';
+import {
+  Flex,
+  Box,
+  Input,
+  InputGroup,
+  IconButton,
+  InputRightElement,
+} from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
 import DropdownMenu from '../DropdownMenu/DropdownMenu';
 import ViewToggle from './ViewToggle';
 
@@ -9,6 +17,9 @@ interface SortingBarProps {
   onTimeFrameChange: (value: string | string[]) => void;
   feedType: string;
   onFeedTypeChange: (value: string | string[]) => void;
+  searchInput: string;
+  onSearchInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearchClick: () => void;
 }
 
 const SortingBar: React.FC<SortingBarProps> = ({
@@ -18,6 +29,9 @@ const SortingBar: React.FC<SortingBarProps> = ({
   onTimeFrameChange,
   feedType,
   onFeedTypeChange,
+  searchInput,
+  onSearchInputChange,
+  onSearchClick,
 }) => {
   const sortOptions = [
     { value: 'recent', label: 'Recent' },
@@ -38,6 +52,12 @@ const SortingBar: React.FC<SortingBarProps> = ({
     { value: 'explore', label: 'Explore' },
     { value: 'following', label: 'Following' },
   ];
+
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onSearchClick();
+    }
+  };
 
   return (
     <Flex
@@ -66,6 +86,27 @@ const SortingBar: React.FC<SortingBarProps> = ({
           defaultLabel="Order by"
         />
       </Flex>
+      <Box mx={2} w={['100%', '80%', '50%', '30%']}>
+        <InputGroup>
+          <Input
+            placeholder="Search discussions..."
+            variant="outline"
+            focusBorderColor="blue.500"
+            borderRadius="2xl"
+            onChange={onSearchInputChange}
+            value={searchInput}
+            onKeyDown={onKeyDown}
+          />
+          <InputRightElement>
+            <IconButton
+              aria-label="Search"
+              icon={<SearchIcon />}
+              borderRadius="2xl"
+              onClick={onSearchClick}
+            />
+          </InputRightElement>
+        </InputGroup>
+      </Box>
       <ViewToggle
         options={feedOptions}
         selectedValue={feedType}

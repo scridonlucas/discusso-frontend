@@ -6,6 +6,8 @@ const Timeline = () => {
   const [sortCriteria, setSortCriteria] = useState<string>('recent');
   const [timeFrame, setTimeFrame] = useState<string>('all');
   const [feedType, setFeedType] = useState<string>('explore');
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [triggeredSearch, setTriggeredSearch] = useState<string>('');
 
   const handleSortChange = (value: string | string[]) => {
     if (typeof value === 'string') {
@@ -25,6 +27,14 @@ const Timeline = () => {
     }
   };
 
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearchClick = () => {
+    setTriggeredSearch(searchInput);
+  };
+
   return (
     <>
       <SortingBar
@@ -34,6 +44,9 @@ const Timeline = () => {
         onTimeFrameChange={handleTimeFrameChange}
         feedType={feedType}
         onFeedTypeChange={handleFeedTypeChange}
+        searchInput={searchInput}
+        onSearchInputChange={handleSearchInputChange}
+        onSearchClick={handleSearchClick}
       />
       <Flex align={'center'} justify={'center'}>
         <Stack
@@ -52,6 +65,7 @@ const Timeline = () => {
               sortCriteria,
               timeFrame,
               false,
+              triggeredSearch,
             ]}
           />
         </Stack>
