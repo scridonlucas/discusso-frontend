@@ -6,11 +6,23 @@ const baseUrl = 'http://localhost:3001/api/users';
 interface GatherUserCountParams {
   queryKey: [string, string?, string?, string?];
 }
+
+interface GetUserParams {
+  queryKey: [string, number];
+}
 const gatherUsers = async () => {
   const response = await axios.get<User[]>(`${baseUrl}`, {
     withCredentials: true,
   });
 
+  return response.data;
+};
+
+const getUserById = async ({ queryKey }: GetUserParams) => {
+  const userId = queryKey[1];
+  const response = await axios.get<User>(`${baseUrl}/${userId}`, {
+    withCredentials: true,
+  });
   return response.data;
 };
 
@@ -67,4 +79,10 @@ const updateUserRole = async ({
   return response.data;
 };
 
-export default { gatherUsers, updateUserStatus, updateUserRole, getUsersCount };
+export default {
+  gatherUsers,
+  getUserById,
+  updateUserStatus,
+  updateUserRole,
+  getUsersCount,
+};
