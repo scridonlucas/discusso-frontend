@@ -45,8 +45,8 @@ const Trending = () => {
       color="white"
     >
       <Box
-        w={16}
-        h={16}
+        w={20}
+        h={20}
         bg="linear-gradient(90deg, #f59e0b, #fb923c)"
         borderRadius="full"
         display="flex"
@@ -59,7 +59,12 @@ const Trending = () => {
           cursor: 'pointer',
         }}
       >
-        <Icon as={FiTrendingUp} w={8} h={8} color="white" />
+        <Avatar
+          name={`${firstName} ${lastName}`}
+          size="lg"
+          bg="transparent"
+          color="white"
+        />
       </Box>
 
       <Flex align={'center'} justify={'center'}>

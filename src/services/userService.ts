@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User } from '../types/userTypes';
+import { BaseUser, DetailedUser } from '../types/userTypes';
 
 const baseUrl = 'http://localhost:3001/api/users';
 
@@ -11,7 +11,7 @@ interface GetUserParams {
   queryKey: [string, number];
 }
 const gatherUsers = async () => {
-  const response = await axios.get<User[]>(`${baseUrl}`, {
+  const response = await axios.get<BaseUser[]>(`${baseUrl}`, {
     withCredentials: true,
   });
 
@@ -20,12 +20,18 @@ const gatherUsers = async () => {
 
 const getUserById = async ({ queryKey }: GetUserParams) => {
   const userId = queryKey[1];
-  const response = await axios.get<User>(`${baseUrl}/${userId}`, {
+  const response = await axios.get<DetailedUser>(`${baseUrl}/${userId}`, {
     withCredentials: true,
   });
   return response.data;
 };
 
+const getCurrentUser = async () => {
+  const response = await axios.get<DetailedUser>(`${baseUrl}/me`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
 const getUsersCount = async ({ queryKey }: GatherUserCountParams) => {
   const status = queryKey[1] || 'ACTIVE';
   const startDate = queryKey[2] ? encodeURIComponent(queryKey[2]) : '';
@@ -46,7 +52,7 @@ const updateUserStatus = async ({
   userId: number;
   userStatus: 'ACTIVE' | 'BANNED';
 }) => {
-  const response = await axios.patch<User>(
+  const response = await axios.patch<BaseUser>(
     `${baseUrl}/${userId}/status`,
     {
       status: userStatus,
@@ -66,7 +72,7 @@ const updateUserRole = async ({
   userId: number;
   roleName: string;
 }) => {
-  const response = await axios.patch<User>(
+  const response = await axios.patch<BaseUser>(
     `${baseUrl}/${userId}/role`,
     {
       roleName,
@@ -82,6 +88,7 @@ const updateUserRole = async ({
 export default {
   gatherUsers,
   getUserById,
+  getCurrentUser,
   updateUserStatus,
   updateUserRole,
   getUsersCount,
