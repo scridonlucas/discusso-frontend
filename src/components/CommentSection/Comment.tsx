@@ -8,6 +8,7 @@ import { useLikeComment } from '../../hooks/useLikeComment';
 import { useReportComment } from '../../hooks/useReportComment';
 import { useDisclosure } from '@chakra-ui/react';
 import ReportModal from '../Modals/ReportModal';
+import { Link } from 'react-router-dom';
 const Comment = ({
   comment,
   userId,
@@ -62,7 +63,14 @@ const Comment = ({
     >
       <Flex direction={'column'} gap={3}>
         <Flex justify="space-between" align="center">
-          <Text fontWeight="medium" fontSize="sm" color="gray.300">
+          <Text
+            as={Link}
+            to={`/users/${comment.userId}`}
+            fontWeight="medium"
+            fontSize="sm"
+            color="gray.300"
+            _hover={{ color: 'gray.400' }}
+          >
             {comment.user.username}
           </Text>
           <Text fontSize="xs" color="gray.500">
@@ -76,7 +84,6 @@ const Comment = ({
         </Text>
         <Flex align="center" gap={3}>
           <Flex align="center" gap={2} onClick={handleLikeCommentClick}>
-            {/* Like logic */}
             <Icon
               as={isCommentLikedByUser ? FaHeart : FiHeart}
               color={isCommentLikedByUser ? 'red.500' : 'gray.500'}
@@ -93,7 +100,6 @@ const Comment = ({
             </Text>
           </Flex>
           <Flex>
-            {/* Report logic */}
             <Icon
               as={FiFlag}
               cursor="pointer"

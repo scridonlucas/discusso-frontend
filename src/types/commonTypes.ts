@@ -1,4 +1,4 @@
-import { User } from './userTypes';
+import { BaseUser } from './userTypes';
 import { Discussion } from './discussionTypes';
 import { Community } from './communityTypes';
 
@@ -6,7 +6,7 @@ export interface Like {
   id: number;
   userId: number;
   discussionId: number;
-  user: User;
+  user: BaseUser;
   discussion: Discussion;
 }
 
@@ -81,14 +81,14 @@ export interface CommentReport {
 export interface Follow {
   followerId: number;
   followedId: number;
-  follower: User;
-  followed: User;
+  follower: BaseUser;
+  followed: BaseUser;
 }
 
 export interface UserCommunity {
   userId: number;
   communityId: number;
-  user: User;
+  user: BaseUser;
   community: Community;
 }
 
@@ -96,7 +96,7 @@ export interface Bookmark {
   id: number;
   userId: number;
   discussionId: number;
-  user: User;
+  user: BaseUser;
   discussion: Discussion;
 }
 
@@ -172,4 +172,13 @@ export interface NewCommentReportResponse {
   status: string;
   createdAt: Date;
   reviewedAt: Date | null;
+}
+
+export interface Notification {
+  id: number;
+  userId: number;
+  content: string;
+  type: string;
+  read: boolean;
+  createdAt: Date;
 }

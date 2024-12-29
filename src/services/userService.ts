@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { BaseUser, DetailedUser } from '../types/userTypes';
+import { BaseUser, DetailedPublicUser, PrivateUser } from '../types/userTypes';
+import { Follow } from '../types/commonTypes';
 
 const baseUrl = 'http://localhost:3001/api/users';
 
@@ -11,7 +12,7 @@ interface GetUserParams {
   queryKey: [string, number];
 }
 const gatherUsers = async () => {
-  const response = await axios.get<BaseUser[]>(`${baseUrl}`, {
+  const response = await axios.get<PrivateUser[]>(`${baseUrl}`, {
     withCredentials: true,
   });
 
@@ -20,18 +21,30 @@ const gatherUsers = async () => {
 
 const getUserById = async ({ queryKey }: GetUserParams) => {
   const userId = queryKey[1];
-  const response = await axios.get<DetailedUser>(`${baseUrl}/${userId}`, {
+  const response = await axios.get<PrivateUser>(`${baseUrl}/${userId}`, {
     withCredentials: true,
   });
   return response.data;
 };
 
 const getCurrentUser = async () => {
-  const response = await axios.get<DetailedUser>(`${baseUrl}/me`, {
+  const response = await axios.get<PrivateUser>(`${baseUrl}/me`, {
     withCredentials: true,
   });
   return response.data;
 };
+
+const getPublicUserDetails = async ({ queryKey }: GetUserParams) => {
+  const userId = queryKey[1];
+  const response = await axios.get<DetailedPublicUser>(
+    `${baseUrl}/${userId}/public`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
 const getUsersCount = async ({ queryKey }: GatherUserCountParams) => {
   const status = queryKey[1] || 'ACTIVE';
   const startDate = queryKey[2] ? encodeURIComponent(queryKey[2]) : '';
@@ -85,6 +98,25 @@ const updateUserRole = async ({
   return response.data;
 };
 
+const followUser = async (userId: number) => {
+  const response = await axios.post<Follow>(
+    `${baseUrl}/${userId}/follow`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+const unfollowUser = async (userId: number) => {
+  const response = await axios.delete<Follow>(`${baseUrl}/${userId}/follow`, {
+    withCredentials: true,
+  });
+
+  return response.data;
+};
+
 export default {
   gatherUsers,
   getUserById,
@@ -92,4 +124,7 @@ export default {
   updateUserStatus,
   updateUserRole,
   getUsersCount,
+  getPublicUserDetails,
+  followUser,
+  unfollowUser,
 };

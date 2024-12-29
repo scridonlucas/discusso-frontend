@@ -27,6 +27,7 @@ import CommentsSortingBar from '../../components/CommentSection/CommentsSortingB
 import { ReportModal, RemoveDiscussionModal } from '../../components/Modals';
 import discussionUtils from '../../components/MainPage/discussionUtils';
 import { formatDistanceToNow } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 import {
   useDeleteDiscussion,
@@ -153,14 +154,28 @@ const DetailedDiscussion = () => {
           {/* Header */}
           <Flex justify="space-between" align="center" mb={4}>
             <Flex align="center" gap={2}>
-              <Text fontWeight="bold" fontSize="lg" color="white.300">
+              <Text
+                as={Link}
+                to={`/communities/${discussion.communityId}`}
+                fontWeight="bold"
+                fontSize="lg"
+                color="white.300"
+                _hover={{ color: 'gray.400' }}
+              >
                 {discussion.community.name}
               </Text>
               <Text fontSize="lg" color="gray.400">
                 •
               </Text>
               <Icon as={FiUser} boxSize={5} color="gray.700" />
-              <Text fontWeight="bold" fontSize="sm" color="gray.400">
+              <Text
+                as={Link}
+                to={`/users/${discussion.userId}`}
+                fontWeight="bold"
+                fontSize="sm"
+                color="gray.400"
+                _hover={{ color: 'gray.500' }}
+              >
                 {discussion.user.username}
               </Text>
               <Text fontSize="lg" color="gray.400">
@@ -199,14 +214,12 @@ const DetailedDiscussion = () => {
               />
             </Flex>
           </Flex>
-          {/* Title & Content */}
           <Text fontWeight="bold" fontSize="2xl" mb={2} color="white.300">
             {discussion.title}
           </Text>
           <Text fontSize="md" color="gray.400" mb={6}>
             {discussion.content}
           </Text>
-          {/* Actions (Like, Save, Report) */}
           <Flex align="center" gap={4} mb={6}>
             <Flex align="center" gap={2} onClick={handleLikeClick}>
               <Icon
@@ -241,7 +254,6 @@ const DetailedDiscussion = () => {
               />
             </Flex>
           </Flex>
-          {/* Comment Input */}
           <CommentForm discussionId={Number(id)} />
           <CommentsSortingBar />
           <CommentSection discussionId={Number(id)} />

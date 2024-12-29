@@ -1,38 +1,45 @@
 import { Like, Bookmark, Comment } from './commonTypes';
 import { Community } from './communityTypes';
 import { Discussion } from './discussionTypes';
+
+export interface UserCounts {
+  discussions: number;
+  bookmarks: number;
+  comments: number;
+  notifications: number;
+  followedCommunities: number;
+  followers: number;
+  following: number;
+}
+
 export interface BaseUser {
   id: number;
   roleId: number;
   firstName: string;
   lastName: string;
   username: string;
-  email: string;
   gender: Gender;
   status: Status;
-  birthDate: string;
   likes: Like[];
   role: Role;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface DetailedUser extends BaseUser {
-  followedCommunitiesCount: number;
-  commentCount: number;
-  notificationsCount: number;
+export interface DetailedPublicUser extends BaseUser {
   followedComunities: Community[];
   discussions: Discussion[];
   comments: Comment[];
+  followers: Follow[];
+  following: Follow[];
   notifications: Notification[];
   bookmarks: Bookmark[];
-  _count: {
-    discussions: number;
-    bookmarks: number;
-    comments: number;
-    notifications: number;
-    followedCommunities: number;
-  };
+  _count: UserCounts;
+}
+
+export interface PrivateUser extends DetailedPublicUser {
+  email: string;
+  birthDate: string;
 }
 
 export interface LoginUser {
@@ -45,4 +52,11 @@ type Status = 'ACTIVE' | 'BANNED';
 interface Role {
   roleId: number;
   roleName: 'ADMIN' | 'MODERATOR' | 'PREMIUM' | 'USER';
+}
+
+interface Follow {
+  id: number;
+  followerId: number;
+  followedId: number;
+  createdAt: Date;
 }

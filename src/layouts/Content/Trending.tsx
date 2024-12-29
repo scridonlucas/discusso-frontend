@@ -59,12 +59,8 @@ const Trending = () => {
           cursor: 'pointer',
         }}
       >
-        <Avatar
-          name={`${firstName} ${lastName}`}
-          size="lg"
-          bg="transparent"
-          color="white"
-        />
+        {' '}
+        <Icon as={FiTrendingUp} w={8} h={8} color="white" />
       </Box>
 
       <Flex align={'center'} justify={'center'}>

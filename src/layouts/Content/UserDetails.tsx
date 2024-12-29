@@ -7,24 +7,42 @@ import {
   Icon,
   Avatar,
   Divider,
+  Button,
 } from '@chakra-ui/react';
-import {
-  FiUsers,
-  FiBookmark,
-  FiMessageSquare,
-  FiFileText,
-} from 'react-icons/fi';
+import { FiFileText, FiMessageSquare } from 'react-icons/fi';
 import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
 import userService from '../../services/userService';
 import ServerError from '../../components/MainPage/ServerError';
-const Profile = () => {
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../../hooks';
+import { useFollowUser, useUnfollowUser } from '../../hooks/useFollowUser';
+import userProfileUtils from '../../components/MainPage/userProfileUtils';
+const UserDetails = () => {
+  const { id } = useParams();
+
   const {
     data: userData,
     isLoading: isUserLoading,
     isError: isUserError,
-  } = useQuery(['currentUser'], userService.getCurrentUser);
+  } = useQuery(['userProfile', Number(id)!], userService.getPublicUserDetails, {
+    enabled: !!id,
+  });
 
-  if (isUserLoading) {
+  const {
+    data: authData,
+    isLoading: isAuthLoading,
+    isError: isAuthError,
+  } = useAuth();
+
+  const followUser = useFollowUser();
+  const unfollowUser = useUnfollowUser();
+
+  if (!id) {
+    return <Navigate to="/home" />;
+  }
+
+  if (isUserLoading || isAuthLoading) {
     return (
       <Flex align="center" justify="center" height="100vh">
         <Spinner size="xl" />
@@ -32,21 +50,21 @@ const Profile = () => {
     );
   }
 
-  if (isUserError) {
+  if (isUserError || isAuthError) {
     return <ServerError />;
   }
-  console.log(userData);
-  const {
-    firstName,
-    lastName,
-    username,
-    email,
-    gender,
-    birthDate,
-    createdAt,
-    _count,
-    role,
-  } = userData;
+
+  const userId = authData.user.userId;
+
+  const followedByUser = userProfileUtils.isFollowdByUser(userData, userId);
+
+  const { firstName, lastName, username, gender, createdAt, _count, role } =
+    userData;
+
+  const handleFollowClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    (followedByUser ? unfollowUser : followUser).mutate(Number(id));
+  };
 
   return (
     <Flex align="center" justify="center" p={6}>
@@ -96,6 +114,14 @@ const Profile = () => {
               Role: {role.roleName} | Gender: {gender}
             </Text>
           </Box>
+          <Button
+            ml="auto"
+            colorScheme={followedByUser ? 'red' : 'blue'}
+            onClick={handleFollowClick}
+            isLoading={followUser.isLoading || unfollowUser.isLoading}
+          >
+            {followedByUser ? 'Unfollow' : 'Follow'}
+          </Button>
         </Flex>
         <Divider my={4} />
         <Box mb={6}>
@@ -149,6 +175,7 @@ const Profile = () => {
             </Flex>
           </Flex>
         </Box>
+
         <Divider my={4} />
 
         {/* Personal Information */}
@@ -157,8 +184,6 @@ const Profile = () => {
             Personal Information
           </Text>
           <Stack spacing={2}>
-            <Text>Email: {email}</Text>
-            <Text>Birth Date: {new Date(birthDate).toLocaleDateString()}</Text>
             <Text>
               Member Since: {new Date(createdAt).toLocaleDateString()}
             </Text>
@@ -181,14 +206,6 @@ const Profile = () => {
               <Icon as={FiMessageSquare} boxSize={5} color="gray.300" />
               <Text>Comments: {_count.comments}</Text>
             </Flex>
-            <Flex align="center" gap={2}>
-              <Icon as={FiUsers} boxSize={5} color="gray.300" />
-              <Text>Communities Followed: {_count.followedCommunities}</Text>
-            </Flex>
-            <Flex align="center" gap={2}>
-              <Icon as={FiBookmark} boxSize={5} color="gray.300" />
-              <Text>Saved: {_count.bookmarks}</Text>
-            </Flex>
           </Flex>
         </Box>
       </Box>
@@ -196,4 +213,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UserDetails;
