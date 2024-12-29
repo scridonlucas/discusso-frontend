@@ -38,7 +38,7 @@ const DataCard = ({
         whiteSpace="normal"
         wordBreak="break-word"
       >
-        {value ? value : '-'}
+        {value ? value : 0}
       </Text>
     </Box>
   );

@@ -13,6 +13,7 @@ import {
   MenuItem,
   MenuList,
   Button,
+  Badge,
 } from '@chakra-ui/react';
 import { FiMenu, FiBell, FiChevronDown, FiPlus } from 'react-icons/fi';
 import { MobileProps } from '../types';
@@ -31,9 +32,12 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
     isError: notificationsCountIsError,
   } = useQuery(
     ['notificationsCount'],
-    notificationService.gatherNotificationsCount
+    notificationService.gatherNotificationsCount,
+    {
+      refetchInterval: 300000, // 5 mins
+    }
   );
-
+  console.log('notificationsCount', notificationsCount);
   const navigate = useNavigate();
 
   const username = queryData ? queryData.user.username : '';
@@ -56,6 +60,10 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
 
   const handleNotifications = () => {
     navigate('/notifications');
+  };
+
+  const handleProfile = () => {
+    navigate('/profile');
   };
 
   return (
@@ -111,13 +119,30 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
           aria-label="open menu"
           icon={<FiPlus />}
         />
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-          onClick={handleNotifications}
-        />
+        <Box position="relative">
+          <IconButton
+            size="lg"
+            variant="ghost"
+            aria-label="open notifications"
+            icon={<FiBell />}
+            onClick={handleNotifications}
+          />
+          {!notificationsCountIsLoading &&
+            !notificationsCountIsError &&
+            notificationsCount > 0 && (
+              <Badge
+                position="absolute"
+                top="0.5"
+                right="1"
+                fontSize="0.7em"
+                colorScheme="red"
+                bg="red.500"
+                borderRadius="full"
+              >
+                {notificationsCount}
+              </Badge>
+            )}
+        </Box>
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton
@@ -153,9 +178,8 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
               bg={useColorModeValue('white', 'gray.700')}
               borderColor={useColorModeValue('gray.200', 'gray.700')}
             >
-              <MenuItem>Profile</MenuItem>
+              <MenuItem onClick={handleProfile}>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
               <MenuDivider />
               {role === 'ADMIN' && (
                 <MenuItem onClick={handleAdminDashboard}>
