@@ -13,6 +13,7 @@ import {
   CommunityFeed,
   FavouritesFeed,
   UserDetails,
+  Notifications,
 } from '../layouts/Content';
 import {
   FlaggedDiscussions,
@@ -44,7 +45,7 @@ const AppRoutes = () => {
           <Route path="/communities" element={<CommunityList />} />
           <Route path="/communities/:id" element={<CommunityFeed />} />
           <Route path="/users/:id" element={<UserDetails />} />
-
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="/trending" element={<Trending />} />
           <Route path="/saved" element={<FavouritesFeed />} />
         </Route>

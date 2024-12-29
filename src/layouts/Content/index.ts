@@ -7,3 +7,4 @@ export { default as CommunityList } from './CommunityList';
 export { default as CommunityFeed } from './CommunityFeed';
 export { default as FavouritesFeed } from './FavouritesFeed';
 export { default as UserDetails } from './UserDetails';
+export { default as Notifications } from './Notifications';

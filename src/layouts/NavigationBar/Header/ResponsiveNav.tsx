@@ -17,13 +17,23 @@ import {
 import { FiMenu, FiBell, FiChevronDown, FiPlus } from 'react-icons/fi';
 import { MobileProps } from '../types';
 import { useSignOut } from '../../../hooks/useSignOut';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { AuthResponse } from '../../../types/authTypes';
 import { useNavigate } from 'react-router-dom';
-
+import notificationService from '../../../services/notificationService';
 const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
   const queryClient = useQueryClient();
   const queryData = queryClient.getQueryData<AuthResponse>(['auth']);
+
+  const {
+    data: notificationsCount = 0,
+    isLoading: notificationsCountIsLoading,
+    isError: notificationsCountIsError,
+  } = useQuery(
+    ['notificationsCount'],
+    notificationService.gatherNotificationsCount
+  );
+
   const navigate = useNavigate();
 
   const username = queryData ? queryData.user.username : '';
@@ -42,6 +52,10 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
 
   const handleAdminDashboard = () => {
     navigate('/admin');
+  };
+
+  const handleNotifications = () => {
+    navigate('/notifications');
   };
 
   return (
@@ -102,6 +116,7 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
+          onClick={handleNotifications}
         />
         <Flex alignItems={'center'}>
           <Menu>

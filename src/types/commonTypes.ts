@@ -179,6 +179,6 @@ export interface Notification {
   userId: number;
   content: string;
   type: string;
-  read: boolean;
+  isRead: boolean;
   createdAt: Date;
 }

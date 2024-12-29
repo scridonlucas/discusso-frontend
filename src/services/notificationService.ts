@@ -10,4 +10,38 @@ const gatherNotifications = async () => {
   return response.data;
 };
 
-export default { gatherNotifications };
+const gatherNotificationsCount = async () => {
+  const response = await axios.get<number>(`${baseUrl}/count`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+const readNotification = async (notificationId: number) => {
+  const response = await axios.patch<Notification>(
+    `${baseUrl}/${notificationId}/read`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+const readAllNotifications = async () => {
+  const response = await axios.patch<Notification[]>(
+    `${baseUrl}/read-all`,
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
+export default {
+  gatherNotifications,
+  readNotification,
+  readAllNotifications,
+  gatherNotificationsCount,
+};

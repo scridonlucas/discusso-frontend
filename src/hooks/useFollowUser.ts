@@ -60,7 +60,6 @@ export const useUnfollowUser = () => {
     mutationFn: userService.unfollowUser,
     onSuccess: (data) => {
       queryClient.invalidateQueries(['userProfile', data.followedId]);
-
       toast({
         title: 'Success!',
         description: `You unfollowed this user.`,
