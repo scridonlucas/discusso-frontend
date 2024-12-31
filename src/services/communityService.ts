@@ -43,7 +43,6 @@ const updateCommunity = async ({
   communityId: number;
   communityData: CommunityUpdateParams;
 }) => {
-  console.log(`${baseUrl}/${communityId}/update`);
   const response = await axios.patch<Community>(
     `${baseUrl}/${communityId}/update`,
     communityData,

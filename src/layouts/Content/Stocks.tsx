@@ -9,67 +9,96 @@ import {
   getPaginationRowModel,
   SortingState,
 } from '@tanstack/react-table';
+import { useRemoveStockFromFavorites } from '../../hooks/useStock';
 import DataTable from '../../components/DataTable/DataTable';
 import SortingHeader from '../../components/DataTable/SortingHeader';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Button } from '@chakra-ui/react';
 import ServerError from '../../components/MainPage/ServerError';
 import ServerLoading from '../../components/MainPage/ServerLoading';
-import logsService from '../../services/logsService';
-import { ModerationLog } from '../../types/commonTypes';
-import { format } from 'date-fns';
-
-const columnHelper = createColumnHelper<ModerationLog>();
+import stockService from '../../services/stockService';
+import { DetailedStock } from '../../types/stockTypes';
+import StockForm from '../../components/Forms/StockForm/StockForm';
+const columnHelper = createColumnHelper<DetailedStock>();
 const Stocks = () => {
   const { data, isLoading, isError } = useQuery(
-    ['moderation-logs'],
-    logsService.gatherModerationLogs
+    ['stocks'],
+    stockService.getFavoriteStocks
   );
+
+  const removeStock = useRemoveStockFromFavorites();
 
   const [globalFilter, setGlobalFilter] = useState('');
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns = useMemo(
     () => [
-      columnHelper.accessor('createdAt', {
-        header: ({ column }) => (
-          <SortingHeader column={column} label="Created At" />
-        ),
-        cell: (info) => format(info.getValue(), 'yyyy-MM-dd HH:mm:ss'),
-        enableSorting: true,
-      }),
-      columnHelper.accessor((row) => row.admin.username, {
-        id: 'adminUsername',
-        header: ({ column }) => <SortingHeader column={column} label="Admin" />,
+      columnHelper.accessor('name', {
+        header: ({ column }) => <SortingHeader column={column} label="Name" />,
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),
-      columnHelper.accessor((row) => row.user?.username ?? '-', {
-        id: 'userUsername',
+
+      columnHelper.accessor('ticker', {
         header: ({ column }) => (
-          <SortingHeader column={column} label="Reported User" />
+          <SortingHeader column={column} label="Symbol" />
         ),
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),
-      columnHelper.accessor('action', {
+
+      columnHelper.accessor('price', {
+        header: ({ column }) => <SortingHeader column={column} label="Price" />,
+        cell: (info) =>
+          info.getValue() !== null ? `$${info.getValue()}` : 'N/A',
+        enableSorting: true,
+      }),
+      columnHelper.accessor('currency', {
         header: ({ column }) => (
-          <SortingHeader column={column} label="Action" />
+          <SortingHeader column={column} label="Currency" />
         ),
         cell: (info) => info.getValue(),
         enableSorting: true,
       }),
-      columnHelper.accessor((row) => row.targetId ?? '-', {
-        id: 'targetId',
-        header: ({ column }) => (
-          <SortingHeader column={column} label="Target ID" />
-        ),
+      columnHelper.accessor('type', {
+        header: ({ column }) => <SortingHeader column={column} label="Type" />,
         cell: (info) => info.getValue(),
         enableSorting: true,
+      }),
+      columnHelper.accessor('change', {
+        header: ({ column }) => (
+          <SortingHeader column={column} label="Change (%)" />
+        ),
+        cell: (info) => (info.getValue() !== null ? info.getValue() : 'N/A'),
+        enableSorting: true,
+      }),
+      columnHelper.accessor('changePercent', {
+        header: ({ column }) => (
+          <SortingHeader column={column} label="Change Percent" />
+        ),
+        cell: (info) =>
+          info.getValue() !== null ? `${info.getValue()}%` : 'N/A',
+        enableSorting: true,
+      }),
+      columnHelper.display({
+        id: 'actions',
+        header: 'Actions',
+        cell: (info) => {
+          const stockId = info.row.original.id;
+
+          const handleRemove = () => {
+            removeStock.mutate(stockId);
+          };
+
+          return (
+            <Button size="sm" colorScheme="red" onClick={handleRemove}>
+              Remove
+            </Button>
+          );
+        },
       }),
     ],
-    []
+    [removeStock]
   );
-
   const table = useReactTable({
     data: data ?? [],
     columns,
@@ -84,8 +113,8 @@ const Stocks = () => {
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     globalFilterFn: (row, columnId, filterValue) => {
-      const value = row.getValue(columnId);
-      return String(value).toLowerCase().includes(filterValue.toLowerCase());
+      const value = String(row.getValue(columnId) ?? '');
+      return value.toLowerCase().includes(filterValue.toLowerCase());
     },
     initialState: {
       pagination: {
@@ -104,15 +133,20 @@ const Stocks = () => {
   }
 
   return (
-    <Flex align="center" justify="center" p={4} w="full">
-      <DataTable
-        table={table}
-        showSearch={true}
-        showPagination={true}
-        globalFilter={globalFilter}
-        onGlobalFilterChange={setGlobalFilter}
-        width="80%"
-      />
+    <Flex direction="column" gap={6}>
+      <Flex align="center" width="80%" mx="auto" mt={6}>
+        <StockForm />
+      </Flex>
+      <Flex justify={'center'}>
+        <DataTable
+          table={table}
+          showSearch={true}
+          showPagination={true}
+          globalFilter={globalFilter}
+          onGlobalFilterChange={setGlobalFilter}
+          width="80%"
+        />
+      </Flex>
     </Flex>
   );
 };

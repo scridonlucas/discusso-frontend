@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:3001/api/stocks';
 
 const getFavoriteStocks = async () => {
   const response = await axios.get<DetailedStock[] | []>(
-    `${baseUrl}/favorites/real-time`,
+    `${baseUrl}/favourites/real-time`,
     {
       withCredentials: true,
     }
@@ -12,9 +12,9 @@ const getFavoriteStocks = async () => {
   return response.data;
 };
 
-const postFavoriteStock = async (ticker: string) => {
+const postFavoriteStock = async ({ ticker }: { ticker: string }) => {
   const response = await axios.post<Stock>(
-    `${baseUrl}/favorites`,
+    `${baseUrl}/favourites`,
     { ticker },
     {
       withCredentials: true,
@@ -24,7 +24,12 @@ const postFavoriteStock = async (ticker: string) => {
 };
 
 const deleteFavoriteStock = async (stockId: number) => {
-  const response = await axios.delete<Stock>(`${baseUrl}/favorites/${stockId}`);
+  const response = await axios.delete<Stock>(
+    `${baseUrl}/favourites/${stockId}`,
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 export default { getFavoriteStocks, postFavoriteStock, deleteFavoriteStock };
