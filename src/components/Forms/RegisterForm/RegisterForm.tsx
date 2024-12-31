@@ -18,7 +18,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { User } from '../../../types/userTypes';
+import { NewUser } from '../../../types/userTypes';
 
 import validationSchema from './validationSchema';
 
@@ -35,7 +35,7 @@ const RegistrationForm = () => {
     handleSubmit,
     watch,
     setError,
-  } = useForm<User>();
+  } = useForm<NewUser>();
 
   const signUpMutation = useSignUp();
 
@@ -45,7 +45,7 @@ const RegistrationForm = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<User> = async (data) => {
+  const onSubmit: SubmitHandler<NewUser> = async (data) => {
     const username = await validateUsernameExists(data.username);
     const email = await validateEmailExists(data.email);
     if (!username && !email) {

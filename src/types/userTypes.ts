@@ -12,7 +12,7 @@ export interface UserCounts {
   following: number;
 }
 
-export interface BaseUser {
+export interface User {
   id: number;
   roleId: number;
   firstName: string;
@@ -26,7 +26,7 @@ export interface BaseUser {
   updatedAt: Date;
 }
 
-export interface DetailedPublicUser extends BaseUser {
+export interface DetailedPublicUser extends User {
   followedComunities: Community[];
   discussions: Discussion[];
   comments: Comment[];
@@ -45,6 +45,17 @@ export interface PrivateUser extends DetailedPublicUser {
 export interface LoginUser {
   email: string;
   password: string;
+}
+
+export interface NewUser {
+  firstName: string;
+  lastName: string;
+  username: string;
+  gender: Gender;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  birthDate: string;
 }
 
 type Gender = 'MALE' | 'FEMALE' | 'OTHER';

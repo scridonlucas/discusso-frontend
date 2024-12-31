@@ -90,7 +90,6 @@ const AdminDashboard = () => {
     isError: mostPopularUsersIsError,
   } = useQuery(['mostPopularUsers'], userService.gatherMostPopularUsers);
 
-  console.log(mostActiveUsersData);
   return (
     <Box p={6}>
       <SimpleGrid columns={[1, 2, 4]} spacing={6} mb={14}>

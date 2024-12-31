@@ -112,7 +112,7 @@ const gatherDiscussions = async ({
     saved,
     search: search,
   });
-  console.log(`${baseUrl}?${queryParams}`);
+
   const response = await axios.get<DiscussionsResponse>(
     `${baseUrl}?${queryParams}`,
     {
