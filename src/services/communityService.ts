@@ -4,6 +4,7 @@ import {
   NewCommunityParams,
   CommunityUpdateParams,
   FollowCommunityResponse,
+  CommunityWithDiscussionCounts,
 } from '../types/communityTypes';
 
 const baseUrl = 'http://localhost:3001/api/communities';
@@ -15,6 +16,16 @@ const gatherCommunities = async () => {
   const response = await axios.get<Community[]>(`${baseUrl}`, {
     withCredentials: true,
   });
+  return response.data;
+};
+
+const gatherCommunitiesWithDiscussionCounts = async () => {
+  const response = await axios.get<CommunityWithDiscussionCounts[]>(
+    `${baseUrl}/discussion-counts`,
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 
@@ -78,4 +89,5 @@ export default {
   updateCommunity,
   followCommunity,
   unfollowCommunity,
+  gatherCommunitiesWithDiscussionCounts,
 };

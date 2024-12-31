@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { BaseUser, DetailedPublicUser, PrivateUser } from '../types/userTypes';
+import {
+  BaseUser,
+  DetailedPublicUser,
+  PrivateUser,
+  MostActiveUser,
+  MostPopularUser,
+} from '../types/userTypes';
 import { Follow } from '../types/commonTypes';
 
 const baseUrl = 'http://localhost:3001/api/users';
@@ -117,6 +123,23 @@ const unfollowUser = async (userId: number) => {
   return response.data;
 };
 
+const gatherMostActiveUsers = async () => {
+  const response = await axios.get<MostActiveUser[]>(`${baseUrl}/most-active`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+const gatherMostPopularUsers = async () => {
+  const response = await axios.get<MostPopularUser[]>(
+    `${baseUrl}/most-followed`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
 export default {
   gatherUsers,
   getUserById,
@@ -127,4 +150,6 @@ export default {
   getPublicUserDetails,
   followUser,
   unfollowUser,
+  gatherMostActiveUsers,
+  gatherMostPopularUsers,
 };

@@ -52,3 +52,8 @@ export interface DiscussionsResponse {
 export interface TrendingDiscussionResponse {
   discussions: Discussion[];
 }
+
+export interface DailyDiscussionStatistics {
+  date: string;
+  count: number;
+}

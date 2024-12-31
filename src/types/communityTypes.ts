@@ -29,3 +29,11 @@ export interface FollowCommunityResponse {
   communityId: number;
   joinedAt: Date;
 }
+
+export interface CommunityWithDiscussionCounts {
+  id: number;
+  name: string;
+  _count: {
+    discussions: number;
+  };
+}

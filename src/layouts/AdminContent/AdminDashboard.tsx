@@ -1,13 +1,16 @@
 import { Box, SimpleGrid } from '@chakra-ui/react';
-import userService from '../../services/userService';
 import discussionReportsService from '../../services/discussionReportsService';
 import commentReportsService from '../../services/commentReportsService';
 import discussionService from '../../services/discussionService';
+import communityService from '../../services/communityService';
+import userService from '../../services/userService';
 import { useQuery } from '@tanstack/react-query';
 import { DashboardCard } from '../../components/DashboardCard';
-
 import { startOfWeek, endOfWeek, formatISO } from 'date-fns';
-
+import DailyDiscussionsChart from '../../components/AdminCharts/DailyDiscussionsChart';
+import CommunityDiscussionsChart from '../../components/AdminCharts/CommunityDiscussionsChart';
+import MostPopularUsersChart from '../../components/AdminCharts/MostPopularUsersChart';
+import MostActiveUsersChart from '../../components/AdminCharts/MostActiveUsersChart';
 const AdminDashboard = () => {
   const {
     data: usersCountData,
@@ -49,6 +52,15 @@ const AdminDashboard = () => {
   );
 
   const {
+    data: communitiesWithDiscussionCountsData,
+    isLoading: communitiesWithDiscussionCountsIsLoading,
+    isError: communitiesWithDiscussionCountsIsError,
+  } = useQuery(
+    ['communitiesWithDiscussionCounts'],
+    communityService.gatherCommunitiesWithDiscussionCounts
+  );
+
+  const {
     data: commentReportsCountData,
     isLoading: commentReportsCountIsLoading,
     isError: commentReportsCountIsError,
@@ -57,9 +69,31 @@ const AdminDashboard = () => {
     commentReportsService.getCommentReportsCount
   );
 
+  const {
+    data: dailyDiscussionStatisticsData,
+    isLoading: dailyDiscussionStatisticsIsLoading,
+    isError: dailyDiscussionStatisticsIsError,
+  } = useQuery(
+    ['dailyDiscussionStatistics'],
+    discussionService.getDailyDiscussionsStatistics
+  );
+
+  const {
+    data: mostActiveUsersData,
+    isLoading: mostActiveUsersIsLoading,
+    isError: mostActiveUsersIsError,
+  } = useQuery(['mostActiveUsers'], userService.gatherMostActiveUsers);
+
+  const {
+    data: mostPopularUsersData,
+    isLoading: mostPopularUsersIsLoading,
+    isError: mostPopularUsersIsError,
+  } = useQuery(['mostPopularUsers'], userService.gatherMostPopularUsers);
+
+  console.log(mostActiveUsersData);
   return (
     <Box p={6}>
-      <SimpleGrid columns={[1, 2, 4]} spacing={6} mb={6}>
+      <SimpleGrid columns={[1, 2, 4]} spacing={6} mb={14}>
         <DashboardCard
           isLoading={usersCountIsLoading}
           isError={usersCountIsError}
@@ -107,6 +141,32 @@ const AdminDashboard = () => {
           bgColor="red.500"
           hoverColor="red.600"
           textColor="white"
+        />
+      </SimpleGrid>
+
+      <SimpleGrid columns={[1, 1, 2]} spacing={6} mb={6}>
+        <DailyDiscussionsChart
+          isLoading={dailyDiscussionStatisticsIsLoading}
+          isError={dailyDiscussionStatisticsIsError}
+          data={dailyDiscussionStatisticsData}
+        />
+
+        <CommunityDiscussionsChart
+          isLoading={communitiesWithDiscussionCountsIsLoading}
+          isError={communitiesWithDiscussionCountsIsError}
+          data={communitiesWithDiscussionCountsData}
+        />
+      </SimpleGrid>
+      <SimpleGrid columns={[1, 1, 2]} spacing={6} mb={6}>
+        <MostActiveUsersChart
+          isLoading={mostActiveUsersIsLoading}
+          isError={mostActiveUsersIsError}
+          data={mostActiveUsersData}
+        />
+        <MostPopularUsersChart
+          isLoading={mostPopularUsersIsLoading}
+          isError={mostPopularUsersIsError}
+          data={mostPopularUsersData}
         />
       </SimpleGrid>
     </Box>

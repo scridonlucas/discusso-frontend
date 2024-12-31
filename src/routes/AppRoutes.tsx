@@ -14,6 +14,7 @@ import {
   FavouritesFeed,
   UserDetails,
   NotificationList,
+  Stocks,
 } from '../layouts/Content';
 import {
   FlaggedDiscussions,
@@ -48,6 +49,7 @@ const AppRoutes = () => {
           <Route path="/notifications" element={<NotificationList />} />
           <Route path="/trending" element={<Trending />} />
           <Route path="/saved" element={<FavouritesFeed />} />
+          <Route path="/stocks" element={<Stocks />} />
         </Route>
         <Route element={<AdminRoutes />}>
           <Route element={<AdminPage />}>

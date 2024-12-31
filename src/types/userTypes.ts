@@ -60,3 +60,19 @@ interface Follow {
   followedId: number;
   createdAt: Date;
 }
+
+export interface MostActiveUser {
+  id: number;
+  username: string;
+  _count: {
+    discussions: number;
+  };
+}
+
+export interface MostPopularUser {
+  id: number;
+  username: string;
+  _count: {
+    followers: number;
+  };
+}

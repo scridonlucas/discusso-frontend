@@ -4,6 +4,7 @@ import {
   NewDiscussion,
   TrendingDiscussionResponse,
   DiscussionsResponse,
+  DailyDiscussionStatistics,
 } from '../types/discussionTypes';
 import { Comment } from '../types/commonTypes';
 import {
@@ -137,6 +138,16 @@ const gatherTrendingDiscussions = async () => {
   return response.data;
 };
 
+const getDailyDiscussionsStatistics = async () => {
+  const response = await axios.get<DailyDiscussionStatistics[]>(
+    `${baseUrl}/daily-stats`,
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+};
+
 const getDiscussionById = async ({ queryKey }: GatherDiscussionParams) => {
   const discussionId = queryKey[1];
 
@@ -233,6 +244,7 @@ export default {
   gatherTrendingDiscussions,
   getDiscussionsCount,
   getDiscussionById,
+  getDailyDiscussionsStatistics,
   addDiscussionReport,
   addLike,
   deleteLike,

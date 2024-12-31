@@ -27,6 +27,7 @@ const DataCard = ({
         transform: 'scale(1.05)',
         transition: 'all 0.2s',
         bg: hoverColor,
+        cursor: 'pointer',
       }}
     >
       <Text whiteSpace="normal" fontSize="lg" fontWeight="bold" mb="2">
