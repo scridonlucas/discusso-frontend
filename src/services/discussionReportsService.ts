@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { DiscussionReport } from '../types/commonTypes';
 
-const baseUrl = 'http://localhost:3001/api/discussion-reports';
+const baseUrl = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/discussion-reports`
+  : 'http://localhost:3001/api/discussion-reports';
 
 type DiscussionReportsResponse = {
   discussionReports: DiscussionReport[];

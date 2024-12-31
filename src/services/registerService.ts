@@ -1,16 +1,17 @@
 import axios from 'axios';
-import { User } from '../types/userTypes';
+import { BaseUser } from '../types/userTypes';
 import { Exists } from '../types/authTypes';
 
-const baseUrl = 'http://localhost:3001/api/users';
+const baseUrl =
+  `${import.meta.env.VITE_API_URL}/users` || 'http://localhost:3001/api/users';
 
 const getUsers = async () => {
-  const response = await axios.get<User[]>(baseUrl);
+  const response = await axios.get<BaseUser[]>(baseUrl);
   return response.data;
 };
 
-const postUser = async (credentials: User) => {
-  const response = await axios.post<User>(baseUrl, credentials);
+const postUser = async (credentials: BaseUser) => {
+  const response = await axios.post<BaseUser>(baseUrl, credentials);
   return response.data;
 };
 

@@ -8,7 +8,9 @@ import {
 } from '../types/userTypes';
 import { Follow } from '../types/commonTypes';
 
-const baseUrl = 'http://localhost:3001/api/users';
+const baseUrl = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/users`
+  : 'http://localhost:3001/api/users';
 
 interface GatherUserCountParams {
   queryKey: [string, string?, string?, string?];

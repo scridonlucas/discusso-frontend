@@ -6,7 +6,9 @@ import {
   AuthResponse,
 } from '../types/authTypes';
 
-const baseUrl = 'http://localhost:3001/api/auth';
+const baseUrl =
+  `${import.meta.env.VITE_API_URL}/auth` || 'http://localhost:3001/api/auth';
+
 const loginPath = '/login';
 const logoutPath = '/logout';
 const authPath = '/verify';

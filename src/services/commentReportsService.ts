@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { CommentReport } from '../types/commonTypes';
-const baseUrl = 'http://localhost:3001/api/comment-reports';
-
+const baseUrl =
+  `${import.meta.env.VITE_API_URL}/comment-reports` ||
+  'http://localhost:3001/api/comment-reports';
 type CommentReportsResponse = {
   commentReports: CommentReport[];
   total: number;

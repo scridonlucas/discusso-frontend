@@ -1,6 +1,9 @@
 import { Stock, DetailedStock } from '../types/stockTypes';
 import axios from 'axios';
-const baseUrl = 'http://localhost:3001/api/stocks';
+
+const baseUrl = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/stocks`
+  : 'http://localhost:3001/api/stocks';
 
 const getFavoriteStocks = async () => {
   const response = await axios.get<DetailedStock[] | []>(
