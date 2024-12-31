@@ -47,7 +47,7 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
               filter: 'brightness(1.2)',
               cursor: 'pointer',
             }}
-          ></Image>
+          />
           <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
             Discusso
           </Text>

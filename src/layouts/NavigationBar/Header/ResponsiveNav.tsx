@@ -14,6 +14,7 @@ import {
   MenuList,
   Button,
   Badge,
+  Image,
 } from '@chakra-ui/react';
 import { FiMenu, FiBell, FiChevronDown, FiPlus } from 'react-icons/fi';
 import { MobileProps } from '../types';
@@ -22,6 +23,8 @@ import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { AuthResponse } from '../../../types/authTypes';
 import { useNavigate } from 'react-router-dom';
 import notificationService from '../../../services/notificationService';
+import logo from '../../../assets/images/discusso-logo.png';
+
 const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
   const queryClient = useQueryClient();
   const queryData = queryClient.getQueryData<AuthResponse>(['auth']);
@@ -87,14 +90,20 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
           icon={<FiMenu />}
           alignContent={'center'}
         />
-        <Text
+
+        <Image
+          src={logo}
+          alt="Discusso Logo"
           display={{ base: 'flex', md: 'none' }}
-          fontSize="2xl"
-          fontFamily="monospace"
-          fontWeight="bold"
-        >
-          ☕
-        </Text>
+          boxSize={{ base: '25px' }}
+          objectFit="contain"
+          transition="transform 0.3s ease, filter 0.3s ease"
+          _hover={{
+            transform: 'scale(1.1)',
+            filter: 'brightness(1.2)',
+            cursor: 'pointer',
+          }}
+        />
       </Flex>
 
       <HStack spacing={{ base: '0', md: '6' }}>
