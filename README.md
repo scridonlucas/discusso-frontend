@@ -8,16 +8,13 @@ Frontend for an social media application built using React, React Query and Type
 - **Responsiveness**: Providing a smooth and consistent user experience across a variety of devices, thanks to Chakra UI's responsive design, whether it's a desktop, laptop, tablet, or mobile phone.
 - **Registration system**: Users can create accounts using email address. They receive feedback at every step, keeping them informed and engaged.
 - **Login system**: Users can log into account using email address and password. We've designed the login process to be intuitive and user-friendly, with clear feedback at every step.
-- **Protected routes**: Robust protected routes to ensure that only authenticated users can access certain areas of the platform.
-
-## Knowledge
-
-- I've gained experience in utilizing Vite to create React projects efficiently, enabling faster development and improved performance.
-- Exploring effective ways to structure a complex React project. This includes optimizing code organization, implementing component architecture, ensuring maintainability as the project scales and a well-defined folder structure
-- Using Chakra UI for creating stunning and responsive UI.
-- Handling form validation using react-hook-form library, optimizing re-renders and providing better user experience.
-- Giving error feedback to user after async validation (username and email must be unique) by using setError method.
-- Learning to protect routes by validating JWT Token so only authentificated users can access certain pages. Validation is done using React Query library.
+- **Protected routes**: Robust protected routes ensure that only authenticated users can access specific areas of the platform. Additionally, admin routes are secured to allow only authorized administrators to access the admin dashboard.
+- **Discussions and comments**: Users can create, comment on, like and bookmark discussions. Additionally, they can delete their own discussions and report inappropriate content.
+- **Search and filter**: Users can search for discussions based on keywords, and filter discussions by category, date, or other criteria. An trending list of popular discussions can also be viewed.
+- **Communities**: Each discussion is associated with a community, and users can join or leave communities.
+- **User profiles**: Users can view their own profiles, including all details, and also view public profiles of other users. Additionally, users can follow other users to stay updated on their activity.
+- **Notifications**: Users can receive notifications about new discussions, comments, likes, and other important updates.
+- **Admin**: Administrators have access to a comprehensive admin dashboard, which includes visual analytics such as charts displaying discussion activity, top users, the number of discussions created, and new user registrations. From the dashboard, admins can manage key tasks, including resolving tickets (reports), changing user roles, banning users, and viewing moderation logs. They can also create and remove communities as needed. Additionally, administrators have the ability to delete any discussion, ensuring proper moderation and maintenance of the platform.
 
 ## Technologies
 
@@ -25,9 +22,10 @@ Frontend for an social media application built using React, React Query and Type
 - Typescript
 - React Router
 - React Query
-- Redux
 - React Hook Form
 - Chakra UI
+- Tanstack Table
+- Chart.js
 
 ## Tools
 
