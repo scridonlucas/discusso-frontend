@@ -15,6 +15,7 @@ Frontend for an social media application built using React, React Query and Type
 - **User profiles**: Users can view their own profiles, including all details, and also view public profiles of other users. Additionally, users can follow other users to stay updated on their activity.
 - **Notifications**: Users can receive notifications about new discussions, comments, likes, and other important updates.
 - **Admin**: Administrators have access to a comprehensive admin dashboard, which includes visual analytics such as charts displaying discussion activity, top users, the number of discussions created, and new user registrations. From the dashboard, admins can manage key tasks, including resolving tickets (reports), changing user roles, banning users, and viewing moderation logs. They can also create and remove communities as needed. Additionally, administrators have the ability to delete any discussion, ensuring proper moderation and maintenance of the platform.
+- **Stocks**: Users can create a personalized list of favorite stocks by adding stock symbols through an input. Using the Alpha Vantage API (https://www.alphavantage.co), the app fetches detailed information about these stocks, including price, volume, and changes, and displays the data in a user-friendly table.
 
 ## Technologies
 
