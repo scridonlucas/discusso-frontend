@@ -1,4 +1,4 @@
-import { BaseUser } from './userTypes';
+import { User } from './userTypes';
 import { Discussion } from './discussionTypes';
 import { Community } from './communityTypes';
 
@@ -6,7 +6,7 @@ export interface Like {
   id: number;
   userId: number;
   discussionId: number;
-  user: BaseUser;
+  user: User;
   discussion: Discussion;
 }
 
@@ -81,14 +81,14 @@ export interface CommentReport {
 export interface Follow {
   followerId: number;
   followedId: number;
-  follower: BaseUser;
-  followed: BaseUser;
+  follower: User;
+  followed: User;
 }
 
 export interface UserCommunity {
   userId: number;
   communityId: number;
-  user: BaseUser;
+  user: User;
   community: Community;
 }
 
@@ -96,7 +96,7 @@ export interface Bookmark {
   id: number;
   userId: number;
   discussionId: number;
-  user: BaseUser;
+  user: User;
   discussion: Discussion;
 }
 

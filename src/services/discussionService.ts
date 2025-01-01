@@ -55,9 +55,9 @@ type NewComment = {
   content: string;
 };
 
-const baseUrl = import.meta.env.REACT_APP_API_URL
-  ? `${import.meta.env.REACT_APP_API_URL}/discussions`
-  : 'http://localhost:3001/api/discussions';
+const baseUrl =
+  `${import.meta.env.REACT_APP_API_URL}/discussions` ||
+  'http://localhost:3001/api/discussions';
 
 const postDiscussion = async (credentials: NewDiscussion) => {
   const response = await axios.post<Discussion>(baseUrl, credentials, {

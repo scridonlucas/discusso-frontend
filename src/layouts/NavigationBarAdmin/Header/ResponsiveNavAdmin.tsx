@@ -13,7 +13,7 @@ import {
   MenuItem,
   MenuList,
 } from '@chakra-ui/react';
-import { FiMenu, FiBell, FiChevronDown } from 'react-icons/fi';
+import { FiMenu, FiChevronDown } from 'react-icons/fi';
 import { MobileProps } from '../types';
 import { useSignOut } from '../../../hooks/useSignOut';
 import { useQueryClient } from '@tanstack/react-query';
@@ -77,12 +77,6 @@ const ResponsiveNavAdmin = ({ onOpen, ...rest }: MobileProps) => {
         {/* Responsive create post button example */}
         {/* Button with a text for medium to big screens */}
 
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-        />
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton

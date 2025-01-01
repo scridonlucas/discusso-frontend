@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  BaseUser,
+  User,
   DetailedPublicUser,
   PrivateUser,
   MostActiveUser,
@@ -73,7 +73,7 @@ const updateUserStatus = async ({
   userId: number;
   userStatus: 'ACTIVE' | 'BANNED';
 }) => {
-  const response = await axios.patch<BaseUser>(
+  const response = await axios.patch<User>(
     `${baseUrl}/${userId}/status`,
     {
       status: userStatus,
@@ -93,7 +93,7 @@ const updateUserRole = async ({
   userId: number;
   roleName: string;
 }) => {
-  const response = await axios.patch<BaseUser>(
+  const response = await axios.patch<User>(
     `${baseUrl}/${userId}/role`,
     {
       roleName,
