@@ -7,9 +7,10 @@ import {
   CommunityWithDiscussionCounts,
 } from '../types/communityTypes';
 
-const baseUrl =
-  `${import.meta.env.VITE_API_URL}/communities` ||
-  'http://localhost:3001/api/communities';
+const baseUrl = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/communities`
+  : 'http://localhost:3001/api/communities';
+
 type GatherCommunityParams = {
   queryKey: [string, number];
 };

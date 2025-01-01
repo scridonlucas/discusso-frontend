@@ -5,9 +5,9 @@ import {
   NewCommentReportResponse,
 } from '../types/commonTypes';
 
-const baseUrl =
-  `${import.meta.env.REACT_APP_API_URL}/comments` ||
-  'http://localhost:3001/api/comments';
+const baseUrl = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/comments`
+  : 'http://localhost:3001/api/comments';
 interface ReportReason {
   reportReason: string;
 }

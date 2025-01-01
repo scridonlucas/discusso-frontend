@@ -2,8 +2,9 @@ import axios from 'axios';
 import { User, NewUser } from '../types/userTypes';
 import { Exists } from '../types/authTypes';
 
-const baseUrl =
-  `${import.meta.env.VITE_API_URL}/users` || 'http://localhost:3001/api/users';
+const baseUrl = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/users`
+  : 'http://localhost:3001/api/users';
 
 const getUsers = async () => {
   const response = await axios.get<User[]>(baseUrl);
