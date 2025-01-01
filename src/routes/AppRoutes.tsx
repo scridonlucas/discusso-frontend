@@ -2,7 +2,14 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoutes from './ProtectedRoutes';
 import AuthRoutes from './AuthRoutes';
 import AdminRoutes from './AdminRoutes';
-import { Login, Register, MainPage, AdminPage, Unauthorized } from '../pages';
+import {
+  Login,
+  Register,
+  MainPage,
+  AdminPage,
+  Unauthorized,
+  InvalidRoute,
+} from '../pages';
 import {
   Timeline,
   Profile,
@@ -79,6 +86,7 @@ const AppRoutes = () => {
         </Route>
       </Route>
       <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="*" element={<InvalidRoute />} />
     </Routes>
   );
 };

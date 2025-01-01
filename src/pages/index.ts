@@ -3,3 +3,4 @@ export { default as Register } from './Register';
 export { default as MainPage } from './Main';
 export { default as AdminPage } from './Admin';
 export { default as Unauthorized } from './Unauthorized';
+export { default as InvalidRoute } from './InvalidRoute';
