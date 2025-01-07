@@ -36,8 +36,9 @@ type GatherDiscussionParams = {
   queryKey: [string, number];
 };
 
-interface ReportReason {
-  reportReason: string;
+interface NewReportData {
+  reportData: string;
+  notes?: string;
 }
 
 type CommentResponse = {
@@ -161,14 +162,14 @@ const getDiscussionById = async ({ queryKey }: GatherDiscussionParams) => {
 
 const addDiscussionReport = async ({
   discussionId,
-  reportReason,
+  reportData,
 }: {
   discussionId: number;
-  reportReason: ReportReason;
+  reportData: NewReportData;
 }) => {
   const response = await axios.post<NewDiscussionReportResponse>(
     `${baseUrl}/${discussionId}/report`,
-    reportReason,
+    reportData,
     {
       withCredentials: true,
     }

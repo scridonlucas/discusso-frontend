@@ -18,7 +18,9 @@ import ServerLoading from '../../components/MainPage/ServerLoading';
 import stockService from '../../services/stockService';
 import { DetailedStock } from '../../types/stockTypes';
 import StockForm from '../../components/Forms/StockForm/StockForm';
+
 const columnHelper = createColumnHelper<DetailedStock>();
+
 const Stocks = () => {
   const { data, isLoading, isError } = useQuery(
     ['stocks'],

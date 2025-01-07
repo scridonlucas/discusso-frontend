@@ -9,6 +9,7 @@ Frontend for an social media application built using React, React Query and Type
 - **Registration system**: Users can create accounts using email address. They receive feedback at every step, keeping them informed and engaged.
 - **Login system**: Users can log into account using email address and password. We've designed the login process to be intuitive and user-friendly, with clear feedback at every step.
 - **Protected routes**: Robust protected routes ensure that only authenticated users can access specific areas of the platform. Additionally, admin routes are secured to allow only authorized administrators to access the admin dashboard.
+  -- **Toast system**: Robust toast system to provide users with instant feedback on their actions, whether it's a successful action or an error.
 - **Discussions and comments**: Users can create, comment on, like and bookmark discussions. Additionally, they can delete their own discussions and report inappropriate content.
 - **Search and filter**: Users can search for discussions based on keywords, and filter discussions by category, date, or other criteria. An trending list of popular discussions can also be viewed.
 - **Communities**: Each discussion is associated with a community, and users can join or leave communities.

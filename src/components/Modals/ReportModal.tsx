@@ -10,13 +10,16 @@ import {
   Radio,
   Stack,
   Text,
+  Textarea,
+  Flex,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+
 interface ReportModalProps {
   reportTarget: 'discussion' | 'comment';
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (reason: string) => void;
+  onSubmit: (reason: string, notes?: string) => void;
   isLoading: boolean;
 }
 
@@ -28,26 +31,31 @@ const ReportModal = ({
   isLoading,
 }: ReportModalProps) => {
   const [selectedReason, setSelectedReason] = useState<string>('');
+  const [notes, setNotes] = useState<string>('');
 
   const reportReasons: { value: string; label: string }[] = [
-    { value: 'SPAM', label: 'Spam' },
-    { value: 'ADVERTISING', label: 'Advertising' },
-    { value: 'FRAUD', label: 'Fraud' },
     { value: 'FINANCIAL_MANIPULATION', label: 'Financial Manipulation' },
-    { value: 'INAPPROPRIATE', label: 'Inappropriate' },
+    { value: 'FRAUD', label: 'Fraud' },
+    { value: 'ADVERTISING', label: 'Advertising' },
     { value: 'HARASSMENT', label: 'Harassment' },
+    { value: 'INAPPROPRIATE_CONTENT', label: 'Inappropriate Content' },
     { value: 'MISINFORMATION', label: 'Misinformation' },
-    { value: 'COPYRIGHT_VIOLATION', label: 'Copyright Violation' },
+    { value: 'WRONG_COMMUNITY', label: 'Wrong Community' },
     { value: 'OFF_TOPIC', label: 'Off Topic' },
+    { value: 'SPAM', label: 'Spam' },
     { value: 'OTHER', label: 'Other' },
   ];
+
+  const changeNotesText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNotes(e.target.value);
+  };
 
   const handleSubmit = () => {
     if (!selectedReason) {
       alert('Please select a reason for reporting.');
       return;
     }
-    onSubmit(selectedReason);
+    onSubmit(selectedReason, notes);
     setSelectedReason('');
   };
 
@@ -61,15 +69,22 @@ const ReportModal = ({
             We want to make things better. What's the issue with this{' '}
             {reportTarget}?
           </Text>
-          <RadioGroup onChange={setSelectedReason} value={selectedReason}>
-            <Stack spacing={4}>
-              {reportReasons.map(({ value, label }) => (
-                <Radio key={value} value={value}>
-                  {label}
-                </Radio>
-              ))}
-            </Stack>
-          </RadioGroup>
+          <Flex direction="column" gap={4}>
+            <RadioGroup onChange={setSelectedReason} value={selectedReason}>
+              <Stack spacing={2}>
+                {reportReasons.map(({ value, label }) => (
+                  <Radio key={value} value={value}>
+                    {label}
+                  </Radio>
+                ))}
+              </Stack>
+            </RadioGroup>
+            <Textarea
+              placeholder="Enter additional notes regarding this report (optional)"
+              value={notes}
+              onChange={changeNotesText}
+            />
+          </Flex>
         </ModalBody>
         <ModalFooter>
           <Button variant="ghost" onClick={onClose} mr={3}>

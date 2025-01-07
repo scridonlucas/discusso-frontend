@@ -129,9 +129,12 @@ const DetailedDiscussion = () => {
     onRemoveModalOpen();
   };
 
-  const handleReportSubmit = (reason: string) => {
+  const handleReportSubmit = (reason: string, notes?: string) => {
     reportDiscussion.mutate(
-      { discussionId: discussion.id, reportReason: { reportReason: reason } },
+      {
+        discussionId: discussion.id,
+        reportData: { reportData: reason, notes },
+      },
       {
         onSuccess: () => {
           onRemoveModalClose();
