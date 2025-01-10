@@ -37,8 +37,8 @@ type GatherDiscussionParams = {
 };
 
 interface NewReportData {
-  reportData: string;
-  notes?: string;
+  reportReason: string;
+  reportNote?: string;
 }
 
 type CommentResponse = {

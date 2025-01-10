@@ -40,7 +40,6 @@ const ReportModal = ({
     { value: 'HARASSMENT', label: 'Harassment' },
     { value: 'INAPPROPRIATE_CONTENT', label: 'Inappropriate Content' },
     { value: 'MISINFORMATION', label: 'Misinformation' },
-    { value: 'WRONG_COMMUNITY', label: 'Wrong Community' },
     { value: 'OFF_TOPIC', label: 'Off Topic' },
     { value: 'SPAM', label: 'Spam' },
     { value: 'OTHER', label: 'Other' },

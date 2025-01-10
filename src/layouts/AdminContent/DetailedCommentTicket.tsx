@@ -154,6 +154,29 @@ const DetailedCommentTicket = () => {
                 </Text>
               </Box>
             </VStack>
+            <VStack align="start" spacing={3}>
+              <Text as="span" fontWeight="semibold" color="blue.200">
+                Additional Report Notes:
+              </Text>
+              <Box
+                maxH="150px"
+                overflowY="auto"
+                p={3}
+                borderWidth="1px"
+                borderRadius="md"
+                bg="gray.700"
+              >
+                <Text
+                  whiteSpace="pre-wrap"
+                  fontSize={{ base: 'sm', md: 'md' }}
+                  color="gray.300"
+                  lineHeight="1.6"
+                  letterSpacing="0.05em"
+                >
+                  {data.notes || 'No additional notes provided.'}
+                </Text>
+              </Box>
+            </VStack>
             <Text>
               <Text as="span" fontWeight="semibold" color="blue.200">
                 Reported user ID:

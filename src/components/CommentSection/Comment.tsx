@@ -40,9 +40,12 @@ const Comment = ({
     onOpen();
   };
 
-  const handleReportSubmit = (reason: string) => {
+  const handleReportSubmit = (reason: string, notes?: string) => {
     reportComment.mutate(
-      { commentId: comment.id, reportReason: { reportReason: reason } },
+      {
+        commentId: comment.id,
+        reportReason: { reportReason: reason, reportNote: notes },
+      },
       {
         onSuccess: () => {
           onClose();

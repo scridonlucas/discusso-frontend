@@ -62,9 +62,12 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
     onOpen();
   };
 
-  const handleReportSubmit = (reason: string) => {
+  const handleReportSubmit = (reason: string, notes?: string) => {
     reportDiscussion.mutate(
-      { discussionId: discussion.id, reportReason: { reportReason: reason } },
+      {
+        discussionId: discussion.id,
+        reportData: { reportReason: reason, reportNote: notes },
+      },
       {
         onSuccess: () => {
           onClose();

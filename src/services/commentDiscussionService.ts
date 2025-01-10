@@ -8,8 +8,9 @@ import {
 const baseUrl = import.meta.env.VITE_API_URL
   ? `${import.meta.env.VITE_API_URL}/comments`
   : 'http://localhost:3001/api/comments';
-interface ReportReason {
+interface ReportData {
   reportReason: string;
+  reportNote?: string;
 }
 
 const addCommentLike = async (commentId: number) => {
@@ -40,7 +41,7 @@ const addCommentReport = async ({
   reportReason,
 }: {
   commentId: number;
-  reportReason: ReportReason;
+  reportReason: ReportData;
 }) => {
   const response = await axios.post<NewCommentReportResponse>(
     `${baseUrl}/comments/${commentId}/report`,

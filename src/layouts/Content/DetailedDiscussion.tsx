@@ -133,7 +133,7 @@ const DetailedDiscussion = () => {
     reportDiscussion.mutate(
       {
         discussionId: discussion.id,
-        reportData: { reportData: reason, notes },
+        reportData: { reportReason: reason, reportNote: notes },
       },
       {
         onSuccess: () => {
