@@ -41,6 +41,8 @@ export interface DiscussionReport {
   createdAt: Date;
   reviewedAt: Date | null;
   notes: string | null;
+  aiFlagged?: boolean;
+  aiSeverity?: number;
   discussion: {
     id: number;
     createdAt: Date;
@@ -64,6 +66,8 @@ export interface CommentReport {
   createdAt: Date;
   reviewedAt: Date | null;
   notes: string | null;
+  aiFlagged?: boolean;
+  aiSeverity?: number;
   comment: {
     id: number;
     createdAt: Date;

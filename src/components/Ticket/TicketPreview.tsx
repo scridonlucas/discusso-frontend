@@ -8,6 +8,7 @@ interface TicketProps {
   reason: string;
   status: string;
   reporter: string;
+  aiSeverityLevel?: number;
 }
 
 const Ticket: React.FC<TicketProps> = ({
@@ -17,6 +18,7 @@ const Ticket: React.FC<TicketProps> = ({
   reason,
   status,
   reporter,
+  aiSeverityLevel,
 }) => {
   const ticketLink =
     type === 'discussion'
@@ -74,6 +76,23 @@ const Ticket: React.FC<TicketProps> = ({
             Reporter:
           </Text>{' '}
           {reporter}
+        </Text>
+        <Text
+          fontSize="md"
+          color={
+            aiSeverityLevel === 1
+              ? 'green.300'
+              : aiSeverityLevel === 2
+              ? 'orange.300'
+              : aiSeverityLevel === 3
+              ? 'red.300'
+              : 'gray.500'
+          }
+        >
+          <Text as="span" fontWeight="semibold" color="blue.200">
+            Severity Level (AI):
+          </Text>{' '}
+          {aiSeverityLevel ? aiSeverityLevel : 'N/A'}
         </Text>
       </VStack>
     </Box>

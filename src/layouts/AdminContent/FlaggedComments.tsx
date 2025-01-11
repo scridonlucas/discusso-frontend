@@ -65,6 +65,7 @@ const FlaggedComments = () => {
                     reason={report.reason}
                     status={report.status}
                     reporter={report.user.username}
+                    aiSeverityLevel={report.aiSeverity}
                   />
                 ))
               )

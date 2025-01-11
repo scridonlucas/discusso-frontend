@@ -191,6 +191,18 @@ const DetailedCommentTicket = () => {
             </Text>
             <Text>
               <Text as="span" fontWeight="semibold" color="blue.200">
+                Flagged by AI:
+              </Text>{' '}
+              {data.aiFlagged ? 'Yes' : 'No'}
+            </Text>
+            <Text>
+              <Text as="span" fontWeight="semibold" color="blue.200">
+                Severity Level by AI:
+              </Text>{' '}
+              {data.aiSeverity ? data.aiSeverity : 'N/A'}
+            </Text>
+            <Text>
+              <Text as="span" fontWeight="semibold" color="blue.200">
                 Created at:
               </Text>{' '}
               {format(new Date(data.createdAt), 'PPPpp')}
