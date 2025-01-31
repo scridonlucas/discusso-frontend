@@ -15,7 +15,7 @@ const validationSchema: ValidationSchema = {
       message: 'Title cannot exceed 300 characters',
     },
     pattern: {
-      value: /^[A-Za-z0-9\s]+$/,
+      value: /^[\p{L}\p{N}\s.,!?-]+$/u,
       message: 'Title can only contain letters, numbers, and spaces',
     },
   },
@@ -30,9 +30,9 @@ const validationSchema: ValidationSchema = {
       message: 'Content cannot exceed 1000 characters',
     },
     pattern: {
-      value: /^[A-Za-z0-9\s.,?!'"@#$%^&*()[\]{}\-_=+\\|;:<>/~`]+$/,
+      value: /^[\p{L}\p{N}\p{Emoji}\s.,!?'"@#$%^&*()[\]{}\-_=+\\|;:<>/~`]+$/u,
       message:
-        'Content can only contain letters, numbers, and common punctuation',
+        'Content can only contain letters, numbers, punctuation, and emojis',
     },
   },
 };

@@ -12,7 +12,7 @@ const validationSchema: ValidationSchema = {
       message: 'Comment cannot exceed 1000 characters',
     },
     pattern: {
-      value: /^[\p{L}\p{N}\s.,?!'"@#$%^&*()[\]{}\-_=+\\|;:<>/~`]*$/u,
+      value: /^[\p{L}\p{N}\p{Emoji}\s.,!?'"@#$%^&*()[\]{}\-_=+\\|;:<>/~`]+$/u,
       message:
         'Content can only contain letters, numbers, spaces, emojis, and common punctuation',
     },
