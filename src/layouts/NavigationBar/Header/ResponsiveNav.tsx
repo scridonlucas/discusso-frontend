@@ -188,7 +188,6 @@ const ResponsiveNav = ({ onOpen, ...rest }: MobileProps) => {
               borderColor={useColorModeValue('gray.200', 'gray.700')}
             >
               <MenuItem onClick={handleProfile}>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
               <MenuDivider />
               {role === 'ADMIN' && (
                 <MenuItem onClick={handleAdminDashboard}>

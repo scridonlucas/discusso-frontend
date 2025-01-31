@@ -4,7 +4,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
   Text,
   Link,
   Button,
@@ -77,9 +76,8 @@ const LoginForm = () => {
             <Stack
               direction={{ base: 'column', sm: 'row' }}
               align={'start'}
-              justify={'space-between'}
+              justify={'center'}
             >
-              <Checkbox>Remember me</Checkbox>
               <Text>
                 New here?{' '}
                 <Link as={ReactRouterLink} to="/signup" color={'blue.400'}>

@@ -5,7 +5,6 @@ import utils from '../MainPage/discussionUtils';
 import {
   FiHeart,
   FiMessageCircle,
-  FiSend,
   FiUser,
   FiFlag,
   FiBookmark,
@@ -166,19 +165,6 @@ const Discussion = ({ discussion }: { discussion: DiscussionType }) => {
               _hover={{
                 transform: 'scale(1.2)',
                 color: 'gray.400',
-              }}
-            />
-            <Text fontSize="xl">{discussion._count.comments}</Text>
-          </Flex>
-
-          <Flex align="center" gap={2}>
-            <Icon
-              as={FiSend}
-              boxSize={6}
-              transition="transform 0.2s ease, color 0.2s ease"
-              _hover={{
-                transform: 'scale(1.2)',
-                color: 'blue.400',
               }}
             />
             <Text fontSize="xl">{discussion._count.comments}</Text>
